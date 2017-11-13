@@ -8,10 +8,16 @@
 <body>
 <div class="container">
 
+    <div class="modal">
+        <h1 class="texts">Game Over</h1>
+    </div>
 
+    <div class="modal2" >
+        <h1 class="texts">Winner!!!</h1>
+    </div>
 
-<form class="formTimer" name=MyForm>
-  <input class = "timer" name = "stopwatch" size=10 value="00:00:00.00">
+    <form class="formTimer" name=MyForm>
+  <input class = "timer" name = "stopwatch" value="00:00:00">
     <div class="bombsOnField">0</div>
 </form>
 
@@ -23,13 +29,19 @@
 <button class="button" onclick="restart()">Рестарт</button>
 
     <form action="#">
-        <input type="text" value="row" pattern="^[ 0-9]+$" required />
-        <input type="text" value="column" pattern="^[ 0-9]+$"  required />
-        <input type="text" value="mine" pattern="^[ 0-9]+$" required/>
-        <input type="submit"onclick="customOptionGame()" />
+        <input type="number"  placeholder="row" pattern="^[ 0-9]+$" min="2" required />
+        <input type="number"  placeholder="column" pattern="^[ 0-9]+$" min="2" required />
+        <input type="number"  placeholder="mine" pattern="^[ 0-9]+$" min="1" required/>
+        <input type="submit" onclick="customOptionGame()" />
     </form>
 
 </div>
+
+
+
+
+
+
 
 <script src = "js/game.js"></script>
 </body>

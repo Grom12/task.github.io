@@ -108,5 +108,25 @@ table td.boom::after {
     margin-bottom: 5px;
     text-align: center;
 }
+
+
+
+.modal {
+    background-color: rgba(0, 0, 0, 0.5);  width: 350px;height: 200px;  margin-top:  -100%;
+    position: absolute;z-index: 1000;
+    text-align: center;
+}
+
+.modal2 {
+    background-color: rgba(0, 0, 0, 0.5);  width: 350px;height: 200px;  margin-top:  -100%;
+    position: absolute;z-index: 1000;
+    text-align: center;
+}
+
+.texts {
+    padding-top: 57px;
+    color: #ccbebf;
+    font-size: 38px;
+}
 /* td.innerHTML = game.field[j][i].alongside;
                   if(game.field[j][i].has_mine) td.style.background = "blue";*/

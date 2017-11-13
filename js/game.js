@@ -1,15 +1,17 @@
-
-var base = 60;
-var countter = 0;
-var clocktimer,dateObj,dh,dm,ds,ms;
-var readout = '';
-var h = 1,m = 1,tm = 1,s = 0,ts = 0,ms = 0,init = 0;
+let firstClick  = true;
+let base = 60;
+let clocktimer,dateObj,dh,dm,ds;
+let readout = '';
+let h = 1,m = 1,tm = 1,s = 0,ts = 0,ms = 0,init = 0;
+let modal = document.querySelector('.modal');
+let modal2 = document.querySelector('.modal2');
+let bombsHtml = document.querySelector(".bombsOnField");
 
 function ClearСlock() {
     clearTimeout(clocktimer);
     h = 1;m = 1;tm = 1;s = 0;ts = 0;ms = 0;
     init = 0;
-    readout = '00:00:00.00';
+    readout = '00:00:00';
     document.MyForm.stopwatch.value =readout;
 }
 
@@ -33,24 +35,22 @@ function StartTIME() {
     }
     ms = Math.round(t/10);
     if (ms > 99) {ms = 0;}
-    if (ms == 0) {ms = '00';}
-    if (ms > 0&&ms <= 9) { ms = '0'+ms; }
     if (ts > 0) { ds = ts; if (ts<10) { ds = '0'+ts; }} else { ds = '00'; }
     dm = tm-1;
     if (dm > 0) { if (dm < 10) { dm = '0' + dm; }} else { dm = '00'; }
     dh = h-1;
     if (dh > 0) { if (dh < 10) { dh = '0'+dh; }} else { dh = '00'; }
-    readout = dh + ':' + dm + ':' + ds + '.' + ms;
+    readout = dh + ':' + dm + ':' + ds;
     document.MyForm.stopwatch.value = readout;
     clocktimer = setTimeout("StartTIME()",1);
 }
 
 function StartStop() {
-    if (init==0){
+    if (init == 0){
         ClearСlock();
         dateObj = new Date();
         StartTIME();
-        init=1;
+        init = 1;
     }
 }
 
@@ -58,36 +58,39 @@ function StartStop() {
 
 function optionGame(row, column, mine) {
     ClearСlock();
-    page.firstClick = true;
+    firstClick = true;
     game.width = column;
     game.height = row;
     game.count_mine = mine;
-    let bombsHtml = document.querySelector(".bombsOnField");
     bombsHtml.innerHTML = mine;
     page.init();
 }
 
 function customOptionGame() {
-    page.firstClick = true;
-    let row = document.getElementsByTagName("input")[1];
-    let column = document.getElementsByTagName("input")[2];
-    let mine = document.getElementsByTagName("input")[3];
+    ClearСlock();
+    firstClick = true;
+    var row = document.getElementsByTagName("input")[1];
+    var column = document.getElementsByTagName("input")[2];
+    var mine = document.getElementsByTagName("input")[3];
+    if (mine.value >= (row.value * column.value)) {
+        let msg = row.value * column.value;
+        alert(`При таких параметрах поля, количество мин должно быть меньше ${msg}`);
+    }
     if(row.value >= 2 && column.value >= 2 && mine.value != 0
         && mine.value < (row.value * column.value)  ) {
         game.width = column.value;
         game.height = row.value;
         game.count_mine = mine.value;
-        let bombsHtml = document.querySelector(".bombsOnField");
         bombsHtml.innerHTML = mine.value;
         page.init();
     }
 }
 
 function restart() {
-    page.firstClick = true;
+    ClearСlock();
+    firstClick = true;
     game.start_game();
     page.game_interface.create_field();
-    ClearСlock();
 }
 
 
@@ -95,6 +98,32 @@ function Cell() {
     this.has_mine = false;
     this.alongside = 0;
     this.not_clicked = false;
+}
+
+
+function showModalLose() {
+    var height = modal.offsetHeight;
+    modal.style.marginTop = - height / 2 + "px";
+    modal.style.top = "40%";
+    modal.style.zIndex = 10000;
+    modal.style.marginLeft = "40%";
+}
+
+function closeModalLose() {
+    modal.style.top = "-100%";
+}
+
+function showModalWin() {
+    var height = modal2.offsetHeight;
+    modal2.style.marginTop = - height / 2 + "px";
+    modal2.style.top = "40%";
+    modal2.style.zIndex = 10000;
+    modal2.style.marginLeft = "40%";
+
+}
+
+function closeModalWin() {
+    modal2.style.top = "-100%";
 }
 
 
@@ -116,7 +145,7 @@ var game = {
         for (let i = 0; i < this.count_mine;){
             let x = parseInt(Math.random() * this.width);
             let y = parseInt(Math.random() * this.height);
-                if(!(this.field[x][y].has_mine)) {
+            if(!(this.field[x][y].has_mine)) {
                 this.field[x][y].has_mine = true;
                 i++;
             }
@@ -129,12 +158,12 @@ var game = {
         let y_right = y < this.height - 1 ? y + 1 : y;
         let count = 0;
 
-      for (let i = x_left; i <= x_right; i++ ) {
-          for(let j = y_left; j <= y_right; j++) {
-              if(this.field[i][j].has_mine && !(x==i && y==j)) count ++;
-          }
-      }
-      this.field[x][y].alongside = count;
+        for (let i = x_left; i <= x_right; i++ ) {
+            for(let j = y_left; j <= y_right; j++) {
+                if(this.field[i][j].has_mine && !(x==i && y==j)) count ++;
+            }
+        }
+        this.field[x][y].alongside = count;
     },
     start_main_counter : function () {
         for(let i = 0; i < this.width; i++) {
@@ -147,7 +176,6 @@ var game = {
     start_game: function () {
         this.open_count = 0;
         this.fill_mine();
-        this.start_main_counter();
     }
 };
 
@@ -155,16 +183,16 @@ var game = {
 var page = {
     init:function () {
         this.game_interface.init();
+        bombsHtml.innerHTML = game.count_mine;
     },
     game_interface: {
         table:null,
         addListener:true,
-        firstClick:true,
         init:function () {
             game.start_game();
             blocks = document.querySelector(".field");
             this.create_field();
-            let self = this;
+            var self = this;
 
             if(this.addListener == true) {
                 blocks.addEventListener("click", handler);
@@ -180,7 +208,7 @@ var page = {
                 if(e.target.matches("td")) self.flag(e);
             };
             this.addListener = false;
-            console.log(blocks);
+
         },
         create_field:function () {
             blocks.innerHTML = "";
@@ -190,8 +218,10 @@ var page = {
             {
                 let tr = document.createElement("tr");
                 for (let j = 0; j < game.width; j++) {
+
                     let td = document.createElement("td");
                     if(game.field[j][i].has_mine) td.classList.add("bomber");
+                    if(game.field[j][i].has_mine) td.style.background = "blue";
                     tr.appendChild(td);
                 }
                 table.appendChild(tr);
@@ -207,14 +237,27 @@ var page = {
                 td[i].classList.add("boom");
             }
         },
-        click_cell: function (e) {
 
+        click_cell: function (e) {
             x =  e.target.cellIndex;
             y = e.target.parentNode.rowIndex;
             let td = this.table.rows[y].children[x];
-            if (this.firstClick == true) {
+            if (firstClick == true) {
+                if(game.field[x][y].has_mine == true) {
+                    for (let i = 0; i < 1;){
+                        let x = parseInt(Math.random() * game.width);
+                        let y = parseInt(Math.random() * game.height);
+                        if(!(game.field[x][y].has_mine)) {
+                            game.field[x][y].has_mine = true;
+                            i++;
+                            let td = this.table.rows[y].children[x];
+                            td.classList.add("bomber");
+                        }
+                    }
+                }
                 game.field[x][y].has_mine = false;
-                this.firstClick = false;
+                game.start_main_counter();
+                firstClick = false;
             }
             this.open_near_click(x,y);
 
@@ -223,39 +266,44 @@ var page = {
             let td = this.table.rows[y].children[x];
             if(game.field[x][y].not_clicked) return;
             if(game.field[x][y].has_mine){
-                alert("GG");
+                showModalLose();
                 this.show_bombs();
+                setTimeout(closeModalLose,1250);
                 td.style.background = "red";
                 ClearСlock();
-                this.firstClick = true;
+                firstClick = true;
                 setTimeout(restart,1300);
             }else{
+
                 td.innerHTML = game.field[x][y].alongside;
-                game.field[x][y].not_clicked = true;
+                    game.field[x][y].not_clicked = true;
 
                 if(game.field[x][y].alongside == 0 ) {
                     for (let i = x > 0 ? x - 1 : x; i <= x+1 && i < game.width; i++ ) {
                         for(let j = y > 0 ? y - 1 : y; j <= y + 1 && j < game.height ; j++) {
-                            this.open_near_click(i,j);
-                            td.style.color = "white";
+
+                                console.log(td.classList);
+                                this.open_near_click(i, j);
+                                td.innerHTML = ""
+
                         }
                     }
                 }
                 let sp = this.table.querySelectorAll(".flag");
                 for(let i = 0; i < sp.length; i++) {
-
-                sp[i].style.background = "#adadad";
-                sp[i].style.color = "#adadad";
+                    sp[i].style.background = "#adadad";
+                    sp[i].style.color = "#adadad";
                 }
 
-                td.classList.add("clicked");
+                    td.classList.add("clicked");
+
                 game.open_count ++;
                 if(game.width * game.height - game.count_mine == game.open_count) {
-                    alert("Wiiiin");
+                    showModalWin();
+                    setTimeout(closeModalWin,1250)
                     ClearСlock();
-                    this.firstClick = true;
-                    game.start_game();
-                    this.create_field();
+                    firstClick = true;
+                    setTimeout(restart,1300);
                 }
             }
         },
