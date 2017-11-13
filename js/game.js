@@ -69,9 +69,9 @@ function optionGame(row, column, mine) {
 
 function customOptionGame() {
     page.firstClick = true;
-    var row = document.getElementsByTagName("input")[1];
-    var column = document.getElementsByTagName("input")[2];
-    var mine = document.getElementsByTagName("input")[3];
+    let row = document.getElementsByTagName("input")[1];
+    let column = document.getElementsByTagName("input")[2];
+    let mine = document.getElementsByTagName("input")[3];
     if(row.value >= 2 && column.value >= 2 && mine.value != 0
         && mine.value < (row.value * column.value)  ) {
         game.width = column.value;
@@ -164,7 +164,7 @@ var page = {
             game.start_game();
             blocks = document.querySelector(".field");
             this.create_field();
-            var self = this;
+            let self = this;
 
             if(this.addListener == true) {
                 blocks.addEventListener("click", handler);
@@ -243,6 +243,7 @@ var page = {
                 }
                 let sp = this.table.querySelectorAll(".flag");
                 for(let i = 0; i < sp.length; i++) {
+
                 sp[i].style.background = "#adadad";
                 sp[i].style.color = "#adadad";
                 }
