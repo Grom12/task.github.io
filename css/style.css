@@ -1,4 +1,3 @@
-
 table {
     font-family:Arial, Helvetica, sans-serif;
     color:#666;
@@ -10,7 +9,7 @@ table {
     margin: auto;
 }
 
-table tr td {
+td {
     padding:18px;
     width: 50px;
     height: 50px;
@@ -21,7 +20,7 @@ table tr td {
     position: relative;
 }
 
-table td.clicked {
+td.clicked {
     background: white;
     color: #577fcc;
     width: 50px;
@@ -31,7 +30,7 @@ table td.clicked {
     content:" ";
 }
 
-table td.flag::after {
+td.flag::after {
     position: absolute;
     width: 80px;
     height: 80px;
@@ -43,7 +42,7 @@ table td.flag::after {
 
 }
 
-table td.question::after  {
+td.question::after  {
     position: absolute;
     width: 80px;
     height: 80px;
@@ -55,7 +54,7 @@ table td.question::after  {
     content:"";
 }
 
-table td.boom::after {
+td.boom::after {
     position: absolute;
     width: 50px;
     height: 50px;
@@ -66,7 +65,7 @@ table td.boom::after {
     content:"";
 }
 
-.button {
+button.button {
     display: inline-block;
     width: 200px;
     height: 50px;
@@ -81,33 +80,37 @@ table td.boom::after {
     transition: 0.2s;
     margin-top: 10px;
 }
-.button:hover { background: rgba(0, 0, 0, 0.51); }
-.button:active { background: white; }
+button.button:hover {
+    background: rgba(0, 0, 0, 0.51);
+}
+button.button:active {
+    background: white;
+}
 
 
-.timer {
+input.timer {
     border: 4px solid rgba(0, 0, 0, 0.5);
     font-size: 24px;
     text-align: center;
 }
 
-.formTimer {
+form.formTimer {
     margin: auto;
     text-align: center;
 }
 
 
-.container {
+div.container {
    text-align: center;
 }
 
-.field {
+div.field {
     text-align: center;
     margin: auto;
 }
 
 
-.bombsOnField {
+div.bombsOnField {
     border: 4px solid rgba(0, 0, 0, 0.5);
     font-size: 24px;
     width: 100px;
@@ -115,7 +118,32 @@ table td.boom::after {
     text-align: center;
 }
 
-.modalWindow {
+
+div.modalCloseWins {
+    visibility: hidden;
+    position: absolute;
+}
+
+div.modalCloseLoses {
+    visibility: hidden;
+    position: absolute;
+}
+
+
+
+form.customForm {
+    margin-top: 10px;
+}
+
+
+h1.texts {
+    padding-top: 57px;
+    color: #ccbebf;
+    font-size: 38px;
+}
+
+
+div.modalWindow {
     background-color: rgba(0, 0, 0, 0.5);
     width: 350px;
     height: 200px;
@@ -127,32 +155,6 @@ table td.boom::after {
     visibility: visible;
 }
 
-.modalCloseWins {
-    visibility: hidden;
-    position: absolute;
+td.boom.dead {
+    background: red;
 }
-
-.modalCloseLoses {
-    visibility: hidden;
-    position: absolute;
-}
-
-.texts {
-    padding-top: 57px;
-    color: #ccbebf;
-    font-size: 38px;
-}
-
-.flagCell {
-    background: #adadad;
-    color: #adadad;
-}
-
-.customForm {
-    margin-top: 10px;
-}
-
-.dead {
-   background: red;
-}
-

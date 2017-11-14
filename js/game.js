@@ -1,8 +1,9 @@
 let firstClick  = true;
 let bombsHtml = document.querySelector(".bombsOnField");
 let blocks = null;
-let clickCounter = 0;
-let game = {
+let count_mines = 0;
+
+const game = {
     width: 9,
     height: 9,
     count_mine: 10,
@@ -55,7 +56,7 @@ let game = {
 };
 
 
-let page = {
+const page = {
     init:function () {
         this.game_interface.init();
         bombsHtml.innerHTML = game.count_mine;
@@ -68,8 +69,8 @@ let page = {
             game.start_game();
             blocks = document.querySelector(".field");
             this.create_field();
-            var self = this;
-
+            let self = this;
+            count_mines = game.count_mine;
             if(this.addListener === true) {
                 blocks.addEventListener("click", leftClick);
                 blocks.addEventListener("contextmenu",rightClick);
@@ -97,7 +98,7 @@ let page = {
 
                     let td = document.createElement("td");
                     if(game.field[j][i].has_mine) td.classList.add("bomber");
-                    if(game.field[j][i].has_mine) td.style.background = "blue";//читы
+
                     tr.appendChild(td);
                 }
                 table.appendChild(tr);
@@ -143,6 +144,9 @@ let page = {
             if(game.field[x][y].not_clicked) {
                 return;
             }
+            if(td.classList.contains("flag")) {
+                return;
+            }
             if(game.field[x][y].has_mine){
                 showModalLose();
 
@@ -152,6 +156,7 @@ let page = {
                 firstClick = true;
                 setTimeout(restart,1300);
             }else{
+
 
                 td.innerHTML = game.field[x][y].mineAlongside;
                     game.field[x][y].not_clicked = true;
@@ -165,16 +170,9 @@ let page = {
                         }
                     }
                 }
-
+                td.classList.remove("question");
                 td.classList.add("clicked");
-                if(td.classList.contains("flag"))
-                {
-                    td.classList.remove("clicked");
-                    let sp = this.table.querySelectorAll(".flag");
-                    for(let i = 0; i < sp.length; i++) {
-                        sp[i].classList.add("flagCell");
-                    }
-                }
+
 
                 game.open_count ++;
                 if((game.width * game.height - game.count_mine) === game.open_count) {
@@ -189,42 +187,26 @@ let page = {
             x =  e.target.cellIndex;
             y = e.target.parentNode.rowIndex;
             if(game.field[x][y].not_clicked) return;
-            clickCounter++;
 
             if(e.target.classList.contains("flag")){
-                this.flagCounts ++;
+                count_mines ++;
                 e.target.classList.toggle("flag");
                 e.target.classList.toggle("question");
-            } else if(this.flagCounts > 0 && !e.target.classList.contains("flag") && !e.target.classList.contains("question")) {
+            } else if(count_mines > 0 && !e.target.classList.contains("flag") && !e.target.classList.contains("question")) {
                 e.target.classList.toggle("flag");
-                this.flagCounts --;
-            }else if(this.flagCounts > 0 && e.target.classList.contains("question")) {
+                count_mines --;
+            }else if(count_mines > 0 && e.target.classList.contains("question")) {
                 e.target.classList.toggle("question");
-            }else if(this.flagCounts === 0 && e.target.classList.contains("flag") ){
+            }else if(count_mines === 0 && e.target.classList.contains("flag") ){
                 e.target.classList.toggle("flag");
-                this.flagCounts ++;
-            } else if(this.flagCounts === 0 && !e.target.classList.contains("flag") ){
+                count_mines ++;
+            } else if(count_mines === 0 && !e.target.classList.contains("flag") ){
                 e.target.classList.toggle("question");
             }
-            bombsHtml.innerHTML = this.flagCounts;
+            bombsHtml.innerHTML = count_mines;
             e.preventDefault();
         },
-        question: function (e) {
-            x =  e.target.cellIndex;
-            y = e.target.parentNode.rowIndex;
-            if(game.field[x][y].not_clicked) return;
-            if(e.target.classList.contains("flag")){
-                this.flagCounts ++;
-                e.target.classList.toggle("flag");
-            } else if(this.flagCounts > 0 && !e.target.classList.contains("flag")) {
-                e.target.classList.toggle("flag");
-                this.flagCounts --;
-            }else if(this.flagCounts === 0 && e.target.classList.contains("flag") ){
-                e.target.classList.toggle("flag");
-                this.flagCounts ++;
-            }
-            e.preventDefault();
-        }
+
     }
 };
 page.init();
@@ -243,7 +225,7 @@ function optionGame(row, column, mine) {
     game.height = row;
     game.count_mine = mine;
     bombsHtml.innerHTML = mine;
-    page.game_interface.flagCounts = mine;
+    count_mines = mine;
     page.init();
 }
 
@@ -264,7 +246,7 @@ function customOptionGame() {
         game.height = row.value;
         game.count_mine = mine.value;
         bombsHtml.innerHTML = mine.value;
-        page.game_interface.flagCounts = mine;
+        count_mines = mine;
         page.init();
     }
 }
@@ -272,9 +254,11 @@ function customOptionGame() {
 function restart() {
     ClearСlock();
     firstClick = true;
-    page.game_interface.flagCounts = game.count_mine;
+    count_mines = game.count_mine;
+    bombsHtml.innerHTML = count_mines;
     game.start_game();
     page.game_interface.create_field();
+
 }
 
 
