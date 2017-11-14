@@ -6,33 +6,36 @@
     <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
+
+
 <div class="container">
 
-    <div class="modal">
+    <div class="modalCloseLoses">
         <h1 class="texts">Game Over</h1>
     </div>
 
-    <div class="modal2" >
+    <div class="modalCloseWins" >
         <h1 class="texts">Winner!!!</h1>
     </div>
 
     <form class="formTimer" name=MyForm>
-  <input class = "timer" name = "stopwatch" value="00:00:00">
-    <div class="bombsOnField">0</div>
-</form>
+        <input class = "timer" name = "stopwatch" value="00:00:00">
+        <div class="bombsOnField">0</div>
+    </form>
+
 
 <div class="field" onclick="StartStop()" oncontextmenu="StartStop()"></div>
 
-<button class="button" onclick="optionGame(9,9,10)">Новичок</button>
-<button class="button" onclick="optionGame(16,16,40)">Любитель</button>
-<button class="button" onclick="optionGame(16,30,99)">Профессионал</button>
+<button class="button" onclick="optionGame(rowEasy,columnEasy,mineEasy)">Новичок</button>
+<button class="button" onclick="optionGame(rowMedium,columnMedium,mineMedium)">Любитель</button>
+<button class="button" onclick="optionGame(rowHard,columnHard,mineHard)">Профессионал</button>
 <button class="button" onclick="restart()">Рестарт</button>
 
-    <form action="#">
+    <form class="customForm" action="#"  onsubmit="customOptionGame()">
         <input type="number"  placeholder="row" pattern="^[ 0-9]+$" min="2" required />
         <input type="number"  placeholder="column" pattern="^[ 0-9]+$" min="2" required />
-        <input type="number"  placeholder="mine" pattern="^[ 0-9]+$" min="1" required/>
-        <input type="submit" onclick="customOptionGame()" />
+        <input type="number"  placeholder="mine" pattern="^[ 0-9]+$" min="2" required/>
+        <input type="submit" />
     </form>
 
 </div>
@@ -40,9 +43,9 @@
 
 
 
-
-
-
+<script src = "js/constantWindowValues.js"></script>
+<script src = "js/modalWindows.js"></script>
+<script src = "js/stopwatch.js"></script>
 <script src = "js/game.js"></script>
 </body>
 </html>
