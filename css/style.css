@@ -1,20 +1,20 @@
 table {
-    font-family:Arial, Helvetica, sans-serif;
-    color:#666;
-    font-size:12px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #666;
+    font-size: 12px;
     text-shadow: 1px 1px #fff;
-    background:#eaebec;
-    border:#ccc 1px solid;
-    border-collapse:separate;
+    background: #eaebec;
+    border: #ccc 1px solid;
+    border-collapse: separate;
     margin: auto;
 }
 
 td {
-    padding:18px;
+    padding: 18px;
     width: 50px;
     height: 50px;
     border-top: 1px solid #a1bee0;
-    border-bottom:1px solid #a1bee0;
+    border-bottom: 1px solid #a1bee0;
     border-left: 1px solid #a1bee0;
     background: #adadad;
     position: relative;
@@ -27,42 +27,42 @@ td.clicked {
     height: 50px;
     font-size: 26px;
     text-align: center;
-    content:" ";
+    content: " ";
 }
 
 td.flag::after {
     position: absolute;
     width: 80px;
     height: 80px;
-    background-image:  url("../img/checkered_flag.png");
+    background-image: url("../img/checkered_flag.png");
     background-size: 80px 80px;
-    left:10px;
-    top:4px;
-    content:"";
+    left: 10px;
+    top: 4px;
+    content: "";
 
 }
 
-td.question::after  {
+td.question::after {
     position: absolute;
     width: 80px;
     height: 80px;
-    background-image:  url("../img/Question.png");
+    background-image: url("../img/Question.png");
     background-repeat: no-repeat;
     background-size: 70px 70px;
-    left:10px;
-    top:4px;
-    content:"";
+    left: 10px;
+    top: 4px;
+    content: "";
 }
 
 td.boom::after {
     position: absolute;
     width: 50px;
     height: 50px;
-    background-image:  url("../img/bomb .png");
+    background-image: url("../img/bomb .png");
     background-size: 50px 50px;
-    left:25px;
-    top:15px;
-    content:"";
+    left: 25px;
+    top: 15px;
+    content: "";
 }
 
 button.button {
@@ -80,13 +80,14 @@ button.button {
     transition: 0.2s;
     margin-top: 10px;
 }
+
 button.button:hover {
     background: rgba(0, 0, 0, 0.51);
 }
+
 button.button:active {
     background: white;
 }
-
 
 input.timer {
     border: 4px solid rgba(0, 0, 0, 0.5);
@@ -99,16 +100,14 @@ form.formTimer {
     text-align: center;
 }
 
-
 div.container {
-   text-align: center;
+    text-align: center;
 }
 
 div.field {
     text-align: center;
     margin: auto;
 }
-
 
 div.bombsOnField {
     border: 4px solid rgba(0, 0, 0, 0.5);
@@ -117,7 +116,6 @@ div.bombsOnField {
     margin: 5px auto 5px;
     text-align: center;
 }
-
 
 div.modalCloseWins {
     visibility: hidden;
@@ -129,19 +127,15 @@ div.modalCloseLoses {
     position: absolute;
 }
 
-
-
 form.customForm {
     margin-top: 10px;
 }
-
 
 h1.texts {
     padding-top: 57px;
     color: #ccbebf;
     font-size: 38px;
 }
-
 
 div.modalWindow {
     background-color: rgba(0, 0, 0, 0.5);
