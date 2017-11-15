@@ -1,18 +1,18 @@
 let init = 0;
-var AppStopwatch = (function () {
-    var counter = 0,
-        stopwatch = {
-            container: document.getElementById('time-container'),
-        };
-
-    var runClock;
+const AppStopwatch = (function () {
+    let counter = 0;
+    stopwatch = {
+        container: document.getElementById('time-container')
+    };
+    let runClock;
+    stopwatch.container.innerHTML = moment().hour(0).minute(0).second(counter++).format('HH : mm : ss');
 
     function displayTime() {
         stopwatch.container.innerHTML = moment().hour(0).minute(0).second(counter++).format('HH : mm : ss');
     }
 
     function startWatch() {
-        runClock = setInterval(displayTime, 1000);
+        runClock = setInterval(displayTime, 800);
     }
 
     function stopWatch() {
@@ -24,7 +24,7 @@ var AppStopwatch = (function () {
 
     return {
         startClock: startWatch,
-        stopClock: stopWatch,
+        stopClock: stopWatch
     };
 })();
 

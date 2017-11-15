@@ -154,6 +154,7 @@ const page = {
 
             if (game.field[coordCellX][coordCellY].hasMine) {
                 showModalLose();
+                stopWatchs();
                 this.showBombs();
                 td.classList.add("dead");
                 setTimeout(closeModalLose, 1250);
@@ -238,9 +239,9 @@ function customOptionGame() {
     firstClick = true;
     stopWatchs();
     const allInputs = document.querySelectorAll("input");
-    const row = allInputs[1];
-    const column = allInputs[2];
-    const mine = allInputs[3];
+    const row = allInputs[0];
+    const column = allInputs[1];
+    const mine = allInputs[2];
     if (mine.value >= (row.value * column.value) && (row.value * column.value) != 0) {
         const msg = row.value * column.value;
         alert(`При таких параметрах поля, количество мин должно быть меньше ${msg}`);
@@ -263,5 +264,4 @@ function restart() {
     stopWatchs();
     game.startGame();
     page.gameInterface.createField();
-
 }
