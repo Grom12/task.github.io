@@ -242,12 +242,12 @@ function customOptionGame() {
     const row = allInputs[0];
     const column = allInputs[1];
     const mine = allInputs[2];
-    if (mine.value >= (row.value * column.value) && (row.value * column.value) != 0) {
-        const msg = row.value * column.value;
+    if (mine.value >= (row.value * column.value - 1) && (row.value * column.value) != 0) {
+        const msg = row.value * column.value - 1;
         alert(`При таких параметрах поля, количество мин должно быть меньше ${msg}`);
     }
     if (row.value >= 2 && column.value >= 2 && mine.value != 0
-        && mine.value < (row.value * column.value)) {
+        && mine.value < (row.value * column.value -1)) {
         game.width = column.value;
         game.height = row.value;
         game.countMine = mine.value;
