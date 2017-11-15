@@ -9,23 +9,14 @@ const game = {
     countMine: 10,
     openCount: 0,
     field: [],
-    fillMine: function () {
+    fillCells: function () {
         this.field = [];
         for (let i = 0; i < this.width; i++) {
-            let cells = [];
+            const cells = [];
             for (let j = 0; j < this.height; j++) {
                 cells.push(new Cell());
             }
             this.field.push(cells);
-        }
-        let i = 0;
-        while (i < this.countMine) {
-            const coordX = parseInt(Math.random() * this.width);
-            const coordY = parseInt(Math.random() * this.height);
-            if (!(this.field[coordX][coordY].hasMine)) {
-                this.field[coordX][coordY].hasMine = true;
-                i++;
-            }
         }
     },
     findAlongsideMine: function (coordCellX, coordCellY) {
@@ -54,7 +45,7 @@ const game = {
 
     startGame: function () {
         this.openCount = 0;
-        this.fillMine();
+        this.fillCells();
     }
 };
 
@@ -72,12 +63,30 @@ const page = {
             game.startGame();
             blocks = document.querySelector(".field");
             this.createField();
-            const self = this;
             counterMine = game.countMine;
-            if (this.addListener === true) {
-                blocks.addEventListener("click", leftClick);
-                blocks.addEventListener("contextmenu", rightClick);
+        },
+        createField: function () {
+            blocks.innerHTML = "";
+            this.table = document.createElement("table");
+            for (let i = 0; i < game.height; i++) {
+                let tr = document.createElement("tr");
+                for (let j = 0; j < game.width; j++) {
+
+                    let td = document.createElement("td");
+                    if (game.field[j][i].hasMine) {
+                        td.classList.add("bomber");
+                    }
+
+                    tr.appendChild(td);
+                }
+                this.table.appendChild(tr);
             }
+            blocks.appendChild(this.table);
+            const self = this;
+            tabs = document.querySelector("table");
+
+            tabs.addEventListener("click", leftClick);
+            tabs.addEventListener("contextmenu", rightClick);
 
             function leftClick(event) {
                 if (!(event.target.matches(".flag"))) {
@@ -92,26 +101,6 @@ const page = {
             this.addListener = false;
 
         },
-        createField: function () {
-            blocks.innerHTML = "";
-            let table = document.createElement("table");
-            this.table = table;
-            for (let i = 0; i < game.height; i++) {
-                let tr = document.createElement("tr");
-                for (let j = 0; j < game.width; j++) {
-
-                    let td = document.createElement("td");
-                    if (game.field[j][i].hasMine) {
-                        td.classList.add("bomber");
-                    }
-
-                    tr.appendChild(td);
-                }
-                table.appendChild(tr);
-            }
-            blocks.appendChild(table);
-
-        },
         showBombs: function () {
             let td = document.querySelectorAll(".bomber");
             for (let i = 0; i < td.length; i++) {
@@ -124,23 +113,20 @@ const page = {
             const coordCellX = event.target.cellIndex;
             const coordCellY = event.target.parentNode.rowIndex;
             let td = this.table.rows[coordCellY].children[coordCellX];
-            if (firstClick === true) {
 
-                if (game.field[coordCellX][coordCellY].hasMine === true) {
-                    td.classList.remove("bomber");
-                    let i = 0;
-                    while (i < 1) {
-                        const coordMineX = parseInt(Math.random() * game.width);
-                        const coordMineY = parseInt(Math.random() * game.height);
-                        if (!(game.field[coordMineX][coordMineY].hasMine)) {
-                            game.field[coordMineX][coordMineY].hasMine = true;
-                            i++;
-                            let td = this.table.rows[coordMineY].children[coordMineX];
-                            td.classList.add("bomber");
-                        }
+            if (firstClick === true) {
+                let i = 0;
+                while (i < game.countMine) {
+                    const coordX = parseInt(Math.random() * game.width);
+                    const coordY = parseInt(Math.random() * game.height);
+                    let randomTd = this.table.rows[coordY].children[coordX];
+                    if (!(game.field[coordX][coordY].hasMine) && randomTd != td) {
+                        game.field[coordX][coordY].hasMine = true;
+                        let td = this.table.rows[coordY].children[coordX];
+                        td.classList.add("bomber");
+                        i++;
                     }
                 }
-                game.field[coordCellX][coordCellY].hasMine = false;
                 game.startMainCounter();
                 firstClick = false;
             }
@@ -153,11 +139,11 @@ const page = {
             }
 
             if (game.field[coordCellX][coordCellY].hasMine) {
-                showModalLose();
-                stopWatchs();
+                showModal("div.modalCloseLoses", "modalWindow", "modalCloseLoses");
+                pauseTime();
                 this.showBombs();
                 td.classList.add("dead");
-                setTimeout(closeModalLose, 1250);
+                setTimeout("closeModal('.modalWindow','modalCloseLoses','modalWindow')", 1250);
                 firstClick = true;
                 setTimeout(restart, 1300);
                 return;
@@ -166,10 +152,12 @@ const page = {
             game.field[coordCellX][coordCellY].notClicked = true;
 
             if (game.field[coordCellX][coordCellY].mineAlongside === 0) {
-                for (let i = coordCellX > 0 ? coordCellX - 1 : coordCellX;
-                     i <= coordCellX + 1 && i < game.width; i++) {
-                    for (let j = coordCellY > 0 ? coordCellY - 1 : coordCellY;
-                         j <= coordCellY + 1 && j < game.height; j++) {
+
+                const coordX = coordCellX > 0 ? coordCellX - 1 : coordCellX;
+                const coordY = coordCellY > 0 ? coordCellY - 1 : coordCellY;
+
+                for (let i = coordX; i <= coordCellX + 1 && i < game.width; i++) {
+                    for (let j = coordY; j <= coordCellY + 1 && j < game.height; j++) {
                         this.openNearClick(i, j);
                         td.innerHTML = "";
                     }
@@ -180,12 +168,12 @@ const page = {
 
             game.openCount++;
             if ((game.width * game.height - game.countMine) === game.openCount) {
-                showModalWin();
-                setTimeout(closeModalWin, 1250);
+                pauseTime();
+                showModal("div.modalCloseWins", "modalWindow", "modalCloseWins");
+                setTimeout("closeModal('.modalWindow','modalCloseWins','modalWindow')", 1250);
                 firstClick = true;
                 setTimeout(restart, 1300);
             }
-
         },
         flag: function (event) {
             const coordClickX = event.target.cellIndex;
@@ -212,7 +200,6 @@ const page = {
             bombsHtml.innerHTML = counterMine;
             event.preventDefault();
         }
-
     }
 };
 
