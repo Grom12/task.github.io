@@ -20,10 +20,10 @@ const game = {
         }
         let i = 0;
         while (i < this.count_mine){
-            const x = parseInt(Math.random() * this.width);
-            const y = parseInt(Math.random() * this.height);
-            if(!(this.field[x][y].has_mine)) {
-                this.field[x][y].has_mine = true;
+            const coordX = parseInt(Math.random() * this.width);
+            const coordY = parseInt(Math.random() * this.height);
+            if(!(this.field[coordX][coordY].has_mine)) {
+                this.field[coordX][coordY].has_mine = true;
                 i++;
             }
         }
@@ -45,9 +45,9 @@ const game = {
         this.field[coordCellX][coordCellY].mineAlongside = count;
     },
     start_main_counter : function () {
-        for(let i = 0; i < this.width; i++) {
-            for (let j = 0; j < this.height; j++) {
-                this.find_alongside_mine(i,j);
+        for(let x = 0; x < this.width; x++) {
+            for (let y = 0; y < this.height; y++) {
+                this.find_alongside_mine(x,y);
             }
         }
     },
