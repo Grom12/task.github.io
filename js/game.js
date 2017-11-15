@@ -126,12 +126,12 @@ const page = {
                     td.classList.remove("bomber");
                     let i = 0;
                     while (i < 1) {
-                        const x = parseInt(Math.random() * game.width);
-                        const y = parseInt(Math.random() * game.height);
-                        if(!(game.field[x][y].has_mine)) {
-                            game.field[x][y].has_mine = true;
+                        const coordMineX = parseInt(Math.random() * game.width);
+                        const coordMineY = parseInt(Math.random() * game.height);
+                        if(!(game.field[coordMineX][coordMineY].has_mine)) {
+                            game.field[coordMineX][coordMineY].has_mine = true;
                             i++;
-                            let td = this.table.rows[y].children[x];
+                            let td = this.table.rows[coordMineY].children[coordMineX];
                             td.classList.add("bomber");
                         }
                     }
