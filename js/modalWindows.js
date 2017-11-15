@@ -10,7 +10,7 @@ function closeModalWin() {
     windowLose.classList.add("modalCloseWins");
 }
 
-function showModalLose() { //////
+function showModalLose() {
     let windowLose = document.querySelector(".modalCloseLoses");
     windowLose.classList.remove("modalCloseLoses");
     windowLose.classList.add("modalWindow");

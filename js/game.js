@@ -1,4 +1,3 @@
-"use_strict"
 let firstClick = true;
 const bombsHtml = document.querySelector(".bombsOnField");
 let blocks = null;
@@ -110,7 +109,7 @@ const page = {
                 }
                 table.appendChild(tr);
             }
-            blocks.appendChild(table)
+            blocks.appendChild(table);
 
         },
         showBombs: function () {
@@ -126,6 +125,7 @@ const page = {
             const coordCellY = event.target.parentNode.rowIndex;
             let td = this.table.rows[coordCellY].children[coordCellX];
             if (firstClick === true) {
+
                 if (game.field[coordCellX][coordCellY].hasMine === true) {
                     td.classList.remove("bomber");
                     let i = 0;
@@ -148,46 +148,43 @@ const page = {
         },
         openNearClick: function (coordCellX, coordCellY) {
             const td = this.table.rows[coordCellY].children[coordCellX];
-            if (game.field[coordCellX][coordCellY].notClicked) {
+            if (game.field[coordCellX][coordCellY].notClicked || td.classList.contains("flag")) {
                 return;
             }
-            if (td.classList.contains("flag")) {
-                return;
-            }
+
             if (game.field[coordCellX][coordCellY].hasMine) {
                 showModalLose();
-
                 this.showBombs();
                 td.classList.add("dead");
                 setTimeout(closeModalLose, 1250);
                 firstClick = true;
                 setTimeout(restart, 1300);
-            } else {
+                return;
+            }
+            td.innerHTML = game.field[coordCellX][coordCellY].mineAlongside;
+            game.field[coordCellX][coordCellY].notClicked = true;
 
-
-                td.innerHTML = game.field[coordCellX][coordCellY].mineAlongside;
-                game.field[coordCellX][coordCellY].notClicked = true;
-
-                if (game.field[coordCellX][coordCellY].mineAlongside === 0) {
-                    for (let i = coordCellX > 0 ? coordCellX - 1 : coordCellX; i <= coordCellX + 1 && i < game.width; i++) {
-                        for (let j = coordCellY > 0 ? coordCellY - 1 : coordCellY; j <= coordCellY + 1 && j < game.height; j++) {
-                            this.openNearClick(i, j);
-                            td.innerHTML = "";
-                        }
+            if (game.field[coordCellX][coordCellY].mineAlongside === 0) {
+                for (let i = coordCellX > 0 ? coordCellX - 1 : coordCellX;
+                     i <= coordCellX + 1 && i < game.width; i++) {
+                    for (let j = coordCellY > 0 ? coordCellY - 1 : coordCellY;
+                         j <= coordCellY + 1 && j < game.height; j++) {
+                        this.openNearClick(i, j);
+                        td.innerHTML = "";
                     }
                 }
-                td.classList.remove("question");
-                td.classList.add("clicked");
-
-
-                game.openCount++;
-                if ((game.width * game.height - game.countMine) === game.openCount) {
-                    showModalWin();
-                    setTimeout(closeModalWin, 1250);
-                    firstClick = true;
-                    setTimeout(restart, 1300);
-                }
             }
+            td.classList.remove("question");
+            td.classList.add("clicked");
+
+            game.openCount++;
+            if ((game.width * game.height - game.countMine) === game.openCount) {
+                showModalWin();
+                setTimeout(closeModalWin, 1250);
+                firstClick = true;
+                setTimeout(restart, 1300);
+            }
+
         },
         flag: function (event) {
             const coordClickX = event.target.cellIndex;
@@ -199,7 +196,8 @@ const page = {
                 counterMine++;
                 event.target.classList.toggle("flag");
                 event.target.classList.toggle("question");
-            } else if (counterMine > 0 && !event.target.classList.contains("flag") && !event.target.classList.contains("question")) {
+            } else if (counterMine > 0 && !event.target.classList.contains("flag")
+                && !event.target.classList.contains("question")) {
                 event.target.classList.toggle("flag");
                 counterMine--;
             } else if (counterMine > 0 && event.target.classList.contains("question")) {
@@ -226,7 +224,7 @@ function Cell() {
 }
 
 function optionGame(row, column, mine) {
-    ClearClock();
+    stopWatchs();
     firstClick = true;
     game.width = column;
     game.height = row;
@@ -237,8 +235,8 @@ function optionGame(row, column, mine) {
 }
 
 function customOptionGame() {
-    ClearClock();
     firstClick = true;
+    stopWatchs();
     const allInputs = document.querySelectorAll("input");
     const row = allInputs[1];
     const column = allInputs[2];
@@ -259,10 +257,10 @@ function customOptionGame() {
 }
 
 function restart() {
-    ClearClock();
     firstClick = true;
     counterMine = game.countMine;
     bombsHtml.innerHTML = counterMine;
+    stopWatchs();
     game.startGame();
     page.gameInterface.createField();
 
