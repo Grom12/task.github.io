@@ -12,31 +12,31 @@ const game = {
     fill_mine:function () {
         this.field = [];
         for(let i = 0; i < this.width; i++) {
-            let bufferArr = [];
+            let Cells = [];
             for (let j = 0; j < this.height; j++) {
-                bufferArr.push(new Cell());
+                Cells.push(new Cell());
             }
-            this.field.push(bufferArr);
+            this.field.push(Cells);
         }
         let i = 0;
         while (i < this.count_mine){
-            let coordMineX = parseInt(Math.random() * this.width);
-            let coordMineY = parseInt(Math.random() * this.height);
-            if(!(this.field[coordMineX][coordMineY].has_mine)) {
-                this.field[coordMineX][coordMineY].has_mine = true;
+            const x = parseInt(Math.random() * this.width);
+            const y = parseInt(Math.random() * this.height);
+            if(!(this.field[x][y].has_mine)) {
+                this.field[x][y].has_mine = true;
                 i++;
             }
         }
     },
     find_alongside_mine :function (coordCellX, coordCellY) {
-        const x_left = coordCellX > 0 ? coordCellX - 1 : coordCellX;
-        const y_left = coordCellY > 0 ? coordCellY - 1 : coordCellY;
-        const x_right = coordCellX < this.width - 1 ? coordCellX + 1 : coordCellX;
-        const y_right = coordCellY < this.height - 1 ? coordCellY + 1 : coordCellY;
+        const leftCornerX= coordCellX > 0 ? coordCellX - 1 : coordCellX;
+        const leftCornerY = coordCellY > 0 ? coordCellY - 1 : coordCellY;
+        const rightCornerX = coordCellX < this.width - 1 ? coordCellX + 1 : coordCellX;
+        const rightCornerY = coordCellY < this.height - 1 ? coordCellY + 1 : coordCellY;
         let count = 0;
 
-        for (let i = x_left; i <= x_right; i++ ) {
-            for(let j = y_left; j <= y_right; j++) {
+        for (let i = leftCornerX; i <= rightCornerX; i++ ) {
+            for(let j = leftCornerY; j <= rightCornerY; j++) {
                 if(this.field[i][j].has_mine && !(coordCellX === i && coordCellY === j)) {
                     count ++;
                 }
@@ -118,16 +118,16 @@ const page = {
         },
 
         click_cell: function (e) {
-            let coordCellX =  e.target.cellIndex;
-            let coordCellY = e.target.parentNode.rowIndex;
+            const coordCellX =  e.target.cellIndex;
+            const coordCellY = e.target.parentNode.rowIndex;
             let td = this.table.rows[coordCellY].children[coordCellX];
             if (firstClick === true) {
                 if(game.field[coordCellX][coordCellY].has_mine === true) {
                     td.classList.remove("bomber");
                     let i = 0;
                     while (i < 1) {
-                        let x = parseInt(Math.random() * game.width);
-                        let y = parseInt(Math.random() * game.height);
+                        const x = parseInt(Math.random() * game.width);
+                        const y = parseInt(Math.random() * game.height);
                         if(!(game.field[x][y].has_mine)) {
                             game.field[x][y].has_mine = true;
                             i++;
@@ -141,10 +141,9 @@ const page = {
                 firstClick = false;
             }
             this.open_near_click(coordCellX,coordCellY);
-
         },
         open_near_click: function (coordCellX, coordCellY) {
-            let td = this.table.rows[coordCellY].children[coordCellX];
+            const td = this.table.rows[coordCellY].children[coordCellX];
             if(game.field[coordCellX][coordCellY].not_clicked) {
                 return;
             }
@@ -187,8 +186,8 @@ const page = {
             }
         },
         flag : function (e) {
-            let coordClickX =  e.target.cellIndex;
-            let coordClickY = e.target.parentNode.rowIndex;
+            const coordClickX =  e.target.cellIndex;
+            const coordClickY = e.target.parentNode.rowIndex;
             if(game.field[coordClickX][coordClickY].not_clicked) return;
 
             if(e.target.classList.contains("flag")){
@@ -235,10 +234,10 @@ function optionGame(row, column, mine) {
 function customOptionGame() {
     ClearСlock();
     firstClick = true;
-    let allInputs = document.querySelectorAll("input");
-    let row = allInputs[1];
-    let column = allInputs[2];
-    let mine = allInputs[3];
+    const allInputs = document.querySelectorAll("input");
+    const row = allInputs[1];
+    const column = allInputs[2];
+    const mine = allInputs[3];
     if (mine.value >= (row.value * column.value) && (row.value * column.value) != 0) {
         const msg = row.value * column.value;
         alert(`При таких параметрах поля, количество мин должно быть меньше ${msg}`);
