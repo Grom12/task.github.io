@@ -44,7 +44,6 @@ function StartTIME() {
 }
 
  function StartStop() {
-
     if (init === 0){
         ClearСlock();
         dateObj = new Date();

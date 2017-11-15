@@ -1,5 +1,5 @@
 let firstClick  = true;
-let bombsHtml = document.querySelector(".bombsOnField");
+const bombsHtml = document.querySelector(".bombsOnField");
 let blocks = null;
 let count_mines = 0;
 
@@ -18,7 +18,7 @@ const game = {
             }
             this.field.push(bufferArr);
         }
-        for (let i = 0; i < this.count_mine;){
+        while (i < this.count_mine){
             let coordMineX = parseInt(Math.random() * this.width);
             let coordMineY = parseInt(Math.random() * this.height);
             if(!(this.field[coordMineX][coordMineY].has_mine)) {
@@ -28,15 +28,17 @@ const game = {
         }
     },
     find_alongside_mine :function (coordCellX, coordCellY) {
-        let x_left = coordCellX > 0 ? coordCellX - 1 : coordCellX;
-        let y_left = coordCellY > 0 ? coordCellY - 1 : coordCellY;
-        let x_right = coordCellX < this.width - 1 ? coordCellX + 1 : coordCellX;
-        let y_right = coordCellY < this.height - 1 ? coordCellY + 1 : coordCellY;
+        const x_left = coordCellX > 0 ? coordCellX - 1 : coordCellX;
+        const y_left = coordCellY > 0 ? coordCellY - 1 : coordCellY;
+        const x_right = coordCellX < this.width - 1 ? coordCellX + 1 : coordCellX;
+        const y_right = coordCellY < this.height - 1 ? coordCellY + 1 : coordCellY;
         let count = 0;
 
         for (let i = x_left; i <= x_right; i++ ) {
             for(let j = y_left; j <= y_right; j++) {
-                if(this.field[i][j].has_mine && !(coordCellX === i && coordCellY === j)) count ++;
+                if(this.field[i][j].has_mine && !(coordCellX === i && coordCellY === j)) {
+                    count++;
+                }
             }
         }
         this.field[coordCellX][coordCellY].mineAlongside = count;
@@ -69,20 +71,22 @@ const page = {
             game.start_game();
             blocks = document.querySelector(".field");
             this.create_field();
-            let self = this;
+            const self = this;
             count_mines = game.count_mine;
+
+            const table = document.getElementsByTagName("table");
             if(this.addListener === true) {
-                blocks.addEventListener("click", leftClick);
-                blocks.addEventListener("contextmenu",rightClick);
+                table.addEventListener("click", leftClick);
+                table.addEventListener("contextmenu",rightClick);
             }
             function leftClick(event) {
-                if(event.target.matches("td")  && !(event.target.matches(".flag"))) {
+                if(!(event.target.matches(".flag"))) {
                     self.click_cell(event);
                 }
             }
 
             function rightClick(event) {
-                if(event.target.matches("td")) self.flag(event);
+                 self.flag(event);
             }
             this.addListener = false;
 
@@ -115,39 +119,39 @@ const page = {
         },
 
         click_cell: function (e) {
-            x =  e.target.cellIndex;
-            y = e.target.parentNode.rowIndex;
-            let td = this.table.rows[y].children[x];
+            coordCellX =  e.target.cellIndex;
+            coordCellY = e.target.parentNode.rowIndex;
+            let td = this.table.rows[coordCellY].children[coordCellX];
             if (firstClick === true) {
-                if(game.field[x][y].has_mine === true) {
+                if(game.field[coordCellX][coordCellY].has_mine === true) {
                     td.classList.remove("bomber");
-                    for (let i = 0; i < 1;){
-                        let x = parseInt(Math.random() * game.width);
-                        let y = parseInt(Math.random() * game.height);
-                        if(!(game.field[x][y].has_mine)) {
-                            game.field[x][y].has_mine = true;
+                    while(i < 1){
+                        let coordMineX = parseInt(Math.random() * game.width);
+                        let coordMineY = parseInt(Math.random() * game.height);
+                        if(!(game.field[coordMineX][coordMineY].has_mine)) {
+                            game.field[coordMineX][coordMineY].has_mine = true;
                             i++;
-                            let td = this.table.rows[y].children[x];
+                            let td = this.table.rows[coordMineY].children[coordMineX];
                             td.classList.add("bomber");
                         }
                     }
                 }
-                game.field[x][y].has_mine = false;
+                game.field[coordCellX][coordCellY].has_mine = false;
                 game.start_main_counter();
                 firstClick = false;
             }
-            this.open_near_click(x,y);
+            this.open_near_click(coordCellX,coordCellY);
 
         },
-        open_near_click: function (x, y) {
-            let td = this.table.rows[y].children[x];
-            if(game.field[x][y].not_clicked) {
+        open_near_click: function (coordCellX, coordCellY) {
+            let td = this.table.rows[coordCellY].children[coordCellX];
+            if(game.field[coordCellX][coordCellY].not_clicked) {
                 return;
             }
             if(td.classList.contains("flag")) {
                 return;
             }
-            if(game.field[x][y].has_mine){
+            if(game.field[coordCellX][coordCellY].has_mine){
                 showModalLose();
 
                 this.show_bombs();
@@ -158,12 +162,12 @@ const page = {
             }else{
 
 
-                td.innerHTML = game.field[x][y].mineAlongside;
-                    game.field[x][y].not_clicked = true;
+                td.innerHTML = game.field[coordCellX][coordCellY].mineAlongside;
+                    game.field[coordCellX][coordCellY].not_clicked = true;
 
-                if(game.field[x][y].mineAlongside === 0 ) {
-                    for (let i = x > 0 ? x - 1 : x; i <= x+1 && i < game.width; i++ ) {
-                        for(let j = y > 0 ? y - 1 : y; j <= y + 1 && j < game.height ; j++) {
+                if(game.field[coordCellX][coordCellY].mineAlongside === 0 ) {
+                    for (let i = coordCellX > 0 ? coordCellX - 1 : coordCellX; i <= coordCellX + 1 && i < game.width; i++ ) {
+                        for(let j = coordCellY > 0 ? coordCellY - 1 : coordCellY; j <= coordCellY + 1 && j < game.height ; j++) {
                                 this.open_near_click(i, j);
                                 td.innerHTML = ""
 
@@ -206,7 +210,6 @@ const page = {
             bombsHtml.innerHTML = count_mines;
             e.preventDefault();
         },
-
     }
 };
 page.init();
@@ -260,10 +263,3 @@ function restart() {
     page.game_interface.create_field();
 
 }
-
-
-
-
-
-
-
