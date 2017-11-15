@@ -215,7 +215,7 @@ const page = {
 
     }
 };
-page.init();
+
 
 
 function Cell() {
@@ -265,3 +265,4 @@ function restart() {
     game.startGame();
     page.gameInterface.createField();
 }
+page.init();
