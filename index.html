@@ -8,7 +8,6 @@
 </head>
 <body>
 
-
 <div class="container">
 
     <div class="modalCloseLoses">
@@ -20,15 +19,14 @@
     </div>
 
     <form class="formTimer" name=MyForm>
-
         <div class="bombsOnField">0</div>
-
     </form>
+
     <div class="stopwatch" id="stopwatch">
-        <div id="time-container" class="container"></div>
+        <div id="time-container" class="container">00:00:00</div>
     </div>
 
-    <div class="field" onclick="startWatch()"></div>
+    <div class="field"></div>
     <button class="button" onclick="optionGame(rowEasy, columnEasy, mineEasy)">Новичок</button>
     <button class="button" onclick="optionGame(rowMedium, columnMedium, mineMedium)">Любитель</button>
     <button class="button" onclick="optionGame(rowHard, columnHard, mineHard)">Профессионал</button>

@@ -5,7 +5,7 @@ const AppStopwatch = (function () {
         container: document.getElementById('time-container')
     };
     let runClock;
-    stopwatch.container.innerHTML = "00:00:00";
+
 
     function displayTime() {
         stopwatch.container.innerHTML = moment().hour(0).minute(0).second(counter++).format('HH:mm:ss');

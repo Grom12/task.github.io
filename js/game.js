@@ -87,6 +87,9 @@ const page = {
 
             tabs.addEventListener("click", leftClick);
             tabs.addEventListener("contextmenu", rightClick);
+            tabs.onclick = function (event) {
+                startWatch();
+            }
 
             function leftClick(event) {
                 if (!(event.target.matches(".flag"))) {
@@ -120,7 +123,7 @@ const page = {
                     const coordX = parseInt(Math.random() * game.width);
                     const coordY = parseInt(Math.random() * game.height);
                     let randomTd = this.table.rows[coordY].children[coordX];
-                    if (!(game.field[coordX][coordY].hasMine) && randomTd != td) {
+                    if (!(game.field[coordX][coordY].hasMine) && randomTd !== td) {
                         game.field[coordX][coordY].hasMine = true;
                         let td = this.table.rows[coordY].children[coordX];
                         td.classList.add("bomber");
@@ -228,12 +231,13 @@ function customOptionGame() {
     const row = allInputs[0];
     const column = allInputs[1];
     const mine = allInputs[2];
-    if (mine.value >= (row.value * column.value - 1) && (row.value * column.value) !== 0) {
-        const msg = row.value * column.value - 1;
+    let sizeTable = row.value * column.value;
+    if (mine.value >= sizeTable - 1 && sizeTable !== 0) {
+        const msg = sizeTable - 1;
         alert(`При таких параметрах поля, количество мин должно быть меньше ${msg}`);
     }
     if (row.value >= 2 && column.value >= 2 && mine.value !== 0
-        && mine.value < (row.value * column.value - 1)) {
+        && mine.value < (sizeTable - 1)) {
         game.width = column.value;
         game.height = row.value;
         game.countMine = mine.value;
