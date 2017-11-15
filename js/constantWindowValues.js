@@ -1,4 +1,3 @@
-
 const rowEasy = 9;
 const columnEasy = 9;
 const mineEasy = 10;

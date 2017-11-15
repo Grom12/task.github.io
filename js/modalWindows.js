@@ -1,11 +1,10 @@
-
 function showModalWin() {
     let windowLose = document.querySelector(".modalCloseWins");
     windowLose.classList.remove("modalCloseWins");
     windowLose.classList.add("modalWindow");
 }
 
-function closeModalWin()  {
+function closeModalWin() {
     let windowLose = document.querySelector(".modalWindow");
     windowLose.classList.remove("modalWindow");
     windowLose.classList.add("modalCloseWins");
@@ -17,7 +16,7 @@ function showModalLose() { //////
     windowLose.classList.add("modalWindow");
 }
 
-function closeModalLose(){
+function closeModalLose() {
     let windowLose = document.querySelector(".modalWindow");
     windowLose.classList.remove("modalWindow");
     windowLose.classList.add("modalCloseLoses");
