@@ -252,4 +252,6 @@ function restart() {
     page.gameInterface.createField();
 }
 
-page.init();
+function loadPage() {
+    page.init();
+}
