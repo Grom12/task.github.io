@@ -5,14 +5,14 @@ const AppStopwatch = (function () {
         container: document.getElementById('time-container')
     };
     let runClock;
-
+    let time = moment().hour(0).minute(0).second(0);
 
     function displayTime() {
-        stopwatch.container.innerHTML = moment().hour(0).minute(0).second(counter++).format('HH:mm:ss');
+        stopwatch.container.innerHTML = time.hour(0).minute(0).second(counter++).format('HH:mm:ss');
     }
 
     function startWatch() {
-        runClock = setInterval(displayTime, 800);
+        runClock = setInterval(displayTime, 900);
     }
 
     function pauseTime() {
