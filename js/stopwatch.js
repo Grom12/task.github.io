@@ -8,7 +8,7 @@ const AppStopwatch = (function () {
     let time = moment().hour(0).minute(0).second(0);
 
     function displayTime() {
-        stopwatch.container.innerHTML = time.hour(0).minute(0).second(counter++).format('HH:mm:ss');
+        stopwatch.container.innerHTML = time.add("second", 1).format('HH:mm:ss');
     }
 
     function startWatch() {
@@ -21,7 +21,7 @@ const AppStopwatch = (function () {
 
     function stopWatch() {
         clearInterval(runClock);
-        counter = 0;
+        time.hour(0).minute(0).second(0);
         stopwatch.container.innerHTML = "00:00:00";
         init = 0;
     }
