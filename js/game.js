@@ -57,7 +57,6 @@ const page = {
     },
     gameInterface: {
         table: null,
-        addListener: true,
         flagCounts: game.countMine,
         init: function () {
             game.startGame();
@@ -83,13 +82,13 @@ const page = {
             }
             blocks.appendChild(this.table);
             const self = this;
-            tabs = document.querySelector("table");
+            const tabs = document.querySelector("table");
 
             tabs.addEventListener("click", leftClick);
             tabs.addEventListener("contextmenu", rightClick);
             tabs.onclick = function (event) {
                 startWatch();
-            }
+            };
 
             function leftClick(event) {
                 if (!(event.target.matches(".flag"))) {
@@ -100,9 +99,6 @@ const page = {
             function rightClick(event) {
                 self.flag(event);
             }
-
-            this.addListener = false;
-
         },
         showBombs: function () {
             let td = document.querySelectorAll(".bomber");
