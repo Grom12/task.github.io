@@ -1,0 +1,198 @@
+
+img {
+  width: 10vw;
+  padding-top: 3%;
+  padding-bottom: 2%;
+  padding-left: 7%;
+}
+
+
+.house {
+  font-family: "Monotype Corsiva";
+  display: inline-block;
+  width: 44vw;
+  height: 10%;
+  border-radius: 60em;
+  border: 0.2vw solid rgba(198, 198, 204, 0.48);
+  margin-top: 3%;
+  margin-bottom: 3%;
+  margin-right: 2%;
+  background: rgba(74, 255, 111, 0.1);
+}
+
+
+
+.titles {
+  display: inline-block;
+  width: 25vw;
+  margin-top: 2%;
+  font-size: 1.5vw;
+  margin-left: 2%;
+  position: absolute;
+  color: #000000;
+  border-radius: 5px;
+}
+
+.price {
+  display: inline-block;
+  font-size: 1.2vw;
+  margin-top: 5.4%;
+  margin-left: 2%;
+  position: absolute;
+  color: #000000;
+  border-radius: 5px;
+}
+
+.bedroom {
+  display: inline-block;
+  font-size: 1.2vw;
+  margin-top: 5.4%;
+  margin-left: 12%;
+  position: absolute;
+  color: #000000;
+  border-radius: 5px;
+}
+
+
+
+.typePlace {
+  display: inline-block;
+  font-size: 1.2vw;
+  margin-top: 5.4%;
+  margin-left: 21%;
+  position: absolute;
+  color: #000000;
+  border-radius: 5px;
+}
+
+#buttonAddFavorite {
+  display: inline-block;
+  margin-top: -0.8%;
+  width: 8vw;
+  height: 2vw;
+  font-size: 0.9vw;
+  margin-left: 26%;
+  position: absolute;
+  color: #000000;
+
+}
+
+
+
+
+.buttonMoreInfo {
+  display: inline-block;
+  padding: 0;
+  width: 8vw;
+  height: 2vw;
+  font-size: 0.9vw;
+  margin-top: 7%;
+  margin-left: 10%;
+  position: absolute;
+  color: #000000;
+}
+
+.buttonDeleteFavourite {
+  display: inline-block;
+  padding: 0;
+  width: 9vw;
+  height: 2vw;
+  font-size: 0.7vw;
+  margin-top: 7%;
+  margin-left: 19%;
+  position: absolute;
+  color: #000000;
+}
+
+
+.house:hover {
+  box-shadow: 0 0 1em rgba(87, 127, 204, 0.5);
+}
+
+.star {
+  visibility:hidden;
+  padding: 0;
+  color: gold;
+  font-size:4vw;
+  cursor:pointer;
+}
+
+.star:before {
+  padding: 0;
+  content: "\2606";
+  color: gold;
+  font-size:4vw;
+  position: absolute;
+  visibility:visible;
+}
+
+
+.star2 {
+  visibility:hidden;
+  padding: 0;
+  color: gold;
+  font-size:4vw;
+  cursor:pointer;
+}
+
+
+
+.star2:before {
+  padding: 0;
+  content: "\2605";
+  color: gold;
+  font-size:4vw;
+  position: absolute;
+  visibility:visible;
+}
+
+.removeElement {
+  visibility: hidden;
+}
+
+
+
+p {
+  margin-top: 0px;
+}
+
+.modal-container {
+  position: fixed;
+  background-color: #fff;
+  border: 1px solid #000;
+  width: 50vw;
+  height: 40vw;
+  left: 50%;
+  margin-top: -80%;
+  border-radius: 3px;
+
+  -webkit-transform: translate(-50%, -200%);
+  -ms-transform: translate(-50%, -200%);
+  transform: translate(-50%, -200%);
+}
+
+
+
+.close {
+  visibility: hidden;
+}
+
+.modal:target .modal-container {
+
+
+  -webkit-transform: translate(-50%, 0);
+  -ms-transform: translate(-50%, 0);
+  transform: translate(-50%, 0);
+}
+
+.modal-container {
+
+...
+
+-webkit-transition: -webkit-transform 200ms ease-out;
+  transition: transform 200ms ease-out;
+}
+
+
+
+

@@ -1,0 +1,12 @@
+<div class="modal">
+  <div class="modal-container">
+    <img src={{detailHouse.img_url}}>
+    <div class="titles">{{detailHouse.title}}</div>
+    <div class="price">Price :{{detailHouse.price_formatted}}</div>
+    <div class="bedroom">Bathroom(s) :{{detailHouse.bedroom_number}}</div>
+    <div class="typePlace">Type house :{{detailHouse.property_type}}</div>
+    <button class="closeButton" (click)="clickClose(house, $event)">Close</button>
+  </div>
+</div>
+
+
