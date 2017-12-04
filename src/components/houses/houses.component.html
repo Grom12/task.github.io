@@ -1,61 +1,71 @@
+<app-details></app-details>
+<ng-progress></ng-progress>
 
-<div class="houses">
+<input class="prevPage" type="button" value="Back" (click)="prevPage()"/>
+<input *ngIf="chackNextPage" class="nextPage" type="button" value="Next" (click)="nextPage()"/>
+<div class="pages">Page {{currPage}}</div>
+
+
+<form class="formFilter" #myForm="ngForm" novalidate (ngSubmit)="sendForm(myForm)">
+
+  <div class="filterButtons">
+    <input type="radio" id="choiceRent" name="contact" value="rent" (click)="onSelectRent($event)">
+    <label for="choiceRent">rent</label>
+    <input type="radio" id="choiceBuy" name="contact" value="buy" (click)="onSelectBuy($event)">
+    <label for="choiceBuy">buy</label>
+    <input type="checkbox" id="choiceImg" name="contact" value="rent" (click)="onSelectImages($event)">
+    <label for="choiceImg">Images</label>
+  </div>
+
+  <div class="formGroup">
+    <label class="form-priceMaxLable">Max price</label>
+    <input class="form-priceMax" type="number" name="maxPrice" ngModel pattern="[0-9]{0,999999999}"
+    />
+  </div>
+  <div class="formGroup">
+    <label class="form-priceMinLable">Min price</label>
+    <input class="form-priceMin" type="number" name="minPrice" ngModel pattern="[0-9]{0,999999999}"
+    />
+  </div>
+  <div class="formGroup">
+    <label class="form-bedromMaxLable">Max bedroom</label>
+    <input class="form-bedroomMax" type="number" name="bedroomMax" ngModel pattern="[0-9]{0,999999999}"
+    />
+  </div>
+
+  <div class="formGroup">
+    <label class="form-bathroomMaxLable">Max bathroom</label>
+    <input class="form-bathroomMax" type="number" name="bathroomMax" ngModel pattern="[0-9]{0,999999999}"
+    />
+  </div>
+  <div class="formGroup">
+    <label class="form-bathroomMinLable">Min bathroom</label>
+    <input class="form-bathroomMin" type="number" name="bathroomMin" ngModel pattern="[0-9]{0,999999999}"
+    />
+  </div>
+  <div class="formGroup">
+    <input type="submit" [disabled]="myForm.invalid" class="sendForm" value="Отправить"/>
+  </div>
+</form>
+<app-cities></app-cities>
+
+<div class="houses" *ngIf="containHouses.length > 0">
   <div class="house" *ngFor="let house of containHouses">
     <div class="houseItem">
       <img src={{house.img_url}}>
       <div class="titles">{{house.title}}</div>
       <div class="price">Price :{{house.price_formatted}}</div>
-      <div class="bedroom">Bathroom(s) :{{house.bedroom_number}}</div>
+      <div class="bedroom">Bedroom(s) :{{house.bedroom_number}}</div>
       <div class="typePlace">Type house :{{house.property_type}}</div>
+      <div class="typePlace">Type house :{{house.room_number}}</div>
       <button class="buttonMoreInfo" (click)="sendData(house)">More info</button>
-      <input id="buttonAddFavorite"  class="star {{house.setFavorites}}" type="checkbox" (click)="clickFavorites(house, $event)"/>
+      <input id="buttonAddFavorite" class="star {{house.setFavorites}}" type="checkbox"
+             (click)="clickFavorites(house, $event)"/>
     </div>
   </div>
 </div>
-<app-details></app-details>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<div class="noFound" *ngIf="notFound">
+  <p>Not found</p>
+</div>

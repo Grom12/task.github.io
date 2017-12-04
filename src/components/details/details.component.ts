@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {HousesService} from '../../services/house.service';
-import {Subscription} from 'rxjs/Subscription';
+
 
 @Component({
   selector: 'app-details',
@@ -8,24 +8,30 @@ import {Subscription} from 'rxjs/Subscription';
   styleUrls: ['../houses/houses.component.css']
 })
 export class DetailsComponent implements OnInit {
-  public detailHouse = [];
-  subscription: Subscription;
+  public detailHouse;
+  condition = false;
+
 
   constructor(private houseServise: HousesService) {
   }
 
   ngOnInit() {
-    this.houseServise.getEvent().subscribe(data => this.getData(data));
+    this.houseServise.getEventModal().subscribe(data => this.getDataStateWindow(data));
+    this.houseServise.getEventModal().subscribe(data => this.getDataHouse(data));
+
   }
 
-
-  public getData(data) {
-
+  public getDataHouse(data) {
     this.detailHouse = data;
+    console.log(this.detailHouse);
   }
 
-  public clickClose(house: any, event): void {
-    event.target.parentElement.classList.add('close');
+  public getDataStateWindow(data) {
+    this.condition = data;
   }
 
+
+  closeWindow(data: any) {
+    this.condition = data;
+  }
 }

@@ -1,0 +1,30 @@
+.controls {
+  position: absolute;
+  padding: 0;
+  width: 40vw;
+  height: 2vw;
+  margin-top: 1vw;
+  margin-bottom: 2vw;
+  margin-left: 30vw;
+  border-radius: 10vw;
+  border: 0.2vw solid rgba(198, 198, 204, 0.48);
+  font-size: 1.3vw;
+}
+
+.controls:active,
+.controls:focus {
+  outline: none;
+}
+
+:not(.default)::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+.controls::-webkit-search-cancel-button {
+  content: '';
+  display: block;
+  width: 1vw;
+  height: 1vw;
+  background: url("../../galka.png") no-repeat top left;
+  background-size: 1vw;
+}

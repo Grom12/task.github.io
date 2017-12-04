@@ -1,19 +1,13 @@
+<app-details></app-details>
 <div class="houses">
   <div class="house" *ngFor="let house of containHouses">
-    <div class="houseItem">
-      <img src={{house.img_url}}>
-      <div class="titles">{{house.title}}</div>
-      <div class="price">Price :{{house.price_formatted}}</div>
-      <div class="bedroom">Bathroom(s) :{{house.bedroom_number}}</div>
-      <div class="typePlace">Type house :{{house.property_type}}</div>
-      <button class="buttonMoreInfo" (click)="sendData(house,$event)">More info</button>
-      <input id="buttonAddFavorite"  class="star {{house.setFavorites}}" type="checkbox" (click)="clickFavorites(house, $event)"/>
-    </div>
+    <img src={{house.img_url}}>
+    <div class="titles">{{house.title}}</div>
+    <div class="price">Price :{{house.price_formatted}}</div>
+    <div class="bedroom">Bathroom(s) :{{house.bedroom_number}}</div>
+    <div class="typePlace">Type house :{{house.property_type}}</div>
+    <button class="buttonMoreInfo" (click)="sendData(house,$event)">More info</button>
+    <input id="buttonAddFavorite" class="star {{house.setFavorites}}" type="checkbox"
+           (click)="clickFavorites(house, $event)"/>
   </div>
 </div>
-<app-details></app-details>
-
-
-
-
-

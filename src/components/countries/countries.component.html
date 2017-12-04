@@ -1,5 +1,11 @@
-<p>
-  countries works!
+<ul class="border">
+  <li *ngFor="let country of countries"
+      [class.selected]="country === selectedCountry"
+      (click)="onSelect(country)">
+    <span class="badge">{{country.id}}</span> {{country.name}}
+  </li>
+</ul>
 
-  <app-houses> </app-houses>
-</p>
+
+<app-houses></app-houses>
+<div class="block"></div>

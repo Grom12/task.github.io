@@ -1,12 +1,14 @@
-<div class="modal">
-  <div class="modal-container">
-    <img src={{detailHouse.img_url}}>
-    <div class="titles">{{detailHouse.title}}</div>
-    <div class="price">Price :{{detailHouse.price_formatted}}</div>
-    <div class="bedroom">Bathroom(s) :{{detailHouse.bedroom_number}}</div>
-    <div class="typePlace">Type house :{{detailHouse.property_type}}</div>
-    <button class="closeButton" (click)="clickClose(house, $event)">Close</button>
+<div *ngIf="condition" class="modal">
+  <div id="BackLayer">
+    <div class="modal-container">
+      <img class="imgModal" src={{detailHouse.img_url}}>
+      <div class="titlesModal">{{detailHouse.title}}</div>
+      <div class="priceModal">Price :{{detailHouse.price_formatted}}</div>
+      <div class="bedroomModal">Bathroom(s) :{{detailHouse.bedroom_number}}</div>
+      <div class="typePlaceModal">Type house :{{detailHouse.property_type}}</div>
+      <div class="constructionModal">Construction year :{{detailHouse.construction_year}}</div>
+      <div class="keyWordsModal">Type house :{{detailHouse.keywords}}</div>
+      <button class="closeButtonModal" (click)="closeWindow(false)">Close</button>
+    </div>
   </div>
 </div>
-
-

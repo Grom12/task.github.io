@@ -1,0 +1,44 @@
+ul {
+  z-index: 900;
+  position: fixed;
+  width: 100vw;
+  font-size: 1.5vw;
+  margin-top: -2px;
+  top: 0;
+  list-style-type: none;
+  padding: 0;
+  overflow: hidden;
+  background-color: rgba(49, 49, 49, 0.1);
+
+}
+
+li {
+  float: left;
+  border-right: 0.1vw solid rgba(49, 49, 49, 1);
+}
+
+li:last-child {
+  border-right: none;
+}
+
+li a {
+
+  display: block;
+  color: rgba(49, 49, 49, 0.64);
+  text-align: center;
+  padding: 1.2vw 1vw 1vw 1vw;
+  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color: rgba(49, 49, 49, 0.1);
+}
+
+.active {
+  background-color: rgba(74, 255, 111, 0.1);
+}
+
+.empty {
+  width: 90vw;
+  height: 2vw;
+}
