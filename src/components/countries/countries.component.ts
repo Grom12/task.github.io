@@ -20,7 +20,6 @@ const Countries: Country[] = [
 ];
 
 
-
 @Component({
   selector: 'app-countries',
   templateUrl: './countries.component.html',

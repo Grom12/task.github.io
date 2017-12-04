@@ -28,3 +28,9 @@
   background: url("../../galka.png") no-repeat top left;
   background-size: 1vw;
 }
+
+
+.hiddenSeach {
+  visibility: hidden;
+  width: 0;
+}

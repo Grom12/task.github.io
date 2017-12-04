@@ -13,12 +13,14 @@ export class HousesComponent implements OnInit {
   public checkResponse: any = {};
   public containHouses = [];
   public currPage = 1;
-  public chackNextPage = true;
-  public chackPrevPage = true;
+  public chackNextPage = false;
+  public chackPrevPage = false;
+  public chackPage = false;
   public objectHouse: any = [];
   public stateImages = false;
   public notFound = false;
   public storageObject: any = {};
+
 
   ngOnInit(): void {
     const returnObj = JSON.parse(localStorage.getItem('object'));
@@ -138,10 +140,13 @@ export class HousesComponent implements OnInit {
           console.log(this.containHouses = this.checkResponse['response']['listings']);
           this.notFound = false;
           this.chackNextPage = true;
+          this.chackPrevPage = true;
+          this.chackPage = true;
           this.houseServise.setFavor(this.containHouses);
           this.ngProgress.done();
         }
       }
+
     );
   }
 }

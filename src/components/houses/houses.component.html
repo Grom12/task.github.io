@@ -3,7 +3,7 @@
 
 <input *ngIf="chackPrevPage" class="prevPage" type="button" value="Back" (click)="prevPage()"/>
 <input *ngIf="chackNextPage" class="nextPage" type="button" value="Next" (click)="nextPage()"/>
-<div class="pages">Page {{currPage}}</div>
+<div *ngIf="chackPage" class="pages">Page {{currPage}}</div>
 
 
 <form class="formFilter" #myForm="ngForm" novalidate (ngSubmit)="sendForm(myForm)">

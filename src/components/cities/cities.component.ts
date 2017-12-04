@@ -15,6 +15,7 @@ export class CitiesComponent implements OnInit {
   public country = 'uk';
   public place: any;
   public autocomplete: any;
+
   @ViewChild('search') public searchElement: ElementRef;
 
   constructor(private houseServise: HousesService, private mapsAPILoader: MapsAPILoader, private ngZone: NgZone) {
@@ -48,14 +49,15 @@ export class CitiesComponent implements OnInit {
   }
 
 
-
-
   public setCountry(data) {
     this.country = data;
     console.log(this.country);
     this.autocomplete.componentRestrictions.country = this.country;
+    const searchElement = document.querySelector('.hiddenSeach');
+    if (searchElement !== null) {
+      searchElement.classList.remove('hiddenSeach');
+      searchElement.classList.add('controls');
+    }
+
   }
-
-
-
 }
