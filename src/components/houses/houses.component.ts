@@ -14,13 +14,25 @@ export class HousesComponent implements OnInit {
   public containHouses = [];
   public currPage = 1;
   public chackNextPage = true;
+  public chackPrevPage = true;
   public objectHouse: any = [];
   public stateImages = false;
   public notFound = false;
   public storageObject: any = {};
 
   ngOnInit(): void {
-    this.requestFunc();
+    const returnObj = JSON.parse(localStorage.getItem('object'));
+    for (const keys in returnObj) {
+      this.containHouses.push(JSON.parse(returnObj[keys]));
+    }
+
+    if (this.containHouses.length === 0) {
+      this.notFound = true;
+    } else this.notFound = false;
+
+    this.houseServise.setFavor(this.containHouses);
+
+
     this.houseServise.getEventCountry().subscribe(data => this.getDataHouse(data));
     this.houseServise.getCity().subscribe(data => this.getDataCity(data));
   }
@@ -125,6 +137,7 @@ export class HousesComponent implements OnInit {
         } else {
           console.log(this.containHouses = this.checkResponse['response']['listings']);
           this.notFound = false;
+          this.chackNextPage = true;
           this.houseServise.setFavor(this.containHouses);
           this.ngProgress.done();
         }

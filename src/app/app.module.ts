@@ -17,8 +17,8 @@ import {NgProgressModule} from 'ngx-progressbar';
 import {CitiesComponent} from '../components/cities/cities.component';
 
 const appRoutes: Routes = [
-  {path: '', component: CountriesComponent},
   {path: 'favor', component: FavoritesComponent},
+  {path: '', component: CountriesComponent},
 ];
 
 

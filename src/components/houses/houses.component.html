@@ -1,7 +1,7 @@
 <app-details></app-details>
 <ng-progress></ng-progress>
 
-<input class="prevPage" type="button" value="Back" (click)="prevPage()"/>
+<input *ngIf="chackPrevPage" class="prevPage" type="button" value="Back" (click)="prevPage()"/>
 <input *ngIf="chackNextPage" class="nextPage" type="button" value="Next" (click)="nextPage()"/>
 <div class="pages">Page {{currPage}}</div>
 

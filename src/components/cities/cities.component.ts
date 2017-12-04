@@ -22,6 +22,11 @@ export class CitiesComponent implements OnInit {
 
   ngOnInit() {
     this.houseServise.getShortCountry().subscribe(data => this.setCountry(data));
+    this.counte();
+  }
+
+
+  counte() {
     this.mapsAPILoader.load().then(
       () => {
         this.autocomplete = new google.maps.places.Autocomplete(this.searchElement.nativeElement, {
@@ -31,27 +36,26 @@ export class CitiesComponent implements OnInit {
         this.autocomplete.addListener('place_changed', () => {
           this.ngZone.run(() => {
             this.place = this.autocomplete.getPlace();
-            this.town = this.place.name.toLowerCase().split(',')[0];
+            this.town = null;
+            this.town = this.autocomplete.getPlace().name.toLowerCase().split(',')[0];
+            this.houseServise.sendCity(this.town);
+
+
           });
         });
-
       }
     );
   }
 
 
+
+
   public setCountry(data) {
     this.country = data;
     console.log(this.country);
-    this.autocomplete = new google.maps.places.Autocomplete(this.searchElement.nativeElement, {
-      types: ['(cities)'],
-      componentRestrictions: {country: `${this.country}`}
-    });
+    this.autocomplete.componentRestrictions.country = this.country;
   }
 
-  returnCity(event) {
-    if (event.keyCode === 13) {
-      this.houseServise.sendCity(this.town);
-    }
-  }
+
+
 }
