@@ -4,11 +4,15 @@
       <img class="imgModal" src={{detailHouse.img_url}}>
       <div class="titlesModal">{{detailHouse.title}}</div>
       <div class="priceModal">Price :{{detailHouse.price_formatted}}</div>
-      <div class="bedroomModal">Bathroom(s) :{{detailHouse.bedroom_number}}</div>
+      <div class="bedroomModal">Bedroom(s) :{{detailHouse.bedroom_number}}</div>
+      <div class="bathroomModal">Bathroom(s) :{{detailHouse.bathroom_number}}</div>
+      <div class="CarSpacesModal">Car spaces :{{detailHouse.car_spaces}}</div>
+      <div class="listingModal">Listing type :{{detailHouse.listing_type}}</div>
       <div class="typePlaceModal">Type house :{{detailHouse.property_type}}</div>
       <div class="constructionModal">Construction year :{{detailHouse.construction_year}}</div>
-      <div class="keyWordsModal">Type house :{{detailHouse.keywords}}</div>
+      <div class="keyWordsModal">Summary size :{{detailHouse.summary}}</div>
       <button class="closeButtonModal" (click)="closeWindow(false)">Close</button>
     </div>
   </div>
 </div>
+

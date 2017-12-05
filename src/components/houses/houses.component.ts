@@ -3,6 +3,7 @@ import {HousesService} from '../../services/house.service';
 import {NgForm} from '@angular/forms';
 import {NgProgress} from 'ngx-progressbar';
 
+
 @Component({
   selector: 'app-houses',
   templateUrl: './houses.component.html',
@@ -16,6 +17,7 @@ export class HousesComponent implements OnInit {
   public chackNextPage = false;
   public chackPrevPage = false;
   public chackPage = false;
+  public countPages: number;
   public objectHouse: any = [];
   public stateImages = false;
   public notFound = false;
@@ -64,9 +66,14 @@ export class HousesComponent implements OnInit {
   }
 
 
+
+
   public nextPage() {
-    this.currPage++;
-    this.requestFunc();
+    if( this.currPage <= this.countPages) {
+      this.currPage++;
+      this.requestFunc();
+    }
+
   }
 
   public sendForm(myForm: NgForm): void {
@@ -131,22 +138,35 @@ export class HousesComponent implements OnInit {
     this.houseServise.getHouse(this.currPage, this.objectHouse).subscribe(
       response => {
         this.checkResponse = response;
+
+
+        this.countPages = response.response.total_pages;
+        if (response.response.total_pages == undefined || response.response.total_pages === 0) {
+          this.chackNextPage = false;
+          this.chackPrevPage = false;
+
+        }
+        if(this.currPage === 1) {
+          this.chackNextPage = true;
+          this.chackPrevPage = false;
+        } else this.chackPrevPage = true;
+
+        if(this.currPage <= this.countPages) {
+          this.chackNextPage = true;
+        } else  this.chackNextPage = false;
+
         if (this.checkResponse.response.listings.length === 0) {
           this.ngProgress.done();
-          this.chackNextPage = false;
           this.notFound = true;
           this.containHouses = [];
         } else {
           console.log(this.containHouses = this.checkResponse['response']['listings']);
           this.notFound = false;
-          this.chackNextPage = true;
-          this.chackPrevPage = true;
           this.chackPage = true;
           this.houseServise.setFavor(this.containHouses);
           this.ngProgress.done();
         }
       }
-
     );
   }
 }

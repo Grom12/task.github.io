@@ -22,13 +22,16 @@ img {
 .titles {
   display: inline-block;
   width: 25vw;
+  height: 3vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
   margin-top: 2%;
   font-size: 1.5vw;
   margin-left: 2%;
   position: absolute;
   color: #000000;
   border-radius: 5px;
-  overflow: hidden;
+
 }
 
 .price {
@@ -193,7 +196,9 @@ p {
 .titlesModal {
   display: inline-block;
   overflow: hidden;
+  text-overflow: ellipsis;
   width: 23vw;
+  height: 3vw;
   margin-top: 2%;
   font-size: 1.5vw;
   margin-left: 2%;
@@ -205,7 +210,7 @@ p {
 .priceModal {
   display: inline-block;
   font-size: 1.2vw;
-  margin-top: 33%;
+  margin-top: 34%;
   margin-left: 2%;
   position: absolute;
   color: #000000;
@@ -221,6 +226,37 @@ p {
   color: #000000;
   border-radius: 5px;
 }
+
+
+.bathroomModal {
+  display: inline-block;
+  font-size: 1.2vw;
+  margin-top: 22%;
+  margin-left: 2%;
+  position: absolute;
+  color: #000000;
+  border-radius: 5px;
+}
+.CarSpacesModal {
+  display: inline-block;
+  font-size: 1.2vw;
+  margin-top: 26%;
+  margin-left: 2%;
+  position: absolute;
+  color: #000000;
+  border-radius: 5px;
+}
+
+.listingModal {
+  display: inline-block;
+  font-size: 1.2vw;
+  margin-top: 30%;
+  margin-left: 2%;
+  position: absolute;
+  color: #000000;
+  border-radius: 5px;
+}
+
 
 .typePlaceModal {
   display: inline-block;
