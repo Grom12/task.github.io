@@ -13,7 +13,7 @@ import {ViewChild, ElementRef, NgZone} from '@angular/core';
 export class CitiesComponent implements OnInit {
   public town: string;
   public country = 'uk';
-  public place: any;
+
   public autocomplete: any;
 
   @ViewChild('search') public searchElement: ElementRef;
@@ -34,13 +34,13 @@ export class CitiesComponent implements OnInit {
           types: ['(cities)'],
           componentRestrictions: {country: `${this.country}`}
         });
+        
         this.autocomplete.addListener('place_changed', () => {
+          this.searchElement.nativeElement.value = this.autocomplete.getPlace().name;
           this.ngZone.run(() => {
-            this.place = this.autocomplete.getPlace();
             this.town = null;
             this.town = this.autocomplete.getPlace().name.toLowerCase().split(',')[0];
             this.houseServise.sendCity(this.town);
-
 
           });
         });

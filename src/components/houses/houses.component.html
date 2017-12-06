@@ -32,6 +32,11 @@
     <input class="form-bedroomMax" type="number" name="bedroomMax" ngModel pattern="[0-9]{0,999999999}"
     />
   </div>
+  <div class="formGroup">
+    <label class="form-bedromMinLable">Min bedroom</label>
+    <input class="form-bedroomMin" type="number" name="bedroomMin" ngModel pattern="[0-9]{0,999999999}"
+    />
+  </div>
 
   <div class="formGroup">
     <label class="form-bathroomMaxLable">Max bathroom</label>
@@ -57,7 +62,6 @@
       <div class="price">Price :{{house.price_formatted}}</div>
       <div class="bedroom">Bedroom(s) :{{house.bedroom_number}}</div>
       <div class="typePlace">Type house :{{house.property_type}}</div>
-      <div class="typePlace">Type house :{{house.room_number}}</div>
       <button class="buttonMoreInfo" (click)="sendData(house)">More info</button>
       <input id="buttonAddFavorite" class="star {{house.setFavorites}}" type="checkbox"
              (click)="clickFavorites(house, $event)"/>

@@ -38,6 +38,7 @@ export class HousesService {
     customHouse.set('price_min', objectHouse.minPrice);
     customHouse.set('price_max', objectHouse.maxPrice);
     customHouse.set('bedroom_max', objectHouse.bedroomMax);
+    customHouse.set('bedroom_min', objectHouse.bedrooMin);
     customHouse.set('bathroom_max', objectHouse.bathroomMax);
     customHouse.set('bathroom_min', objectHouse.bathroomMin);
     customHouse.set('has_photo', objectHouse.hasPhoto);

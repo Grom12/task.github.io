@@ -76,6 +76,7 @@ export class HousesComponent implements OnInit {
 
   }
 
+
   public sendForm(myForm: NgForm): void {
     this.currPage = 1;
     this.objectHouse.maxPrice = myForm.value.maxPrice;
@@ -158,6 +159,7 @@ export class HousesComponent implements OnInit {
         if (this.checkResponse.response.listings.length === 0) {
           this.ngProgress.done();
           this.notFound = true;
+          this.chackPage = false;
           this.containHouses = [];
         } else {
           console.log(this.containHouses = this.checkResponse['response']['listings']);
