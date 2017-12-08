@@ -52,6 +52,11 @@ export class HousesComponent implements OnInit {
 
   public getDataHouse(data) {
     this.objectHouse.country = data;
+    this.containHouses = [];
+    this.notFound = true;
+    this.chackNextPage = false;
+    this.chackPrevPage = false;
+    this.chackPage = false;
   }
 
 
@@ -66,10 +71,8 @@ export class HousesComponent implements OnInit {
   }
 
 
-
-
   public nextPage() {
-    if( this.currPage <= this.countPages) {
+    if (this.currPage <= this.countPages) {
       this.currPage++;
       this.requestFunc();
     }
@@ -142,19 +145,19 @@ export class HousesComponent implements OnInit {
 
 
         this.countPages = response.response.total_pages;
-        if (response.response.total_pages == undefined || response.response.total_pages === 0) {
+        if (response.response.total_pages === undefined || response.response.total_pages === 0) {
           this.chackNextPage = false;
           this.chackPrevPage = false;
 
         }
-        if(this.currPage === 1) {
+        if (this.currPage === 1) {
           this.chackNextPage = true;
           this.chackPrevPage = false;
         } else this.chackPrevPage = true;
 
-        if(this.currPage <= this.countPages) {
+        if (this.currPage <= this.countPages) {
           this.chackNextPage = true;
-        } else  this.chackNextPage = false;
+        } else this.chackNextPage = false;
 
         if (this.checkResponse.response.listings.length === 0) {
           this.ngProgress.done();

@@ -3,8 +3,6 @@ a {
   color: inherit;
 }
 
-
-
 .countryList li {
   font-family: "Monotype Corsiva";
 
@@ -58,11 +56,8 @@ a {
   height: 4vw;
 }
 
-
-
 ul.countryList {
   padding: 0;
-  width: 100vw;
   margin-left: 26.5vw;
   height: 2vw;
   margin-top: 5vw;

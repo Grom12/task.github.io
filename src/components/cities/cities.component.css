@@ -34,3 +34,60 @@
   visibility: hidden;
   width: 0;
 }
+
+.pac-icon {
+  width: 0;
+  background-image: none;
+}
+
+.cities {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  margin-left: 25%;
+  z-index: 900;
+  position: absolute;
+}
+
+.search-container {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.city-search {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.prediction-list-wrapper {
+
+  width: 100%;
+  background: #f5fff8;
+  max-height: 300px;
+}
+
+.closed {
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.prediction-list {
+  margin: 0;
+  padding: 0;
+  border: 1px solid black;
+}
+
+.prediction-item {
+  padding: 5px 8px;
+  list-style: none;
+}
+
+.prediction-item:hover {
+  background: lightgray;
+}

@@ -1,9 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {HousesService} from '../../services/house.service';
-import {MapsAPILoader} from '@agm/core';
+import {AgmCoreModule, MapsAPILoader} from '@agm/core';
 import {} from '@types/googlemaps';
 import {ViewChild, ElementRef, NgZone} from '@angular/core';
-
 
 @Component({
   selector: 'app-cities',
@@ -11,11 +10,11 @@ import {ViewChild, ElementRef, NgZone} from '@angular/core';
   styleUrls: ['./cities.component.css']
 })
 export class CitiesComponent implements OnInit {
-  public town: string;
+  public currentCity = '';
   public country = 'uk';
 
   public autocomplete: any;
-
+  public predictionList: any;
   @ViewChild('search') public searchElement: ElementRef;
 
   constructor(private houseServise: HousesService, private mapsAPILoader: MapsAPILoader, private ngZone: NgZone) {
@@ -23,41 +22,52 @@ export class CitiesComponent implements OnInit {
 
   ngOnInit() {
     this.houseServise.getShortCountry().subscribe(data => this.setCountry(data));
-    this.counte();
+
+
+    this.mapsAPILoader.load().then(() => {
+      this.autocomplete = new google.maps.places.AutocompleteService;
+    });
   }
 
+  keyboardAutocomplete(event) {
+    this.currentCity = event.target.value || '';
 
-  counte() {
-    this.mapsAPILoader.load().then(
-      () => {
-        this.autocomplete = new google.maps.places.Autocomplete(this.searchElement.nativeElement, {
-          types: ['(cities)'],
-          componentRestrictions: {country: `${this.country}`}
-        });
-        
-        this.autocomplete.addListener('place_changed', () => {
-          this.searchElement.nativeElement.value = this.autocomplete.getPlace().name;
-          this.ngZone.run(() => {
-            this.town = null;
-            this.town = this.autocomplete.getPlace().name.toLowerCase().split(',')[0];
-            this.houseServise.sendCity(this.town);
+    if (event.target.value) {
 
-          });
-        });
-      }
-    );
+      this.autocomplete.getPlacePredictions({
+        input: event.target.value,
+        language: 'en-GB',
+        types: ['(cities)'],
+        componentRestrictions: {
+          country: this.country
+        }
+      }, (res, status) => {
+        this.predictionList = res;
+      });
+
+    } else {
+      this.predictionList = [];
+    }
+
   }
 
+  public onCityChange(city) {
+    this.currentCity = city.structured_formatting.main_text;
+    this.houseServise.sendCity(this.currentCity);
+    this.predictionList = [];
+  }
+
+  flee() {
+    this.predictionList = [];
+  }
 
   public setCountry(data) {
     this.country = data;
-    console.log(this.country);
-    this.autocomplete.componentRestrictions.country = this.country;
     const searchElement = document.querySelector('.hiddenSeach');
     if (searchElement !== null) {
       searchElement.classList.remove('hiddenSeach');
-      searchElement.classList.add('controls');
+      searchElement.classList.add('cities');
     }
-
+    this.predictionList = [];
   }
 }

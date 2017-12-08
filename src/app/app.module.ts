@@ -15,6 +15,9 @@ import {DetailsComponent} from '../components/details/details.component';
 import {AgmCoreModule} from '@agm/core';
 import {NgProgressModule} from 'ngx-progressbar';
 import {CitiesComponent} from '../components/cities/cities.component';
+import {FilterCities} from '../pipes/filter.pipe';
+
+
 
 const appRoutes: Routes = [
   {path: 'favor', component: FavoritesComponent},
@@ -30,17 +33,19 @@ const appRoutes: Routes = [
     FavoritesComponent,
     DetailsComponent,
     CitiesComponent,
+    FilterCities,
   ],
   imports: [BrowserModule, FormsModule, HttpModule, JsonpModule, HttpClientModule, RouterModule.forRoot(appRoutes),
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBr1U6Y7rjlV4la_nsr50kEK6pdXDFB940',
       libraries: ['places'],
-      language: 'en'
-
+      language: 'en',
     }), NgProgressModule],
-  providers: [HousesService],
+  providers: [HousesService ],
   bootstrap: [AppComponent]
 })
 
+
 export class AppModule {
+
 }

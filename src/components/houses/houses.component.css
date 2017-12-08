@@ -20,9 +20,11 @@ img {
 }
 
 .titles {
+
   display: inline-block;
-  width: 25vw;
+  width: 24.1vw;
   height: 3vw;
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   margin-top: 2%;
@@ -195,8 +197,10 @@ p {
 
 .titlesModal {
   display: inline-block;
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
   width: 23vw;
   height: 3vw;
   margin-top: 2%;
@@ -227,7 +231,6 @@ p {
   border-radius: 5px;
 }
 
-
 .bathroomModal {
   display: inline-block;
   font-size: 1.2vw;
@@ -237,6 +240,7 @@ p {
   color: #000000;
   border-radius: 5px;
 }
+
 .CarSpacesModal {
   display: inline-block;
   font-size: 1.2vw;
@@ -256,7 +260,6 @@ p {
   color: #000000;
   border-radius: 5px;
 }
-
 
 .typePlaceModal {
   display: inline-block;
@@ -389,7 +392,6 @@ p {
   border: none;
 }
 
-
 .form-bedroomMax:active,
 .form-bedroomMax:focus {
   outline: none;
@@ -399,7 +401,6 @@ p {
   position: absolute;
   margin-left: 25%;
 }
-
 
 .form-bedroomMin {
   position: absolute;
@@ -411,7 +412,6 @@ p {
   height: 1vw;
   border: none;
 }
-
 
 .form-bedroomMin:active,
 .form-bedroomMin:focus {
@@ -586,6 +586,7 @@ form-bedromMinLable {
 }
 
 .filterButtons {
-  width: 50vw;
+  width: 40vw;
   height: 2vw;
+  text-align: center;
 }
