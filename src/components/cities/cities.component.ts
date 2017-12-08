@@ -31,25 +31,24 @@ export class CitiesComponent implements OnInit {
 
   keyboardAutocomplete(event) {
     this.currentCity = event.target.value || '';
-
     if (event.target.value) {
+
 
       this.autocomplete.getPlacePredictions({
         input: event.target.value,
-        language: 'en-GB',
         types: ['(cities)'],
         componentRestrictions: {
           country: this.country
         }
       }, (res, status) => {
         this.predictionList = res;
+        console.log(this.predictionList);
       });
-
     } else {
       this.predictionList = [];
     }
-
   }
+
 
   public onCityChange(city) {
     this.currentCity = city.structured_formatting.main_text;
@@ -57,9 +56,7 @@ export class CitiesComponent implements OnInit {
     this.predictionList = [];
   }
 
-  flee() {
-    this.predictionList = [];
-  }
+
 
   public setCountry(data) {
     this.country = data;

@@ -1,4 +1,4 @@
-<div class="hiddenSeach">
+<div class="cities">
   <div class="search-container">
     <input id="city"
            class="city-search"
@@ -8,10 +8,10 @@
            placeholder="Search for Location"
            autocorrect="off"
            #search/>
-    <div *ngIf="predictionList && predictionList.length" class="prediction-list-wrapper">
+    <div class="prediction-list-wrapper">
       <ul class="prediction-list">
         <li
-          *ngFor="let city of predictionList"
+          *ngFor="let city of predictionList "
           (click)="onCityChange(city)"
           class="prediction-item">
           {{city.structured_formatting.main_text}}
@@ -20,3 +20,9 @@
     </div>
   </div>
 </div>
+
+
+
+
+
+

@@ -138,7 +138,7 @@ export class HousesComponent implements OnInit {
 
 
   public requestFunc(): void {
-    this.ngProgress.start();
+
     this.houseServise.getHouse(this.currPage, this.objectHouse).subscribe(
       response => {
         this.checkResponse = response;
@@ -160,7 +160,7 @@ export class HousesComponent implements OnInit {
         } else this.chackNextPage = false;
 
         if (this.checkResponse.response.listings.length === 0) {
-          this.ngProgress.done();
+
           this.notFound = true;
           this.chackPage = false;
           this.containHouses = [];
@@ -169,7 +169,7 @@ export class HousesComponent implements OnInit {
           this.notFound = false;
           this.chackPage = true;
           this.houseServise.setFavor(this.containHouses);
-          this.ngProgress.done();
+
         }
       }
     );
