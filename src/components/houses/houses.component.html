@@ -60,12 +60,15 @@
       <img src={{house.img_url}}>
       <div class="titles">{{house.title}}</div>
       <div class="price">Price :{{house.price_formatted}}</div>
-      <div class="bedroom">Bedroom(s) :{{house.bedroom_number}}</div>
+      <div *ngIf="house.bedroom_number =='' " class="bedroom">Bedroom(s) : 0</div>
+      <div *ngIf="house.bedroom_number !== 0" class="bedroom">Bedroom(s) :{{house.bedroom_number}}</div>
       <div class="typePlace">Type house :{{house.property_type}}</div>
       <button class="buttonMoreInfo" (click)="sendData(house)">More info</button>
       <input id="buttonAddFavorite" class="star {{house.setFavorites}}" type="checkbox"
              (click)="clickFavorites(house, $event)"/>
+
     </div>
+
   </div>
 </div>
 

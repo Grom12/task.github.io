@@ -1,5 +1,5 @@
 <div class="cities">
-  <div class="search-container">
+  <div *ngIf="chooseCountryState" class="search-container">
     <input id="city"
            class="city-search"
            (input)="keyboardAutocomplete($event)"

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, SimpleChanges} from '@angular/core';
 import {HousesService} from '../../services/house.service';
 import {AgmCoreModule, MapsAPILoader} from '@agm/core';
 import {} from '@types/googlemaps';
@@ -12,9 +12,9 @@ import {ViewChild, ElementRef, NgZone} from '@angular/core';
 export class CitiesComponent implements OnInit {
   public currentCity = '';
   public country = 'uk';
-
   public autocomplete: any;
   public predictionList: any;
+  public chooseCountryState = false;
   @ViewChild('search') public searchElement: ElementRef;
 
   constructor(private houseServise: HousesService, private mapsAPILoader: MapsAPILoader, private ngZone: NgZone) {
@@ -22,12 +22,11 @@ export class CitiesComponent implements OnInit {
 
   ngOnInit() {
     this.houseServise.getShortCountry().subscribe(data => this.setCountry(data));
-
-
     this.mapsAPILoader.load().then(() => {
       this.autocomplete = new google.maps.places.AutocompleteService;
     });
   }
+
 
   keyboardAutocomplete(event) {
     this.currentCity = event.target.value || '';
@@ -41,8 +40,10 @@ export class CitiesComponent implements OnInit {
           country: this.country
         }
       }, (res, status) => {
-        this.predictionList = res;
-        console.log(this.predictionList);
+
+        this.ngZone.run(() => {
+          this.predictionList = res;
+        });
       });
     } else {
       this.predictionList = [];
@@ -57,14 +58,16 @@ export class CitiesComponent implements OnInit {
   }
 
 
-
   public setCountry(data) {
     this.country = data;
+    this.chooseCountryState = true;
     const searchElement = document.querySelector('.hiddenSeach');
     if (searchElement !== null) {
       searchElement.classList.remove('hiddenSeach');
       searchElement.classList.add('cities');
     }
+
+    this.searchElement.nativeElement.value = null;
     this.predictionList = [];
   }
 }

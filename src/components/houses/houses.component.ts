@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {HousesService} from '../../services/house.service';
 import {NgForm} from '@angular/forms';
 import {NgProgress} from 'ngx-progressbar';
+import {forEach} from "@angular/router/src/utils/collection";
 
 
 @Component({
@@ -138,7 +139,7 @@ export class HousesComponent implements OnInit {
 
 
   public requestFunc(): void {
-
+    this.ngProgress.start();
     this.houseServise.getHouse(this.currPage, this.objectHouse).subscribe(
       response => {
         this.checkResponse = response;
@@ -160,16 +161,17 @@ export class HousesComponent implements OnInit {
         } else this.chackNextPage = false;
 
         if (this.checkResponse.response.listings.length === 0) {
-
+          this.ngProgress.done();
           this.notFound = true;
           this.chackPage = false;
           this.containHouses = [];
         } else {
           console.log(this.containHouses = this.checkResponse['response']['listings']);
+
           this.notFound = false;
           this.chackPage = true;
           this.houseServise.setFavor(this.containHouses);
-
+          this.ngProgress.done();
         }
       }
     );

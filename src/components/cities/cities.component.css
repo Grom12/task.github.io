@@ -41,13 +41,14 @@
 }
 
 .cities {
-  width: 50%;
+  width: 60%;
+  height: 3vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 20px;
-  margin-left: 25%;
+  margin-top: 1%;
+  margin-left: 20%;
   z-index: 900;
   position: absolute;
 }
@@ -61,15 +62,24 @@
 
 .city-search {
   width: 100%;
+  font-size: 1.8vw;
+  height: 3vw;
   box-sizing: border-box;
 }
 
-.prediction-list-wrapper {
 
-  width: 100%;
+
+
+
+.prediction-list-wrapper {
+  position: absolute;
+  width: 60%;
+  margin-top: 1.5vw;
   background: #f5fff8;
   max-height: 300px;
 }
+
+
 
 .closed {
   height: 0;
@@ -78,13 +88,21 @@
 }
 
 .prediction-list {
+  position: absolute;
+  font-size: 1vw;
+  width: 99.5%;
+  background: #f5fff8;
   margin: 0;
   padding: 0;
   border: 1px solid black;
 }
 
+
+
+
+
 .prediction-item {
-  padding: 5px 8px;
+  padding: 1% 2%;
   list-style: none;
 }
 
