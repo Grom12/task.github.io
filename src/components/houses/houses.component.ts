@@ -14,6 +14,7 @@ export class HousesComponent implements OnInit {
 
   public checkResponse: any = {};
   public containHouses = [];
+  public storObject;
   public currPage = 1;
   public chackNextPage = false;
   public chackPrevPage = false;
@@ -36,10 +37,9 @@ export class HousesComponent implements OnInit {
     } else this.notFound = false;
 
     this.houseServise.setFavor(this.containHouses);
-
-
     this.houseServise.getEventCountry().subscribe(data => this.getDataHouse(data));
     this.houseServise.getCity().subscribe(data => this.getDataCity(data));
+
   }
 
 

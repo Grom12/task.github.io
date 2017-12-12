@@ -29,7 +29,6 @@
   background-size: 1vw;
 }
 
-
 .hiddenSeach {
   visibility: hidden;
   width: 0;
@@ -67,10 +66,6 @@
   box-sizing: border-box;
 }
 
-
-
-
-
 .prediction-list-wrapper {
   position: absolute;
   width: 60%;
@@ -78,8 +73,6 @@
   background: #f5fff8;
   max-height: 300px;
 }
-
-
 
 .closed {
   height: 0;
@@ -97,10 +90,6 @@
   border: 1px solid black;
 }
 
-
-
-
-
 .prediction-item {
   padding: 1% 2%;
   list-style: none;
@@ -108,4 +97,9 @@
 
 .prediction-item:hover {
   background: lightgray;
+}
+
+.selected {
+  background-color: rgba(0, 0, 0, 0.2) !important;
+  color: white;
 }

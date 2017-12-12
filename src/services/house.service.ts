@@ -9,16 +9,22 @@ export class HousesService {
   eventWithCountry: EventEmitter<any> = new EventEmitter();
   eventWithCiry: EventEmitter<any> = new EventEmitter();
   eventShorCountry: EventEmitter<any> = new EventEmitter();
+  storejObject;
   standardURL: any = 'https://api.nestoria.co.uk/api';
   country: any = 'uk';
   city: any = 'brighton';
 
 
   constructor(private jsonp: Jsonp) {
+    const returnObject = JSON.parse(localStorage.getItem('country'));
+    this.storejObject = (JSON.parse(returnObject));
+    this.standardURL = this.storejObject.linked;
+    this.country = this.storejObject.language;
   }
 
 
   public getHouse(page, objectHouse) {
+
     let Url;
     if (objectHouse.country === undefined) {
       Url = this.standardURL;

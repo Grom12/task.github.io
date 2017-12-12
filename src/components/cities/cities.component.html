@@ -1,8 +1,8 @@
 <div class="cities">
-  <div *ngIf="chooseCountryState" class="search-container">
+  <div  class="search-container">
     <input id="city"
            class="city-search"
-           (input)="keyboardAutocomplete($event)"
+           (keyup)="keyboardAutocomplete($event)"
            [value]="currentCity"
            type="text"
            placeholder="Search for Location"
@@ -11,12 +11,14 @@
     <div class="prediction-list-wrapper">
       <ul class="prediction-list">
         <li
-          *ngFor="let city of predictionList "
+          *ngFor="let city of predictionList; index as i"
           (click)="onCityChange(city)"
+          [class.selected]="selected===i"
           class="prediction-item">
           {{city.structured_formatting.main_text}}
         </li>
       </ul>
+
     </div>
   </div>
 </div>

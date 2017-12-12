@@ -14,6 +14,8 @@ export class CitiesComponent implements OnInit {
   public country = 'uk';
   public autocomplete: any;
   public predictionList: any;
+  public cityVal;
+  public selected = 0;
   public chooseCountryState = false;
   @ViewChild('search') public searchElement: ElementRef;
 
@@ -21,6 +23,10 @@ export class CitiesComponent implements OnInit {
   }
 
   ngOnInit() {
+    const returnObj = JSON.parse(localStorage.getItem('country'));
+    this.cityVal = (JSON.parse(returnObj));
+    this.country = this.cityVal.language;
+
     this.houseServise.getShortCountry().subscribe(data => this.setCountry(data));
     this.mapsAPILoader.load().then(() => {
       this.autocomplete = new google.maps.places.AutocompleteService;
@@ -29,6 +35,34 @@ export class CitiesComponent implements OnInit {
 
 
   keyboardAutocomplete(event) {
+    if (event.keyCode === 13) {
+      this.currentCity = this.predictionList[this.selected].structured_formatting.main_text;
+      event.target.value = this.currentCity;
+      this.houseServise.sendCity(this.currentCity);
+      this.selected = 0;
+      this.predictionList = [];
+      return;
+    }
+    if (event.keyCode === 40) {
+      if (this.selected < this.predictionList.length - 1) {
+        this.selected++;
+        this.currentCity = this.predictionList[this.selected];
+      }
+    }
+
+
+    if (event.keyCode === 38) {
+      if (this.selected <= this.predictionList.length - 1 && this.selected > 0) {
+        this.selected--;
+      }
+    }
+    if(event.keyCode !== 38 && event.keyCode!== 40) {
+      this.selected = 0;
+    }
+
+
+
+
     this.currentCity = event.target.value || '';
     if (event.target.value) {
 
@@ -51,16 +85,16 @@ export class CitiesComponent implements OnInit {
   }
 
 
-  public onCityChange(city) {
+  onCityChange(city) {
     this.currentCity = city.structured_formatting.main_text;
     this.houseServise.sendCity(this.currentCity);
     this.predictionList = [];
   }
 
 
-  public setCountry(data) {
+  setCountry(data) {
+
     this.country = data;
-    this.chooseCountryState = true;
     const searchElement = document.querySelector('.hiddenSeach');
     if (searchElement !== null) {
       searchElement.classList.remove('hiddenSeach');
@@ -71,3 +105,4 @@ export class CitiesComponent implements OnInit {
     this.predictionList = [];
   }
 }
+
