@@ -9,43 +9,50 @@
 <form class="formFilter" #myForm="ngForm" novalidate (ngSubmit)="sendForm(myForm)">
 
   <div class="filterButtons">
-    <input type="radio" id="choiceRent" name="contact" value="rent" (click)="onSelectRent($event)">
+    <input type="radio" id="choiceRent" name="contact" [value]="rent"  [checked]="isChecked2" (click)="onSelectRent($event)">
     <label for="choiceRent">rent</label>
-    <input type="radio" id="choiceBuy" name="contact" value="buy" (click)="onSelectBuy($event)">
+    <input type="radio" id="choiceBuy" name="contact" [value]="buy"  [checked]="isChecked" (click)="onSelectBuy($event)">
     <label for="choiceBuy">buy</label>
-    <input type="checkbox" id="choiceImg" name="contact" value="rent" (click)="onSelectImages($event)">
+    <input type="checkbox" id="choiceImg" [(ngModel)]="statusImg" name="contact" value="rent"
+           (click)="onSelectImages($event)">
     <label for="choiceImg">Images</label>
   </div>
 
   <div class="formGroup">
     <label class="form-priceMaxLable">Max price</label>
-    <input class="form-priceMax" type="number" name="maxPrice" ngModel pattern="[0-9]{0,999999999}"
+    <input class="form-priceMax" type="number" name="maxPrice" ngModel [(ngModel)]="maxPrices"
+           pattern="[0-9]{0,999999999}"
     />
   </div>
   <div class="formGroup">
     <label class="form-priceMinLable">Min price</label>
-    <input class="form-priceMin" type="number" name="minPrice" ngModel pattern="[0-9]{0,999999999}"
+    <input class="form-priceMin" type="number" name="minPrice" ngModel [(ngModel)]="minPrices"
+           pattern="[0-9]{0,999999999}"
     />
   </div>
   <div class="formGroup">
     <label class="form-bedromMaxLable">Max bedroom</label>
-    <input class="form-bedroomMax" type="number" name="bedroomMax" ngModel pattern="[0-9]{0,999999999}"
+    <input class="form-bedroomMax" type="number" name="bedroomMax" ngModel [(ngModel)]="bedroomsMax"
+           pattern="[0-9]{0,999999999}"
     />
   </div>
   <div class="formGroup">
     <label class="form-bedromMinLable">Min bedroom</label>
-    <input class="form-bedroomMin" type="number" name="bedroomMin" ngModel pattern="[0-9]{0,999999999}"
+    <input class="form-bedroomMin" type="number" name="bedroomMin" ngModel [(ngModel)]="bedroomsMin"
+           pattern="[0-9]{0,999999999}"
     />
   </div>
 
   <div class="formGroup">
     <label class="form-bathroomMaxLable">Max bathroom</label>
-    <input class="form-bathroomMax" type="number" name="bathroomMax" ngModel pattern="[0-9]{0,999999999}"
+    <input class="form-bathroomMax" type="number" name="bathroomMax" ngModel [(ngModel)]="bathroomsMax"
+           pattern="[0-9]{0,999999999}"
     />
   </div>
   <div class="formGroup">
     <label class="form-bathroomMinLable">Min bathroom</label>
-    <input class="form-bathroomMin" type="number" name="bathroomMin" ngModel pattern="[0-9]{0,999999999}"
+    <input class="form-bathroomMin" type="number" name="bathroomMin" ngModel [(ngModel)]="bathroomsMin"
+           pattern="[0-9]{0,999999999}"
     />
   </div>
   <div class="formGroup">
@@ -57,7 +64,8 @@
 <div class="houses" *ngIf="containHouses.length > 0">
   <div class="house" *ngFor="let house of containHouses">
     <div class="houseItem">
-      <img src={{house.img_url}}>
+      <img src={{house.img_url}}
+           onerror="this.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkR0jrzoYQxkoRFQTDbgfcdlNZQ0oVpLuvFymeOy3w3hcMDKnd'"/>
       <div class="titles">{{house.title}}</div>
       <div class="price">Price :{{house.price_formatted}}</div>
       <div *ngIf="house.bedroom_number =='' " class="bedroom">Bedroom(s) : 0</div>
@@ -66,9 +74,7 @@
       <button class="buttonMoreInfo" (click)="sendData(house)">More info</button>
       <input id="buttonAddFavorite" class="star {{house.setFavorites}}" type="checkbox"
              (click)="clickFavorites(house, $event)"/>
-
     </div>
-
   </div>
 </div>
 

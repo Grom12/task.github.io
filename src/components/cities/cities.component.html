@@ -1,5 +1,5 @@
-<div class="cities">
-  <div  class="search-container">
+<div class="hiddenSeach">
+  <div id="prediction" class="search-container">
     <input id="city"
            class="city-search"
            (keyup)="keyboardAutocomplete($event)"
@@ -8,8 +8,8 @@
            placeholder="Search for Location"
            autocorrect="off"
            #search/>
-    <div class="prediction-list-wrapper">
-      <ul class="prediction-list">
+    <div  class="prediction-list-wrapper">
+      <ul  class="prediction-list">
         <li
           *ngFor="let city of predictionList; index as i"
           (click)="onCityChange(city)"
@@ -22,9 +22,3 @@
     </div>
   </div>
 </div>
-
-
-
-
-
-

@@ -1,10 +1,12 @@
-import {EventEmitter, Injectable} from '@angular/core';
+import {EventEmitter, Injectable, OnInit} from '@angular/core';
 import {Jsonp, URLSearchParams} from '@angular/http';
 import 'rxjs/add/operator/map';
 
 
 @Injectable()
-export class HousesService {
+export class HousesService implements OnInit {
+
+
   eventWithModal: EventEmitter<any> = new EventEmitter();
   eventWithCountry: EventEmitter<any> = new EventEmitter();
   eventWithCiry: EventEmitter<any> = new EventEmitter();
@@ -14,12 +16,20 @@ export class HousesService {
   country: any = 'uk';
   city: any = 'brighton';
 
+  ngOnInit(): void {
+    const returnObject = JSON.parse(localStorage.getItem('country'));
+    if (returnObject !== null) {
+      this.standardURL = returnObject.linked;
+      this.country = returnObject.language;
+    }
+  }
 
   constructor(private jsonp: Jsonp) {
     const returnObject = JSON.parse(localStorage.getItem('country'));
-    this.storejObject = (JSON.parse(returnObject));
-    this.standardURL = this.storejObject.linked;
-    this.country = this.storejObject.language;
+    if (returnObject !== null) {
+      this.standardURL = returnObject.linked;
+      this.country = returnObject.language;
+    }
   }
 
 
@@ -90,6 +100,28 @@ export class HousesService {
 
   getCity() {
     return this.eventWithCiry;
+  }
+
+  savePage(page) {
+    const savePage = JSON.stringify(page);
+    localStorage.setItem('page', savePage);
+  }
+
+
+  saveDataForm(dataForm) {
+    const saveDtata = JSON.stringify(dataForm);
+    localStorage.setItem('formData', saveDtata);
+  }
+
+  selectButton(numButton) {
+    const savePage = JSON.stringify(numButton);
+    localStorage.setItem('radioButton', savePage);
+
+  }
+
+  selectCheckBox(chackStatus) {
+    const savePage = JSON.stringify(chackStatus);
+    localStorage.setItem('checkbox', savePage);
   }
 
 

@@ -1,11 +1,9 @@
 <ul class="countryList">
   <li *ngFor="let country of countries"
-      [class.selected]="country === selectedCountry"
+      [class.selected]="country?.id === selectedCountry?.id"
       (click)="onSelect(country)">
     {{country.name}}
   </li>
 </ul>
-
-
 <app-houses></app-houses>
 <div class="block"></div>

@@ -12,9 +12,9 @@ import {Country} from '../../constants/Country';
 })
 export class CountriesComponent implements OnInit {
   countries = Countries;
-  public containHouses:Country;
-  public selectedCountry: Country;
-  public storageObject: any = {};
+  public storageObject: any;
+  public selectedCountry: any;
+
 
   constructor(private houseServise: HousesService) {
   }
@@ -22,25 +22,28 @@ export class CountriesComponent implements OnInit {
 
   ngOnInit() {
     const returnObject = JSON.parse(localStorage.getItem('country'));
-    this.containHouses = (JSON.parse(returnObject));
-
+    if (returnObject !== null) {
+      this.selectedCountry = returnObject;
+      this.houseServise.standardURL = returnObject.linked;
+      this.houseServise.sendShortCountry(returnObject.language);
+    }
   }
 
 
-  onSelect(country: Country): void {
+  onSelect(country): void {
     const saveDtata = JSON.stringify(country);
-    this.storageObject = JSON.parse(localStorage.getItem('country'));
-    this.storageObject = saveDtata;
+    localStorage.setItem('country', saveDtata);
+    const clearCity = JSON.stringify(null);
+    localStorage.setItem('city', clearCity);
 
+    const clearHouse = JSON.stringify({});
+    localStorage.setItem('houses', clearHouse);
+    this.houseServise.savePage(1);
 
-
-    localStorage.setItem('country', JSON.stringify(this.storageObject));
-    const returnObject = JSON.parse(localStorage.getItem('country'));
-
-    this.containHouses = (JSON.parse(returnObject));
-    ///
-
-    this.selectedCountry =  this.containHouses;
+    this.houseServise.saveDataForm({});
+    this.houseServise.selectButton({});
+    this.houseServise.selectCheckBox({});
+    this.selectedCountry = country;
     this.houseServise.emitEvent2(country.linked);
     this.houseServise.sendShortCountry(country.language);
   }

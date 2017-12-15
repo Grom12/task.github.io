@@ -6,11 +6,12 @@ img {
   padding-left: 7%;
 }
 
+
 .house {
   font-family: "Monotype Corsiva", serif;
   display: inline-block;
   width: 44vw;
-  height: 10%;
+  height: 10vw;
   border-radius: 60em;
   border: 0.2vw solid rgba(198, 198, 204, 0.48);
   margin-top: 5%;
