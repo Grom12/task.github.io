@@ -17,6 +17,7 @@ export class CitiesComponent implements OnInit {
   private predictionList: any;
   private selected: number = 0;
   private subscriptionGetShortCountr: any;
+  private listCity: any;
   @ViewChild('search') private searchElement: ElementRef;
 
 
@@ -33,16 +34,7 @@ export class CitiesComponent implements OnInit {
       this.country = returnObj.language;
     }
 
-    $(".city-search").focus(function () {
-      $('.prediction-list-wrapper').show();
-    });
-    $(document).on('click', function (event) {
-      if (!$(event.target).closest(".search-container").length) {
-        $('.prediction-list-wrapper').hide();
-      }
-      event.stopPropagation();
-    });
-
+    document.addEventListener('click', this.hideList);
     this.mapsAPILoader.load().then(() => {
       this.autocomplete = new google.maps.places.AutocompleteService;
       const returnCity = JSON.parse(localStorage.getItem('city'));
@@ -51,6 +43,19 @@ export class CitiesComponent implements OnInit {
         this.houseServise.sendCity(returnCity);
       }
     });
+  }
+
+
+  public showList(event): void {
+    const listCity = document.querySelector('.prediction-list');
+    listCity.classList.remove('hiddenSeach');
+  }
+
+  public hideList(e) {
+    const listCity = document.querySelector('.prediction-list');
+    if (!e.target.matches('.search-container, .search-container *')) {
+      listCity.classList.add('hiddenSeach');
+    }
   }
 
   public keyboardAutocomplete(event): void {

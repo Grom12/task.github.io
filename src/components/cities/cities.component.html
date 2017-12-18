@@ -2,6 +2,7 @@
   <div id="prediction" class="search-container">
     <input id="city"
            class="city-search"
+           (focus)="showList($event)"
            (keyup)="keyboardAutocomplete($event)"
            [value]="currentCity"
            type="text"

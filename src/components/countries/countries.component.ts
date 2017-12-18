@@ -23,7 +23,6 @@ export class CountriesComponent implements OnInit {
       this.houseServise.sendShortCountry(returnObject.language);
     }
   }
-
   public onSelect(country): void {
     const saveDtata = JSON.stringify(country);
     localStorage.setItem('country', saveDtata);
@@ -36,7 +35,7 @@ export class CountriesComponent implements OnInit {
     this.houseServise.selectButton({});
     this.houseServise.selectCheckBox({});
     this.selectedCountry = country;
-    this.houseServise.emitEvent2(country.linked);
+    this.houseServise.sendEventCountry(country.linked);
     this.houseServise.sendShortCountry(country.language);
   }
 }

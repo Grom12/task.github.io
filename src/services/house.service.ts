@@ -79,7 +79,7 @@ export class HousesService implements OnInit {
     return this.eventWithModal;
   }
 
-  public emitEvent2(data) {
+  public sendEventCountry(data) {
     this.eventWithCountry.emit(data);
   }
 
