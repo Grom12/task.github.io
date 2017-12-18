@@ -1,37 +1,34 @@
 import {Component, OnInit} from '@angular/core';
 import {HousesService} from '../../services/house.service';
 
-
 @Component({
   selector: 'app-details',
   templateUrl: './details.component.html',
   styleUrls: ['../houses/houses.component.css']
 })
 export class DetailsComponent implements OnInit {
-  public detailHouse;
-  condition = false;
-
+  public detailHouse: any;
+  public condition: boolean = false;
 
   constructor(private houseServise: HousesService) {
   }
 
-  ngOnInit() {
-    this.houseServise.getEventModal().subscribe(data => this.getDataStateWindow(data));
-    this.houseServise.getEventModal().subscribe(data => this.getDataHouse(data));
-
+  public ngOnInit() {
+    this.houseServise.getEventModal().subscribe(
+      data => this.getDataStateWindow(data));
+    this.houseServise.getEventModal().subscribe(
+      data => this.getDataHouse(data));
   }
 
-  public getDataHouse(data) {
+  public getDataHouse(data): void {
     this.detailHouse = data;
-    console.log(this.detailHouse);
   }
 
-  public getDataStateWindow(data) {
+  public getDataStateWindow(data): void {
     this.condition = data;
   }
 
-
-  closeWindow(data: any) {
+  public closeWindow(data: any): void {
     this.condition = data;
   }
 }

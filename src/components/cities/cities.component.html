@@ -8,8 +8,8 @@
            placeholder="Search for Location"
            autocorrect="off"
            #search/>
-    <div  class="prediction-list-wrapper">
-      <ul  class="prediction-list">
+    <div class="prediction-list-wrapper">
+      <ul class="prediction-list">
         <li
           *ngFor="let city of predictionList; index as i"
           (click)="onCityChange(city)"
@@ -18,7 +18,6 @@
           {{city.structured_formatting.main_text}}
         </li>
       </ul>
-
     </div>
   </div>
 </div>

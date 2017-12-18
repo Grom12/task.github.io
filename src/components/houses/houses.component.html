@@ -5,13 +5,13 @@
 <input *ngIf="chackNextPage" class="nextPage" type="button" value="Next" (click)="nextPage()"/>
 <div *ngIf="chackPage" class="pages">Page {{currPage}}</div>
 
-
 <form class="formFilter" #myForm="ngForm" novalidate (ngSubmit)="sendForm(myForm)">
 
   <div class="filterButtons">
-    <input type="radio" id="choiceRent" name="contact" [value]="rent"  [checked]="isChecked2" (click)="onSelectRent($event)">
+    <input type="radio" id="choiceRent" name="contact" [value]="rent" [checked]="isCheckedRent"
+           (click)="onSelectRent($event)">
     <label for="choiceRent">rent</label>
-    <input type="radio" id="choiceBuy" name="contact" [value]="buy"  [checked]="isChecked" (click)="onSelectBuy($event)">
+    <input type="radio" id="choiceBuy" name="contact" [value]="buy" [checked]="isCheckedBuy" (click)="onSelectBuy($event)">
     <label for="choiceBuy">buy</label>
     <input type="checkbox" id="choiceImg" [(ngModel)]="statusImg" name="contact" value="rent"
            (click)="onSelectImages($event)">
@@ -77,7 +77,6 @@
     </div>
   </div>
 </div>
-
 
 <div class="noFound" *ngIf="notFound">
   <p>Not found</p>

@@ -1,6 +1,6 @@
-import {Component, OnInit, SimpleChanges} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {HousesService} from '../../services/house.service';
-import {AgmCoreModule, MapsAPILoader} from '@agm/core';
+import {MapsAPILoader} from '@agm/core';
 import {} from '@types/googlemaps';
 import {ViewChild, ElementRef, NgZone} from '@angular/core';
 import * as $ from 'jquery';
@@ -11,34 +11,36 @@ import * as $ from 'jquery';
   styleUrls: ['./cities.component.css']
 })
 export class CitiesComponent implements OnInit {
-  public currentCity = '';
-  public country = 'uk';
-  public autocomplete: any;
-  predictionList: any;
-  public selected = 0;
-  public subscriptionGetShortCountr: any;
-  @ViewChild('search') public searchElement: ElementRef;
+  private currentCity: string = '';
+  private country: string = 'uk';
+  private autocomplete: any;
+  private predictionList: any;
+  private selected: number = 0;
+  private subscriptionGetShortCountr: any;
+  @ViewChild('search') private searchElement: ElementRef;
 
-  constructor(private houseServise: HousesService, private mapsAPILoader: MapsAPILoader, private ngZone: NgZone) {
-    this.subscriptionGetShortCountr = this.houseServise.getShortCountry().subscribe(data => this.setCountry(data));
+
+  constructor(private houseServise: HousesService,
+              private mapsAPILoader: MapsAPILoader,
+              private ngZone: NgZone) {
+    this.subscriptionGetShortCountr = this.houseServise.getShortCountry().subscribe(
+      data => this.setCountry(data));
   }
 
-
-  ngOnInit() {
+  public ngOnInit() {
     const returnObj = JSON.parse(localStorage.getItem('country'));
     if (returnObj !== null) {
       this.country = returnObj.language;
     }
 
-
     $(".city-search").focus(function () {
       $('.prediction-list-wrapper').show();
     });
-    $(document).on('click', function (e) {
-      if (!$(e.target).closest(".search-container").length) {
+    $(document).on('click', function (event) {
+      if (!$(event.target).closest(".search-container").length) {
         $('.prediction-list-wrapper').hide();
       }
-      e.stopPropagation();
+      event.stopPropagation();
     });
 
     this.mapsAPILoader.load().then(() => {
@@ -49,24 +51,18 @@ export class CitiesComponent implements OnInit {
         this.houseServise.sendCity(returnCity);
       }
     });
-
   }
 
-
-  keyboardAutocomplete(event) {
+  public keyboardAutocomplete(event): void {
     if (event.keyCode === 13 && event.target.value !== '') {
-      console.log(this.predictionList);
-
-
       if (this.predictionList === null || this.predictionList.length === 0) {
         this.currentCity = event.target.value;
-      } else this.currentCity = this.predictionList[this.selected].structured_formatting.main_text;
-
+      } else {
+        this.currentCity = this.predictionList[this.selected].structured_formatting.main_text;
+      }
       const saveDtata = JSON.stringify(this.currentCity);
       localStorage.setItem('city', saveDtata);
       this.houseServise.savePage(1);
-
-
       event.target.value = this.currentCity;
       this.houseServise.sendCity(this.currentCity);
       this.selected = 0;
@@ -81,7 +77,6 @@ export class CitiesComponent implements OnInit {
       }
     }
 
-
     if (event.keyCode === 38) {
       if (this.selected <= this.predictionList.length - 1 && this.selected > 0) {
         this.selected--;
@@ -91,10 +86,8 @@ export class CitiesComponent implements OnInit {
       this.selected = 0;
     }
 
-
     this.currentCity = event.target.value || '';
     if (event.target.value) {
-
 
       this.autocomplete.getPlacePredictions({
         input: this.searchElement.nativeElement.value,
@@ -113,22 +106,16 @@ export class CitiesComponent implements OnInit {
     }
   }
 
-
-  onCityChange(city) {
+  public onCityChange(city): void {
     this.currentCity = city.structured_formatting.main_text;
     const saveDtata = JSON.stringify(this.currentCity);
     localStorage.setItem('city', saveDtata);
-
-    const returnCity = JSON.parse(localStorage.getItem('city'));
-    if (returnCity !== null) {
-      this.searchElement.nativeElement.value = returnCity;
-    }
     this.houseServise.savePage(1);
     this.houseServise.sendCity(this.currentCity);
     this.predictionList = [];
   }
 
-  setCountry(data) {
+  public setCountry(data): void {
     this.country = data;
     const searchElement = document.querySelector('.hiddenSeach');
     if (searchElement !== null) {

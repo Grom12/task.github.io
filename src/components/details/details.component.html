@@ -1,7 +1,8 @@
 <div *ngIf="condition" class="modal">
   <div id="BackLayer">
     <div class="modal-container">
-      <img class="imgModal" src={{detailHouse.img_url}} onerror="this.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkR0jrzoYQxkoRFQTDbgfcdlNZQ0oVpLuvFymeOy3w3hcMDKnd'">
+      <img class="imgModal" src={{detailHouse.img_url}}
+           onerror="this.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkR0jrzoYQxkoRFQTDbgfcdlNZQ0oVpLuvFymeOy3w3hcMDKnd'">
       <div class="titlesModal">{{detailHouse.title}}</div>
       <div class="priceModal">Price :{{detailHouse.price_formatted}}</div>
       <div class="bedroomModal">Bedroom(s) :{{detailHouse.bedroom_number}}</div>
@@ -14,5 +15,4 @@
       <button class="closeButtonModal" (click)="closeWindow(false)">Close</button>
     </div>
   </div>
-
 </div>

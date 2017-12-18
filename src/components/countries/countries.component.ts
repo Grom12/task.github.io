@@ -1,9 +1,7 @@
-import {Component, NgZone, OnChanges, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {HousesService} from '../../services/house.service';
 import {} from '@types/googlemaps';
 import {Countries} from '../../constants/Countries';
-import {Country} from '../../constants/Country';
-
 
 @Component({
   selector: 'app-countries',
@@ -11,16 +9,13 @@ import {Country} from '../../constants/Country';
   styleUrls: ['./countries.component.css']
 })
 export class CountriesComponent implements OnInit {
-  countries = Countries;
-  public storageObject: any;
+  public countries: any = Countries;
   public selectedCountry: any;
-
 
   constructor(private houseServise: HousesService) {
   }
 
-
-  ngOnInit() {
+  public ngOnInit() {
     const returnObject = JSON.parse(localStorage.getItem('country'));
     if (returnObject !== null) {
       this.selectedCountry = returnObject;
@@ -29,17 +24,14 @@ export class CountriesComponent implements OnInit {
     }
   }
 
-
-  onSelect(country): void {
+  public onSelect(country): void {
     const saveDtata = JSON.stringify(country);
     localStorage.setItem('country', saveDtata);
     const clearCity = JSON.stringify(null);
     localStorage.setItem('city', clearCity);
-
     const clearHouse = JSON.stringify({});
     localStorage.setItem('houses', clearHouse);
     this.houseServise.savePage(1);
-
     this.houseServise.saveDataForm({});
     this.houseServise.selectButton({});
     this.houseServise.selectCheckBox({});
@@ -47,5 +39,4 @@ export class CountriesComponent implements OnInit {
     this.houseServise.emitEvent2(country.linked);
     this.houseServise.sendShortCountry(country.language);
   }
-
 }

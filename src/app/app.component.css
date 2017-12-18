@@ -9,7 +9,6 @@ ul {
   padding: 0;
   overflow: hidden;
   background-color: rgba(49, 49, 49, 0.1);
-
 }
 
 li {
@@ -22,7 +21,6 @@ li:last-child {
 }
 
 li a {
-
   display: block;
   color: rgba(49, 49, 49, 0.64);
   text-align: center;

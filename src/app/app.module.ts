@@ -1,7 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-
-
 import {AppComponent} from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 import {HttpModule, JsonpModule} from '@angular/http';
@@ -15,15 +13,11 @@ import {DetailsComponent} from '../components/details/details.component';
 import {AgmCoreModule} from '@agm/core';
 import {NgProgressModule} from 'ngx-progressbar';
 import {CitiesComponent} from '../components/cities/cities.component';
-import {FilterCities} from '../pipes/filter.pipe';
-
-
 
 const appRoutes: Routes = [
   {path: 'favor', component: FavoritesComponent},
   {path: '', component: CountriesComponent},
 ];
-
 
 @NgModule({
   declarations: [
@@ -33,7 +27,6 @@ const appRoutes: Routes = [
     FavoritesComponent,
     DetailsComponent,
     CitiesComponent,
-    FilterCities,
   ],
   imports: [BrowserModule, FormsModule, HttpModule, JsonpModule, HttpClientModule, RouterModule.forRoot(appRoutes),
     AgmCoreModule.forRoot({
@@ -41,10 +34,9 @@ const appRoutes: Routes = [
       libraries: ['places'],
       language: 'en',
     }), NgProgressModule],
-  providers: [HousesService ],
+  providers: [HousesService],
   bootstrap: [AppComponent]
 })
-
 
 export class AppModule {
 

@@ -6,7 +6,6 @@ img {
   padding-left: 7%;
 }
 
-
 .house {
   font-family: "Monotype Corsiva", serif;
   display: inline-block;
@@ -22,7 +21,6 @@ img {
 }
 
 .titles {
-
   display: inline-block;
   width: 24.1vw;
   height: 3vw;
@@ -92,7 +90,6 @@ img {
   border-radius: 60em;
   border-width: 0;
   background: rgba(255, 215, 0, 0.6);
-
 }
 
 .buttonMoreInfo:hover {
@@ -159,7 +156,7 @@ img {
 }
 
 p {
-  margin-top: 0px;
+  margin-top: 0;
 }
 
 .modal-container {
@@ -203,7 +200,6 @@ p {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-
   width: 22.3vw;
   height: 3vw;
   margin-top: 2%;
@@ -363,7 +359,6 @@ p {
   margin-top: 1.3%;
   margin-left: 40%;
   width: 7vw;
-
   height: 1vw;
   border: none;
 
@@ -459,7 +454,6 @@ p {
   padding: 0;
   width: 8vw;
   height: 2vw;
-
   font-size: 0.9vw;
   margin-left: 48%;
   margin-top: 1%;
@@ -496,7 +490,7 @@ p {
   margin-left: 17.5%;
 }
 
-form-bedromMinLable {
+.form-bedromMinLable {
   position: absolute;
   margin-left: 24.5%;
 }

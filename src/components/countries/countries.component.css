@@ -4,8 +4,7 @@ a {
 }
 
 .countryList li {
-  font-family: "Monotype Corsiva";
-
+  font-family: "Monotype Corsiva", serif;
   border-radius: 2vw;
   border-left: 2vw solid #f05d22;
   box-shadow: 2px -2px 5px 0 rgba(0, 0, 0, .1),
@@ -13,9 +12,7 @@ a {
   2px 2px 5px 0 rgba(0, 0, 0, .1),
   -2px 2px 5px 0 rgba(0, 0, 0, .1);
   font-size: 1.0vw;
-
   transition: 0.3s all linear;
-
 }
 
 .countryList li:nth-child(1) {
@@ -69,7 +66,6 @@ ul.countryList {
 ul.countryList li {
   text-align: center;
   padding: 0.3vw;
-
   float: left;
   border: 1px solid #000;
   margin-right: 1vw;

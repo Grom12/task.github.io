@@ -5,18 +5,15 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class HousesService implements OnInit {
+  private eventWithModal: EventEmitter<any> = new EventEmitter();
+  private eventWithCountry: EventEmitter<any> = new EventEmitter();
+  private eventWithCiry: EventEmitter<any> = new EventEmitter();
+  private eventShorCountry: EventEmitter<any> = new EventEmitter();
+  public standardURL: any = 'https://api.nestoria.co.uk/api';
+  public country: any = 'uk';
+  public city: any = 'brighton';
 
-
-  eventWithModal: EventEmitter<any> = new EventEmitter();
-  eventWithCountry: EventEmitter<any> = new EventEmitter();
-  eventWithCiry: EventEmitter<any> = new EventEmitter();
-  eventShorCountry: EventEmitter<any> = new EventEmitter();
-  storejObject;
-  standardURL: any = 'https://api.nestoria.co.uk/api';
-  country: any = 'uk';
-  city: any = 'brighton';
-
-  ngOnInit(): void {
+  public ngOnInit(): void {
     const returnObject = JSON.parse(localStorage.getItem('country'));
     if (returnObject !== null) {
       this.standardURL = returnObject.linked;
@@ -32,14 +29,13 @@ export class HousesService implements OnInit {
     }
   }
 
-
   public getHouse(page, objectHouse) {
-
     let Url;
     if (objectHouse.country === undefined) {
       Url = this.standardURL;
-    } else Url = objectHouse.country;
-
+    } else {
+      Url = objectHouse.country;
+    }
 
     if (objectHouse.city === undefined) {
       objectHouse.city = this.city;
@@ -61,69 +57,65 @@ export class HousesService implements OnInit {
     customHouse.set('page', page);
     customHouse.set('callback', 'JSONP_CALLBACK');
 
-
     return this.jsonp.request(Url, {method: 'Get', search: customHouse}).map(response => {
       return response.json();
     });
-
   }
 
-
-  sendShortCountry(data) {
+  public sendShortCountry(data) {
     this.eventShorCountry.emit(data);
   }
 
-  getShortCountry() {
+  public getShortCountry() {
     return this.eventShorCountry;
   }
 
 
-  sendDetailInfo(data) {
+  public sendDetailInfo(data) {
     this.eventWithModal.emit(data);
   }
 
-  getEventModal() {
+  public getEventModal() {
     return this.eventWithModal;
   }
 
-  emitEvent2(data) {
+  public emitEvent2(data) {
     this.eventWithCountry.emit(data);
   }
 
-  getEventCountry() {
+  public getEventCountry() {
     return this.eventWithCountry;
   }
 
-  sendCity(data) {
+  public sendCity(data) {
     this.eventWithCiry.emit(data);
   }
 
-  getCity() {
+  public getCity() {
     return this.eventWithCiry;
   }
 
-  savePage(page) {
+  public savePage(page: any): void {
     const savePage = JSON.stringify(page);
     localStorage.setItem('page', savePage);
   }
 
 
-  saveDataForm(dataForm) {
+  public saveDataForm(dataForm: any): void {
     const saveDtata = JSON.stringify(dataForm);
     localStorage.setItem('formData', saveDtata);
   }
 
-  selectButton(numButton) {
+  public selectButton(numButton: any): void {
     const savePage = JSON.stringify(numButton);
     localStorage.setItem('radioButton', savePage);
 
   }
 
-  selectCheckBox(chackStatus) {
+  public selectCheckBox(chackStatus: any): void {
     const savePage = JSON.stringify(chackStatus);
     localStorage.setItem('checkbox', savePage);
   }
-
 
   public setFavor(containHouses: any): void {
     const returnObj = JSON.parse(localStorage.getItem('object'));
