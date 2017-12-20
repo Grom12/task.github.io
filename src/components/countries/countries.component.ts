@@ -15,7 +15,7 @@ export class CountriesComponent implements OnInit {
   constructor(private houseServise: HousesService) {
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     const returnObject = JSON.parse(localStorage.getItem('country'));
     if (returnObject !== null) {
       this.selectedCountry = returnObject;
@@ -23,6 +23,7 @@ export class CountriesComponent implements OnInit {
       this.houseServise.sendShortCountry(returnObject.language);
     }
   }
+
   public onSelect(country): void {
     const saveDtata = JSON.stringify(country);
     localStorage.setItem('country', saveDtata);
@@ -30,10 +31,10 @@ export class CountriesComponent implements OnInit {
     localStorage.setItem('city', clearCity);
     const clearHouse = JSON.stringify({});
     localStorage.setItem('houses', clearHouse);
-    this.houseServise.savePage(1);
-    this.houseServise.saveDataForm({});
-    this.houseServise.selectButton({});
-    this.houseServise.selectCheckBox({});
+    this.houseServise.saveDataInStorage(1, 'page');
+    this.houseServise.saveDataInStorage({}, 'formData');
+    this.houseServise.saveDataInStorage({}, 'radioButton');
+    this.houseServise.saveDataInStorage({}, 'checkbox');
     this.selectedCountry = country;
     this.houseServise.sendEventCountry(country.linked);
     this.houseServise.sendShortCountry(country.language);

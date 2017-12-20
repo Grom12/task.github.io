@@ -1,24 +1,1 @@
-<div class="hiddenSeach">
-  <div id="prediction" class="search-container">
-    <input id="city"
-           class="city-search"
-           (focus)="showList($event)"
-           (keyup)="keyboardAutocomplete($event)"
-           [value]="currentCity"
-           type="text"
-           placeholder="Search for Location"
-           autocorrect="off"
-           #search/>
-    <div class="prediction-list-wrapper">
-      <ul class="prediction-list">
-        <li
-          *ngFor="let city of predictionList; index as i"
-          (click)="onCityChange(city)"
-          [class.selected]="selected===i"
-          class="prediction-item">
-          {{city.structured_formatting.main_text}}
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
+<div *ngIf="showSearch" class="cities">  <div id="prediction" class="search-container">    <input id="city"           class="city-search"           (focus)="showList($event)"           (keyup)="keyboardAutocomplete($event)"           [value]="currentCity"           type="text"           placeholder="Search for Location"           autocorrect="off"           #search/>    <div class="prediction-list-wrapper">      <ul [class.invisible]="visibility" class="prediction-list">        <li          *ngFor="let city of predictionList; index as i"          (click)="onCityChange(city)"          [class.selected]="selected===i"          class="prediction-item">          {{city.structured_formatting.main_text}}        </li>      </ul>    </div>  </div></div>

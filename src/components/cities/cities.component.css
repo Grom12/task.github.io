@@ -29,7 +29,7 @@
   background-size: 1vw;
 }
 
-.hiddenSeach {
+.hiddenSearch {
   visibility: hidden;
   width: 0;
 }
@@ -102,4 +102,8 @@
 .selected {
   background-color: rgba(0, 0, 0, 0.2) !important;
   color: white;
+}
+
+.invisible {
+  display: none;
 }

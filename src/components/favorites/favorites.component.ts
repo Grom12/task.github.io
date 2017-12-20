@@ -9,30 +9,26 @@ import {HousesService} from '../../services/house.service';
 })
 export class FavoritesComponent implements OnInit {
   private containHouses: any = [];
-  private notFound = false;
+  private notFound: boolean = false;
   private counter: number = 0;
 
-  constructor(private houseServise: HousesService) {
+  constructor(private houseService: HousesService) {
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     const returnObj = JSON.parse(localStorage.getItem('object'));
     for (const keys in returnObj) {
       this.containHouses.push(JSON.parse(returnObj[keys]));
     }
 
-    if (this.containHouses.length === 0) {
-      this.notFound = true;
-    } else {
-      this.notFound = false;
-    }
+    this.notFound = this.containHouses.length === 0;
 
-    this.houseServise.setFavor(this.containHouses);
+    this.houseService.setFavor(this.containHouses);
   }
 
   public sendData(data: any): void {
-    this.houseServise.sendDetailInfo(true);
-    this.houseServise.sendDetailInfo(data);
+    this.houseService.sendDetailInfo(true);
+    this.houseService.sendDetailInfo(data);
   }
 
   public clickFavorites(house: any, event): void {
@@ -46,16 +42,8 @@ export class FavoritesComponent implements OnInit {
     for (const keys in returnObj) {
       this.counter++;
     }
-
-    if (this.counter === 0) {
-      this.notFound = true;
-    } else {
-      this.notFound = false;
-    }
-
+    this.notFound = this.counter === 0;
     this.counter = 0;
-    event.target.classList.remove('star');
-    event.target.classList.remove('star2');
     event.target.parentElement.remove();
   }
 }

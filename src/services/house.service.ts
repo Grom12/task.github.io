@@ -2,13 +2,12 @@ import {EventEmitter, Injectable, OnInit} from '@angular/core';
 import {Jsonp, URLSearchParams} from '@angular/http';
 import 'rxjs/add/operator/map';
 
-
 @Injectable()
 export class HousesService implements OnInit {
   private eventWithModal: EventEmitter<any> = new EventEmitter();
   private eventWithCountry: EventEmitter<any> = new EventEmitter();
   private eventWithCiry: EventEmitter<any> = new EventEmitter();
-  private eventShorCountry: EventEmitter<any> = new EventEmitter();
+  private eventShortCountry: EventEmitter<any> = new EventEmitter();
   public standardURL: any = 'https://api.nestoria.co.uk/api';
   public country: any = 'uk';
   public city: any = 'brighton';
@@ -63,13 +62,12 @@ export class HousesService implements OnInit {
   }
 
   public sendShortCountry(data) {
-    this.eventShorCountry.emit(data);
+    this.eventShortCountry.emit(data);
   }
 
   public getShortCountry() {
-    return this.eventShorCountry;
+    return this.eventShortCountry;
   }
-
 
   public sendDetailInfo(data) {
     this.eventWithModal.emit(data);
@@ -95,26 +93,9 @@ export class HousesService implements OnInit {
     return this.eventWithCiry;
   }
 
-  public savePage(page: any): void {
-    const savePage = JSON.stringify(page);
-    localStorage.setItem('page', savePage);
-  }
-
-
-  public saveDataForm(dataForm: any): void {
-    const saveDtata = JSON.stringify(dataForm);
-    localStorage.setItem('formData', saveDtata);
-  }
-
-  public selectButton(numButton: any): void {
-    const savePage = JSON.stringify(numButton);
-    localStorage.setItem('radioButton', savePage);
-
-  }
-
-  public selectCheckBox(chackStatus: any): void {
-    const savePage = JSON.stringify(chackStatus);
-    localStorage.setItem('checkbox', savePage);
+  public saveDataInStorage(data: any, nameKey: string) {
+    const saveData = JSON.stringify(data);
+    localStorage.setItem(nameKey, saveData);
   }
 
   public setFavor(containHouses: any): void {
@@ -122,7 +103,7 @@ export class HousesService implements OnInit {
     for (const house of containHouses) {
       for (const keys in returnObj) {
         if (keys === house.lister_url) {
-          house.setFavorites = 'star2';
+          house.setFavorites = 'starEmpty';
         }
       }
     }

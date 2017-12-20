@@ -9,7 +9,6 @@ import {NgProgress} from 'ngx-progressbar';
   styleUrls: ['./houses.component.css']
 })
 
-
 export class HousesComponent implements OnInit, OnDestroy {
   private checkResponse: any = {};
   public containHouses: any = [];
@@ -77,17 +76,13 @@ export class HousesComponent implements OnInit, OnDestroy {
 
     const returnCity = JSON.parse(localStorage.getItem('city'));
 
-    if (this.containHouses.length === 0 && returnCity != null || this.containHouses.length === undefined
-      && returnCity != null) {
-      this.notFound = true;
-    } else {
-      this.notFound = false;
-    }
+    this.notFound = this.containHouses.length === 0 && returnCity != null || this.containHouses.length === undefined
+      && returnCity != null;
 
-    this.houseServise.setFavor(this.containHouses);
-    this.subscriptionGetCountry = this.houseServise.getEventCountry().subscribe(
+    this.houseService.setFavor(this.containHouses);
+    this.subscriptionGetCountry = this.houseService.getEventCountry().subscribe(
       data => this.getDataHouse(data));
-    this.subscriptionGetCity = this.houseServise.getCity().subscribe(
+    this.subscriptionGetCity = this.houseService.getCity().subscribe(
       data => this.getDataCity(data));
   }
 
@@ -124,14 +119,14 @@ export class HousesComponent implements OnInit, OnDestroy {
     this.chackPage = false;
   }
 
-  constructor(private houseServise: HousesService,
+  constructor(private houseService: HousesService,
               private ngProgress: NgProgress) {
   }
 
   public prevPage(): void {
     if (this.currPage > 1) {
       this.currPage--;
-      this.houseServise.savePage(this.currPage);
+      this.houseService.saveDataInStorage(this.currPage, 'page');
       this.requestFunc();
     }
   }
@@ -139,14 +134,14 @@ export class HousesComponent implements OnInit, OnDestroy {
   public nextPage(): void {
     if (this.currPage <= this.countPages) {
       this.currPage++;
-      this.houseServise.savePage(this.currPage);
+      this.houseService.saveDataInStorage(this.currPage, 'page');
       this.requestFunc();
     }
   }
 
   public sendForm(myForm: NgForm): void {
     this.currPage = 1;
-    this.houseServise.saveDataForm(myForm.value);
+    this.houseService.saveDataInStorage(myForm.value, 'formData');
     this.objectHouse.maxPrice = myForm.value.maxPrice;
     this.objectHouse.minPrice = myForm.value.minPrice;
     this.objectHouse.bedroomMax = myForm.value.bedroomMax;
@@ -156,18 +151,18 @@ export class HousesComponent implements OnInit, OnDestroy {
 
     if (this.toggleImg === true) {
       this.objectHouse.hasPhoto = 1;
-      this.houseServise.selectCheckBox(1);
+      this.houseService.saveDataInStorage(1, 'checkbox');
     } else {
       this.objectHouse.hasPhoto = 0;
-      this.houseServise.selectCheckBox(0);
+      this.houseService.saveDataInStorage(0, 'checkbox');
     }
 
     if (this.numRadio === 1) {
-      this.houseServise.selectButton(1);
+      this.houseService.saveDataInStorage(1, 'radioButton');
       this.objectHouse.typelist = 'rent';
 
     } else if (this.numRadio === 2) {
-      this.houseServise.selectButton(2);
+      this.houseService.saveDataInStorage(2, 'radioButton');
       this.objectHouse.typelist = 'buy';
     }
     this.requestFunc();
@@ -181,21 +176,20 @@ export class HousesComponent implements OnInit, OnDestroy {
     this.numRadio = 2;
   }
 
-
   public onSelectImages(): void {
     this.toggleImg = !this.toggleImg;
 
   }
 
   public sendData(data: any): void {
-    this.houseServise.sendDetailInfo(true);
-    this.houseServise.sendDetailInfo(data);
+    this.houseService.sendDetailInfo(true);
+    this.houseService.sendDetailInfo(data);
   }
 
   public clickFavorites(house: any, event): void {
     event.target.classList.remove('star');
-    if (!event.target.classList.contains('star2')) {
-      event.target.classList.add('star2');
+    if (!event.target.classList.contains('starEmpty')) {
+      event.target.classList.add('starEmpty');
       const saveDtata = JSON.stringify(house);
       JSON.parse(localStorage.getItem('object'));
       if (JSON.parse(localStorage.getItem('object')) !== null) {
@@ -203,8 +197,8 @@ export class HousesComponent implements OnInit, OnDestroy {
       }
       this.storageObject[house.lister_url] = saveDtata;
       localStorage.setItem('object', JSON.stringify(this.storageObject));
-    } else if (event.target.classList.contains('star2')) {
-      event.target.classList.remove('star2');
+    } else if (event.target.classList.contains('starEmpty')) {
+      event.target.classList.remove('starEmpty');
       event.target.classList.add('star');
       const returnObj = JSON.parse(localStorage.getItem('object'));
       for (const keys in returnObj) {
@@ -219,7 +213,7 @@ export class HousesComponent implements OnInit, OnDestroy {
 
   public requestFunc(): void {
     this.ngProgress.start();
-    this.houseServise.getHouse(this.currPage, this.objectHouse).subscribe(
+    this.houseService.getHouse(this.currPage, this.objectHouse).subscribe(
       response => {
         this.checkResponse = response;
         this.countPages = response.response.total_pages;
@@ -234,11 +228,7 @@ export class HousesComponent implements OnInit, OnDestroy {
           this.chackPrevPage = true;
         }
 
-        if (this.currPage <= this.countPages) {
-          this.chackNextPage = true;
-        } else {
-          this.chackNextPage = false;
-        }
+        this.chackNextPage = this.currPage <= this.countPages;
 
         if (this.checkResponse.response.listings.length === 0) {
           this.ngProgress.done();
@@ -251,7 +241,7 @@ export class HousesComponent implements OnInit, OnDestroy {
           localStorage.setItem('houses', saveDtata);
           this.notFound = false;
           this.chackPage = true;
-          this.houseServise.setFavor(this.containHouses);
+          this.houseService.setFavor(this.containHouses);
           this.ngProgress.done();
         }
       }

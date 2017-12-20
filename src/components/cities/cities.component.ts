@@ -3,7 +3,6 @@ import {HousesService} from '../../services/house.service';
 import {MapsAPILoader} from '@agm/core';
 import {} from '@types/googlemaps';
 import {ViewChild, ElementRef, NgZone} from '@angular/core';
-import * as $ from 'jquery';
 
 @Component({
   selector: 'app-cities',
@@ -16,25 +15,27 @@ export class CitiesComponent implements OnInit {
   private autocomplete: any;
   private predictionList: any;
   private selected: number = 0;
-  private subscriptionGetShortCountr: any;
-  private listCity: any;
-  @ViewChild('search') private searchElement: ElementRef;
+  private subscriptionGetShortCounter: any;
+  private showSearch: boolean = false;
+  public visibility: boolean = true;
 
+  @ViewChild('search') private searchElement: ElementRef;
 
   constructor(private houseServise: HousesService,
               private mapsAPILoader: MapsAPILoader,
               private ngZone: NgZone) {
-    this.subscriptionGetShortCountr = this.houseServise.getShortCountry().subscribe(
+
+    this.subscriptionGetShortCounter = this.houseServise.getShortCountry().subscribe(
       data => this.setCountry(data));
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     const returnObj = JSON.parse(localStorage.getItem('country'));
-    if (returnObj !== null) {
+    if (returnObj) {
       this.country = returnObj.language;
     }
 
-    document.addEventListener('click', this.hideList);
+    document.addEventListener('click', this.hideList.bind(this));
     this.mapsAPILoader.load().then(() => {
       this.autocomplete = new google.maps.places.AutocompleteService;
       const returnCity = JSON.parse(localStorage.getItem('city'));
@@ -45,49 +46,43 @@ export class CitiesComponent implements OnInit {
     });
   }
 
-
   public showList(event): void {
-    const listCity = document.querySelector('.prediction-list');
-    listCity.classList.remove('hiddenSeach');
+    this.visibility = false;
   }
 
-  public hideList(e) {
-    const listCity = document.querySelector('.prediction-list');
-    if (!e.target.matches('.search-container, .search-container *')) {
-      listCity.classList.add('hiddenSeach');
+  public hideList(event): void {
+    if (!event.target.matches('.search-container, .search-container *')) {
+      this.visibility = true;
     }
   }
 
   public keyboardAutocomplete(event): void {
-    if (event.keyCode === 13 && event.target.value !== '') {
-      if (this.predictionList === null || this.predictionList.length === 0) {
-        this.currentCity = event.target.value;
-      } else {
+    if (event.keyCode === 13 && event.target.value !== '') { // спец. символ enter
+
+      this.predictionList === null || this.predictionList.length === 0 ?
+        this.currentCity = event.target.value :
         this.currentCity = this.predictionList[this.selected].structured_formatting.main_text;
-      }
-      const saveDtata = JSON.stringify(this.currentCity);
-      localStorage.setItem('city', saveDtata);
-      this.houseServise.savePage(1);
-      event.target.value = this.currentCity;
+      this.houseServise.saveDataInStorage(this.currentCity, 'city');
+      this.houseServise.saveDataInStorage(1, 'page');
       this.houseServise.sendCity(this.currentCity);
       this.selected = 0;
       this.predictionList = [];
       return;
     }
 
-    if (event.keyCode === 40) {
+    if (event.keyCode === 40) { // спец. символ enter стрелка вниз
       if (this.selected < this.predictionList.length - 1) {
         this.selected++;
         this.currentCity = this.predictionList[this.selected];
       }
     }
 
-    if (event.keyCode === 38) {
+    if (event.keyCode === 38) { // спец. символ стрелка вверх
       if (this.selected <= this.predictionList.length - 1 && this.selected > 0) {
         this.selected--;
       }
     }
-    if (event.keyCode !== 38 && event.keyCode !== 40) {
+    if (event.keyCode !== 38 && event.keyCode !== 40) { // спец. символ стрелка вверх и вниз
       this.selected = 0;
     }
 
@@ -100,7 +95,7 @@ export class CitiesComponent implements OnInit {
         componentRestrictions: {
           country: this.country
         }
-      }, (res, status) => {
+      }, (res) => {
 
         this.ngZone.run(() => {
           this.predictionList = res;
@@ -113,21 +108,18 @@ export class CitiesComponent implements OnInit {
 
   public onCityChange(city): void {
     this.currentCity = city.structured_formatting.main_text;
-    const saveDtata = JSON.stringify(this.currentCity);
-    localStorage.setItem('city', saveDtata);
-    this.houseServise.savePage(1);
+    this.houseServise.saveDataInStorage(this.currentCity, 'city');
+    this.houseServise.saveDataInStorage(1, 'page');
     this.houseServise.sendCity(this.currentCity);
     this.predictionList = [];
   }
 
   public setCountry(data): void {
     this.country = data;
-    const searchElement = document.querySelector('.hiddenSeach');
-    if (searchElement !== null) {
-      searchElement.classList.remove('hiddenSeach');
-      searchElement.classList.add('cities');
+    this.showSearch = true;
+    if (this.searchElement !== undefined) {
+      this.searchElement.nativeElement.value = null;
     }
-    this.searchElement.nativeElement.value = null;
     this.predictionList = [];
   }
 }

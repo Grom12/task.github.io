@@ -10,13 +10,13 @@ export class DetailsComponent implements OnInit {
   public detailHouse: any;
   public condition: boolean = false;
 
-  constructor(private houseServise: HousesService) {
+  constructor(private houseService: HousesService) {
   }
 
-  public ngOnInit() {
-    this.houseServise.getEventModal().subscribe(
+  public ngOnInit(): void {
+    this.houseService.getEventModal().subscribe(
       data => this.getDataStateWindow(data));
-    this.houseServise.getEventModal().subscribe(
+    this.houseService.getEventModal().subscribe(
       data => this.getDataHouse(data));
   }
 

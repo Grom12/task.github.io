@@ -134,7 +134,7 @@ img {
   visibility: visible;
 }
 
-.star2 {
+.starEmpty {
   visibility: hidden;
   padding: 0;
   color: gold;
@@ -142,7 +142,7 @@ img {
   cursor: pointer;
 }
 
-.star2:before {
+.starEmpty:before {
   padding: 0;
   content: "\2605";
   color: gold;
