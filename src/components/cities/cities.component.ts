@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {HousesService} from '../../services/house.service';
 import {MapsAPILoader} from '@agm/core';
 import {} from '@types/googlemaps';
@@ -17,7 +17,7 @@ export class CitiesComponent implements OnInit {
   private selected: number = 0;
   private subscriptionGetShortCounter: any;
   private showSearch: boolean = false;
-  public visibility: boolean = true;
+  public listVisibility: boolean = true;
 
   @ViewChild('search') private searchElement: ElementRef;
 
@@ -35,33 +35,31 @@ export class CitiesComponent implements OnInit {
       this.country = returnObj.language;
     }
 
-    document.addEventListener('click', this.hideList.bind(this));
     this.mapsAPILoader.load().then(() => {
       this.autocomplete = new google.maps.places.AutocompleteService;
       const returnCity = JSON.parse(localStorage.getItem('city'));
-      if (returnCity !== null) {
+      if (returnCity) {
         this.searchElement.nativeElement.value = returnCity;
         this.houseServise.sendCity(returnCity);
       }
     });
   }
 
-  public showList(event): void {
-    this.visibility = false;
-  }
-
-  public hideList(event): void {
+  @HostListener('document:click', ['$event'])
+  onClick(event) {
     if (!event.target.matches('.search-container, .search-container *')) {
-      this.visibility = true;
+      this.listVisibility = true;
     }
   }
 
-  public keyboardAutocomplete(event): void {
-    if (event.keyCode === 13 && event.target.value !== '') { // спец. символ enter
+  public showList(): void {
+    this.listVisibility = false;
+  }
 
-      this.predictionList === null || this.predictionList.length === 0 ?
-        this.currentCity = event.target.value :
-        this.currentCity = this.predictionList[this.selected].structured_formatting.main_text;
+  public keyboardAutocomplete(event): void {
+    if (event.keyCode === 13 && event.target.value !== '') { // special charCode "enter"
+      this.currentCity = this.predictionList === null || this.predictionList.length === 0 ?
+        event.target.value : this.predictionList[this.selected].structured_formatting.main_text;
       this.houseServise.saveDataInStorage(this.currentCity, 'city');
       this.houseServise.saveDataInStorage(1, 'page');
       this.houseServise.sendCity(this.currentCity);
@@ -70,19 +68,19 @@ export class CitiesComponent implements OnInit {
       return;
     }
 
-    if (event.keyCode === 40) { // спец. символ enter стрелка вниз
+    if (event.keyCode === 40) { //  special charCode "down arrow"
       if (this.selected < this.predictionList.length - 1) {
         this.selected++;
         this.currentCity = this.predictionList[this.selected];
       }
     }
 
-    if (event.keyCode === 38) { // спец. символ стрелка вверх
+    if (event.keyCode === 38) { // special charCode "up arrow"
       if (this.selected <= this.predictionList.length - 1 && this.selected > 0) {
         this.selected--;
       }
     }
-    if (event.keyCode !== 38 && event.keyCode !== 40) { // спец. символ стрелка вверх и вниз
+    if (event.keyCode !== 38 && event.keyCode !== 40) { //  special charCodes "up arrow" and "down arrow"
       this.selected = 0;
     }
 
