@@ -27,8 +27,8 @@ export class FavoritesComponent implements OnInit {
   }
 
   public sendData(data: any): void {
-    this.houseService.sendDetailInfo(true);
-    this.houseService.sendDetailInfo(data);
+    this.houseService.sendData(true,'eventWithModal');
+    this.houseService.sendData(data,'eventWithModal');
   }
 
   public clickFavorites(house: any, event): void {

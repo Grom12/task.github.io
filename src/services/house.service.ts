@@ -6,7 +6,7 @@ import 'rxjs/add/operator/map';
 export class HousesService implements OnInit {
   private eventWithModal: EventEmitter<any> = new EventEmitter();
   private eventWithCountry: EventEmitter<any> = new EventEmitter();
-  private eventWithCiry: EventEmitter<any> = new EventEmitter();
+  private eventWithCity: EventEmitter<any> = new EventEmitter();
   private eventShortCountry: EventEmitter<any> = new EventEmitter();
   public standardURL: any = 'https://api.nestoria.co.uk/api';
   public country: any = 'uk';
@@ -61,36 +61,12 @@ export class HousesService implements OnInit {
     });
   }
 
-  public sendShortCountry(data) {
-    this.eventShortCountry.emit(data);
+  public sendData(data, nameEventEmit) {
+    this[nameEventEmit].emit(data);
   }
 
-  public getShortCountry() {
-    return this.eventShortCountry;
-  }
-
-  public sendDetailInfo(data) {
-    this.eventWithModal.emit(data);
-  }
-
-  public getEventModal() {
-    return this.eventWithModal;
-  }
-
-  public sendEventCountry(data) {
-    this.eventWithCountry.emit(data);
-  }
-
-  public getEventCountry() {
-    return this.eventWithCountry;
-  }
-
-  public sendCity(data) {
-    this.eventWithCiry.emit(data);
-  }
-
-  public getCity() {
-    return this.eventWithCiry;
+  public getData(nameEventEmit) {
+    return this[nameEventEmit];
   }
 
   public saveDataInStorage(data: any, nameKey: string) {

@@ -4,7 +4,7 @@ import {AppComponent} from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 import {HttpModule, JsonpModule} from '@angular/http';
 import {HousesComponent} from '../components/houses/houses.component';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HousesService} from '../services/house.service';
 import {CountriesComponent} from '../components/countries/countries.component';
 import {RouterModule, Routes} from '@angular/router';
@@ -33,7 +33,7 @@ const appRoutes: Routes = [
       apiKey: 'AIzaSyBr1U6Y7rjlV4la_nsr50kEK6pdXDFB940',
       libraries: ['places'],
       language: 'en',
-    }), NgProgressModule],
+    }), NgProgressModule, ReactiveFormsModule],
   providers: [HousesService],
   bootstrap: [AppComponent]
 })

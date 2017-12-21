@@ -1,58 +1,54 @@
 <app-details></app-details>
 <ng-progress></ng-progress>
 
-<input *ngIf="chackPrevPage" class="prevPage" type="button" value="Back" (click)="prevPage()"/>
-<input *ngIf="chackNextPage" class="nextPage" type="button" value="Next" (click)="nextPage()"/>
-<div *ngIf="chackPage" class="pages">Page {{currPage}}</div>
+<input *ngIf="checkPrevPage" class="prevPage" type="button" value="Back" (click)="prevPage()"/>
+<input *ngIf="checkNextPage" class="nextPage" type="button" value="Next" (click)="nextPage()"/>
+<div *ngIf="checkNumPage" class="pages">Page {{currPage}}</div>
 
-<form class="formFilter" #myForm="ngForm" novalidate (ngSubmit)="sendForm(myForm)">
+<form class="formFilter" [formGroup]="myForm" novalidate (ngSubmit)="sendForm(myForm)">
 
-  <div class="filterButtons">
-    <input type="radio" id="choiceRent" name="contact" [value]="rent" [checked]="isCheckedRent"
-           (click)="onSelectRent($event)">
-    <label for="choiceRent">rent</label>
-    <input type="radio" id="choiceBuy" name="contact" [value]="buy" [checked]="isCheckedBuy" (click)="onSelectBuy($event)">
-    <label for="choiceBuy">buy</label>
-    <input type="checkbox" id="choiceImg" [(ngModel)]="statusImg" name="contact" value="rent"
-           (click)="onSelectImages($event)">
-    <label for="choiceImg">Images</label>
-  </div>
+    <div class="filterButtons">
+      <input type="radio" id="choiceRent" name="contact" [value]="rent" [checked]="isCheckedRent"
+             (click)="onSelectRent($event)">
+      <label for="choiceRent">rent</label>
+      <input type="radio" id="choiceBuy" name="contact" [value]="buy" [checked]="isCheckedBuy"
+             (click)="onSelectBuy($event)">
+      <label for="choiceBuy">buy</label>
+      <input type="checkbox" id="choiceImg"  name="contact" value="rent"
+             (click)="onSelectImages($event)">
+      <label for="choiceImg">Images</label>
+    </div>
 
   <div class="formGroup">
     <label class="form-priceMaxLable">Max price</label>
-    <input class="form-priceMax" type="number" name="maxPrice" ngModel [(ngModel)]="maxPrices"
-           pattern="[0-9]{0,999999999}"
+    <input class="form-priceMax" type="number" name="maxPrice" formControlName='maxPrice'
     />
   </div>
   <div class="formGroup">
     <label class="form-priceMinLable">Min price</label>
-    <input class="form-priceMin" type="number" name="minPrice" ngModel [(ngModel)]="minPrices"
-           pattern="[0-9]{0,999999999}"
+    <input class="form-priceMin" type="number" name="minPrice" formControlName='minPrice'
     />
   </div>
   <div class="formGroup">
     <label class="form-bedromMaxLable">Max bedroom</label>
-    <input class="form-bedroomMax" type="number" name="bedroomMax" ngModel [(ngModel)]="bedroomsMax"
-           pattern="[0-9]{0,999999999}"
+    <input class="form-bedroomMax" type="number" name="bedroomMax" formControlName='bedroomMax'
     />
   </div>
   <div class="formGroup">
     <label class="form-bedromMinLable">Min bedroom</label>
-    <input class="form-bedroomMin" type="number" name="bedroomMin" ngModel [(ngModel)]="bedroomsMin"
-           pattern="[0-9]{0,999999999}"
+    <input class="form-bedroomMin" type="number" name="bedroomMin" formControlName='bedroomMin'
     />
   </div>
 
   <div class="formGroup">
     <label class="form-bathroomMaxLable">Max bathroom</label>
-    <input class="form-bathroomMax" type="number" name="bathroomMax" ngModel [(ngModel)]="bathroomsMax"
-           pattern="[0-9]{0,999999999}"
+    <input class="form-bathroomMax" type="number" name="bathroomMax" formControlName='bathroomMax'
+
     />
   </div>
   <div class="formGroup">
     <label class="form-bathroomMinLable">Min bathroom</label>
-    <input class="form-bathroomMin" type="number" name="bathroomMin" ngModel [(ngModel)]="bathroomsMin"
-           pattern="[0-9]{0,999999999}"
+    <input class="form-bathroomMin" type="number" name="bathroomMin" formControlName='bathroomMin'
     />
   </div>
   <div class="formGroup">
@@ -60,7 +56,6 @@
   </div>
 </form>
 <app-cities></app-cities>
-
 <div class="houses" *ngIf="containHouses.length > 0">
   <div class="house" *ngFor="let house of containHouses">
     <div class="houseItem">
