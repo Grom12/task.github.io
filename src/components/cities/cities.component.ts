@@ -67,14 +67,12 @@ export class CitiesComponent implements OnInit {
       this.predictionList = [];
       return;
     }
-
     if (event.keyCode === 40) { //  special charCode "down arrow"
       if (this.selected < this.predictionList.length - 1) {
         this.selected++;
         this.currentCity = this.predictionList[this.selected];
       }
     }
-
     if (event.keyCode === 38) { // special charCode "up arrow"
       if (this.selected <= this.predictionList.length - 1 && this.selected > 0) {
         this.selected--;
@@ -83,10 +81,8 @@ export class CitiesComponent implements OnInit {
     if (event.keyCode !== 38 && event.keyCode !== 40) { //  special charCodes "up arrow" and "down arrow"
       this.selected = 0;
     }
-
     this.currentCity = event.target.value || '';
     if (event.target.value) {
-
       this.autocomplete.getPlacePredictions({
         input: this.searchElement.nativeElement.value,
         types: ['(cities)'],
@@ -94,7 +90,6 @@ export class CitiesComponent implements OnInit {
           country: this.country
         }
       }, (res) => {
-
         this.ngZone.run(() => {
           this.predictionList = res;
         });

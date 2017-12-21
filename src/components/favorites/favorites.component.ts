@@ -20,15 +20,13 @@ export class FavoritesComponent implements OnInit {
     for (const keys in returnObj) {
       this.containHouses.push(JSON.parse(returnObj[keys]));
     }
-
     this.notFound = this.containHouses.length === 0;
-
     this.houseService.setFavor(this.containHouses);
   }
 
   public sendData(data: any): void {
-    this.houseService.sendData(true,'eventWithModal');
-    this.houseService.sendData(data,'eventWithModal');
+    this.houseService.sendData(true, 'eventWithModal');
+    this.houseService.sendData(data, 'eventWithModal');
   }
 
   public clickFavorites(house: any, event): void {

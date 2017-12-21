@@ -36,24 +36,20 @@ export class HousesComponent implements OnInit, OnDestroy {
   public myForm: FormGroup;
 
   public ngOnInit(): void {
-
     const returnHouse = JSON.parse(localStorage.getItem('houses'));
     if (returnHouse) {
       this.containHouses = returnHouse;
     }
-
     const returnButton = JSON.parse(localStorage.getItem('radioButton'));
     if (returnButton !== null && returnButton === 1) {
       document.getElementById('choiceRent').setAttribute('checked', '');
       this.isCheckedRent = true;
-
       this.objectHouse.typelist = 'rent';
     } else if (returnButton !== null && returnButton === 2) {
       document.getElementById('choiceBuy').setAttribute('checked', '');
       this.isCheckedBuy = true;
       this.objectHouse.typelist = 'buy';
     }
-
     const returnCheckbox = JSON.parse(localStorage.getItem('checkbox'));
     if (returnCheckbox !== null && returnCheckbox == 1) {
       this.objectHouse.hasPhoto = 1;
@@ -61,16 +57,12 @@ export class HousesComponent implements OnInit, OnDestroy {
       this.statusImg = true;
     } else {
       this.toggleImg = false;
-
       this.objectHouse.hasPhoto = 0;
       this.statusImg = false;
     }
-
     const returnCity = JSON.parse(localStorage.getItem('city'));
-
     this.notFound = this.containHouses.length === 0 && returnCity != null || this.containHouses.length === undefined
       && returnCity != null;
-
     this.houseService.setFavor(this.containHouses);
     this.subscriptionGetCountry = this.houseService.getData('eventWithCountry').subscribe(
       data => this.getDataHouse(data));
@@ -121,7 +113,6 @@ export class HousesComponent implements OnInit, OnDestroy {
 
   constructor(private houseService: HousesService,
               private ngProgress: NgProgress) {
-
     const returnFormDate = JSON.parse(localStorage.getItem('formData'));
     if (returnFormDate) {
       this.objectHouse.maxPrice = this.maxPrices = returnFormDate.maxPrice;
@@ -180,7 +171,6 @@ export class HousesComponent implements OnInit, OnDestroy {
     this.objectHouse.bedrooMin = myForm.value.bedroomMin;
     this.objectHouse.bathroomMax = myForm.value.bathroomMax;
     this.objectHouse.bathroomMin = myForm.value.bathroomMin;
-
     if (this.toggleImg === true) {
       this.objectHouse.hasPhoto = 1;
       this.houseService.saveDataInStorage(1, 'checkbox');
@@ -258,9 +248,7 @@ export class HousesComponent implements OnInit, OnDestroy {
         } else {
           this.checkPrevPage = true;
         }
-
         this.checkNextPage = this.currPage <= this.countPages;
-
         if (this.checkResponse.response.listings.length === 0) {
           this.ngProgress.done();
           this.notFound = true;

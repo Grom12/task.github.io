@@ -27,5 +27,4 @@ export class DetailsComponent implements OnInit {
   public closeWindow(data: any): void {
     this.condition = data;
   }
-
 }
