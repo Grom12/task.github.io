@@ -64,6 +64,8 @@ export class HousesService implements OnInit {
     return this[nameEventEmit];
   }
 
+
+
   public saveDataInStorage(data: any, nameKey: string) {
     const saveData = JSON.stringify(data);
     localStorage.setItem(nameKey, saveData);

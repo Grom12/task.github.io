@@ -8,14 +8,11 @@
 <form class="formFilter" [formGroup]="myForm" novalidate (ngSubmit)="sendForm(myForm)">
 
   <div class="filterButtons">
-    <input type="radio" id="choiceRent" formControlName='isCheckedRent' value="rent"
-           (click)="onSelectRent($event)">
+    <input type="radio" id="choiceRent" formControlName='checkRadioButton' value="rent">
     <label for="choiceRent">rent</label>
-    <input type="radio" id="choiceBuy" formControlName='isCheckedRent' value="buy"
-           (click)="onSelectBuy($event)">
+    <input type="radio" id="choiceBuy" formControlName='checkRadioButton' value="buy">
     <label for="choiceBuy">buy</label>
-    <input type="checkbox" id="choiceImg" formControlName='statusImg' name="statusImg" value="rent"
-           (click)="onSelectImages($event)">
+    <input type="checkbox" id="choiceImg" formControlName='statusImg' name="statusImg">
     <label for="choiceImg">Images</label>
   </div>
 
