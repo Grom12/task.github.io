@@ -24,7 +24,7 @@ export class CountriesComponent implements OnInit {
     }
   }
 
-  public onSelect(country): void {
+  public onSelect(country: any): void {
     this.houseServise.saveDataInStorage(country, 'country');
     this.houseServise.saveDataInStorage(null, 'city');
     this.houseServise.saveDataInStorage({}, 'houses')
@@ -36,5 +36,4 @@ export class CountriesComponent implements OnInit {
     this.houseServise.sendData(country.linked, 'eventWithCountry');
     this.houseServise.sendData(country.language, 'eventShortCountry');
   }
-
 }

@@ -21,11 +21,6 @@ export class HousesService implements OnInit {
   }
 
   constructor(private jsonp: Jsonp) {
-    const returnObject = JSON.parse(localStorage.getItem('country'));
-    if (returnObject !== null) {
-      this.standardURL = returnObject.linked;
-      this.country = returnObject.language;
-    }
   }
 
   public getHouse(page, objectHouse) {
@@ -49,7 +44,7 @@ export class HousesService implements OnInit {
     customHouse.set('price_min', objectHouse.minPrice);
     customHouse.set('price_max', objectHouse.maxPrice);
     customHouse.set('bedroom_max', objectHouse.bedroomMax);
-    customHouse.set('bedroom_min', objectHouse.bedrooMin);
+    customHouse.set('bedroom_min', objectHouse.bedroomMin);
     customHouse.set('bathroom_max', objectHouse.bathroomMax);
     customHouse.set('bathroom_min', objectHouse.bathroomMin);
     customHouse.set('has_photo', objectHouse.hasPhoto);

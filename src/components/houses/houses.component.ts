@@ -13,9 +13,9 @@ export class HousesComponent implements OnInit, OnDestroy {
   private checkResponse: any = {};
   public containHouses: any = [];
   public currPage: number = 1;
-  public checkNextPage: boolean = false;
-  public checkPrevPage: boolean = false;
-  public checkNumPage: boolean = false;
+  public isNextPage: boolean = false;
+  public isPrevPage: boolean = false;
+  public isNumPage: boolean = false;
   private countPages: number;
   private objectHouse: any = [];
   private toggleImg: boolean = false;
@@ -23,12 +23,6 @@ export class HousesComponent implements OnInit, OnDestroy {
   private storageObject: any = {};
   private subscriptionGetCountry: any;
   private subscriptionGetCity: any;
-  public maxPrices: any;
-  public bathroomsMin: any;
-  public bathroomsMax: any;
-  public bedroomsMin: any;
-  public bedroomsMax: any;
-  public minPrices: any;
   public statusImg: boolean = false;
   private numRadio: number;
   public isCheckedBuy: boolean;
@@ -75,7 +69,7 @@ export class HousesComponent implements OnInit, OnDestroy {
     this.subscriptionGetCity.unsubscribe();
   }
 
-  public getDataCity(data): void {
+  public getDataCity(data: any): void {
     this.currPage = 1;
     const returnPage = JSON.parse(localStorage.getItem('page'));
     if (returnPage !== null) {
@@ -85,66 +79,59 @@ export class HousesComponent implements OnInit, OnDestroy {
     this.requestFunc();
   }
 
-  public getDataHouse(data): void {
+  public getDataHouse(data: any): void {
     this.containHouses = [];
     this.statusImg = false;
     this.isCheckedBuy = false;
     this.isCheckedRent = false;
-    this.objectHouse.maxPrice = this.maxPrices = '';
-    this.objectHouse.minPrice = this.minPrices = '';
-    this.objectHouse.bedroomMax = this.bedroomsMax = '';
-    this.objectHouse.bedrooMin = this.bedroomsMin = '';
-    this.objectHouse.bathroomMax = this.bathroomsMax = '';
-    this.objectHouse.bathroomMin = this.bathroomsMin = '';
+    this.objectHouse.maxPrice = '';
+    this.objectHouse.minPrice = '';
+    this.objectHouse.bedroomMax = '';
+    this.objectHouse.bedroomMin = '';
+    this.objectHouse.bathroomMax = '';
+    this.objectHouse.bathroomMin = '';
     this.objectHouse.country = data;
     this.notFound = false;
-    this.checkNextPage = false;
-    this.checkPrevPage = false;
-    this.checkNumPage = false;
-    this.myForm = new FormGroup({
-      'maxPrice': new FormControl(),
-      'minPrice': new FormControl(),
-      'bedroomMax': new FormControl(),
-      'bedroomMin': new FormControl(),
-      'bathroomMax': new FormControl(),
-      'bathroomMin': new FormControl()
-    });
+    this.isNextPage = false;
+    this.isPrevPage = false;
+    this.isNumPage = false;
+    this.myForm.reset();
   }
 
   constructor(private houseService: HousesService,
               private ngProgress: NgProgress) {
     const returnFormDate = JSON.parse(localStorage.getItem('formData'));
     if (returnFormDate) {
-      this.objectHouse.maxPrice = this.maxPrices = returnFormDate.maxPrice;
-      this.objectHouse.minPrice = this.minPrices = returnFormDate.minPrice;
-      this.objectHouse.bedroomMax = this.bedroomsMax = returnFormDate.bedroomMax;
-      this.objectHouse.bedrooMin = this.bedroomsMin = returnFormDate.bedroomMin;
-      this.objectHouse.bathroomMax = this.bathroomsMax = returnFormDate.bathroomMax;
-      this.objectHouse.bathroomMin = this.bathroomsMin = returnFormDate.bathroomMin;
+      this.objectHouse.maxPrice = returnFormDate.maxPrice;
+      this.objectHouse.minPrice = returnFormDate.minPrice;
+      this.objectHouse.bedroomMax = returnFormDate.bedroomMax;
+      this.objectHouse.bedroomMin = returnFormDate.bedroomMin;
+      this.objectHouse.bathroomMax = returnFormDate.bathroomMax;
+      this.objectHouse.bathroomMin = returnFormDate.bathroomMin;
     }
 
     this.myForm = new FormGroup({
-      'maxPrice': new FormControl(this.maxPrices, [
+      'maxPrice': new FormControl(this.objectHouse.maxPrice, [
         Validators.pattern("[0-9]{0,999999999}")
       ]),
-      'minPrice': new FormControl(this.minPrices, [
+      'minPrice': new FormControl(this.objectHouse.minPrice, [
         Validators.pattern("[0-9]{0,999999999}")
       ]),
-      'bedroomMax': new FormControl(this.bedroomsMax, [
+      'bedroomMax': new FormControl(this.objectHouse.bedroomMax, [
         Validators.pattern("[0-9]{0,999999999}")
       ]),
-      'bedroomMin': new FormControl(this.bedroomsMin, [
+      'bedroomMin': new FormControl(this.objectHouse.bedroomMin, [
         Validators.pattern("[0-9]{0,999999999}")
       ]),
-      'bathroomMax': new FormControl(this.bathroomsMax, [
+      'bathroomMax': new FormControl(this.objectHouse.bathroomMax, [
         Validators.pattern("[0-9]{0,999999999}")
       ]),
-      'bathroomMin': new FormControl(this.bathroomsMin, [
+      'bathroomMin': new FormControl(this.objectHouse.bathroomMin, [
         Validators.pattern("[0-9]{0,999999999}")
-      ])
+      ]),
+      'statusImg': new FormControl(this.statusImg)
     });
   }
-
 
   public prevPage(): void {
     if (this.currPage > 1) {
@@ -162,13 +149,13 @@ export class HousesComponent implements OnInit, OnDestroy {
     }
   }
 
-  public sendForm(myForm): void {
+  public sendForm(myForm: FormGroup): void {
     this.currPage = 1;
     this.houseService.saveDataInStorage(myForm.value, 'formData');
     this.objectHouse.maxPrice = myForm.value.maxPrice;
     this.objectHouse.minPrice = myForm.value.minPrice;
     this.objectHouse.bedroomMax = myForm.value.bedroomMax;
-    this.objectHouse.bedrooMin = myForm.value.bedroomMin;
+    this.objectHouse.bedroomMin = myForm.value.bedroomMin;
     this.objectHouse.bathroomMax = myForm.value.bathroomMax;
     this.objectHouse.bathroomMin = myForm.value.bathroomMin;
     if (this.toggleImg === true) {
@@ -178,7 +165,6 @@ export class HousesComponent implements OnInit, OnDestroy {
       this.objectHouse.hasPhoto = 0;
       this.houseService.saveDataInStorage(0, 'checkbox');
     }
-
     if (this.numRadio === 1) {
       this.houseService.saveDataInStorage(1, 'radioButton');
       this.objectHouse.typelist = 'rent';
@@ -239,27 +225,26 @@ export class HousesComponent implements OnInit, OnDestroy {
         this.checkResponse = response;
         this.countPages = response.response.total_pages;
         if (response.response.total_pages === undefined || response.response.total_pages === 0) {
-          this.checkNextPage = false;
-          this.checkPrevPage = false;
+          this.isNextPage = false;
+          this.isPrevPage = false;
         }
         if (this.currPage === 1) {
-          this.checkNextPage = true;
-          this.checkPrevPage = false;
+          this.isNextPage = true;
+          this.isPrevPage = false;
         } else {
-          this.checkPrevPage = true;
+          this.isPrevPage = true;
         }
-        this.checkNextPage = this.currPage <= this.countPages;
+        this.isNextPage = this.currPage <= this.countPages;
         if (this.checkResponse.response.listings.length === 0) {
           this.ngProgress.done();
           this.notFound = true;
-          this.checkNumPage = false;
+          this.isNumPage = false;
           this.containHouses = [];
         } else {
           this.containHouses = this.checkResponse['response']['listings'];
-          const saveData = JSON.stringify(this.containHouses);
-          localStorage.setItem('houses', saveData);
+          this.houseService.saveDataInStorage(this.containHouses, 'houses');
           this.notFound = false;
-          this.checkNumPage = true;
+          this.isNumPage = true;
           this.houseService.setFavor(this.containHouses);
           this.ngProgress.done();
         }

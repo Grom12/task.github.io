@@ -20,7 +20,7 @@ export class DetailsComponent implements OnInit {
       data => this.getDataHouse(data));
   }
 
-  public getDataHouse(data): void {
+  public getDataHouse(data: any): void {
     this.detailHouse = data;
   }
 

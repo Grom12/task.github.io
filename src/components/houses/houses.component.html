@@ -1,23 +1,24 @@
 <app-details></app-details>
 <ng-progress></ng-progress>
 
-<input *ngIf="checkPrevPage" class="prevPage" type="button" value="Back" (click)="prevPage()"/>
-<input *ngIf="checkNextPage" class="nextPage" type="button" value="Next" (click)="nextPage()"/>
-<div *ngIf="checkNumPage" class="pages">Page {{currPage}}</div>
+<input *ngIf="isPrevPage" class="prevPage" type="button" value="Back" (click)="prevPage()"/>
+<input *ngIf="isNextPage" class="nextPage" type="button" value="Next" (click)="nextPage()"/>
+<div *ngIf="isNumPage" class="pages">Page {{currPage}}</div>
 
 <form class="formFilter" [formGroup]="myForm" novalidate (ngSubmit)="sendForm(myForm)">
 
-    <div class="filterButtons">
-      <input type="radio" id="choiceRent" name="contact" [value]="rent" [checked]="isCheckedRent"
-             (click)="onSelectRent($event)">
-      <label for="choiceRent">rent</label>
-      <input type="radio" id="choiceBuy" name="contact" [value]="buy" [checked]="isCheckedBuy"
-             (click)="onSelectBuy($event)">
-      <label for="choiceBuy">buy</label>
-      <input type="checkbox" id="choiceImg"  name="contact" value="rent"
-             (click)="onSelectImages($event)">
-      <label for="choiceImg">Images</label>
-    </div>
+  <div class="filterButtons">
+    <input type="radio" id="choiceRent" name="contact" [value]="rent" [checked]="isCheckedRent"
+           (click)="onSelectRent($event)">
+    <label for="choiceRent">rent</label>
+    <input type="radio" id="choiceBuy" name="contact" [value]="buy" [checked]="isCheckedBuy"
+           (click)="onSelectBuy($event)">
+    <label for="choiceBuy">buy</label>
+    <input type="checkbox" id="choiceImg" formControlName='statusImg' name="statusImg" value="rent"
+           [checked]="toggleImg"
+           (click)="onSelectImages($event)">
+    <label for="choiceImg">Images</label>
+  </div>
 
   <div class="formGroup">
     <label class="form-priceMaxLable">Max price</label>
