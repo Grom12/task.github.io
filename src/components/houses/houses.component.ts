@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {HousesService} from '../../services/house.service';
-import {NgForm} from '@angular/forms';
+import {FormGroup, FormControl, Validators, NgForm} from '@angular/forms';
 import {NgProgress} from 'ngx-progressbar';
 
 @Component({
@@ -13,9 +13,9 @@ export class HousesComponent implements OnInit, OnDestroy {
   private checkResponse: any = {};
   public containHouses: any = [];
   public currPage: number = 1;
-  public chackNextPage: boolean = false;
-  public chackPrevPage: boolean = false;
-  public chackPage: boolean = false;
+  public isNextPage: boolean = false;
+  public isPrevPage: boolean = false;
+  public isNumPage: boolean = false;
   private countPages: number;
   private objectHouse: any = [];
   private toggleImg: boolean = false;
@@ -23,66 +23,25 @@ export class HousesComponent implements OnInit, OnDestroy {
   private storageObject: any = {};
   private subscriptionGetCountry: any;
   private subscriptionGetCity: any;
-  public maxPrices: any;
-  public bathroomsMin: any;
-  public bathroomsMax: any;
-  public bedroomsMin: any;
-  public bedroomsMax: any;
-  public minPrices: any;
   public statusImg: boolean = false;
   private numRadio: number;
-  public isCheckedBuy: boolean;
-  public isCheckedRent: boolean;
+  public isCheckedBuy: string;
+  public checkRadioButton: string;
+  public myForm: FormGroup;
 
   public ngOnInit(): void {
     const returnHouse = JSON.parse(localStorage.getItem('houses'));
-    if (returnHouse !== null) {
+    if (returnHouse) {
       this.containHouses = returnHouse;
     }
 
-    const returnButton = JSON.parse(localStorage.getItem('radioButton'));
-    if (returnButton !== null && returnButton === 1) {
-      document.getElementById('choiceRent').setAttribute('checked', '');
-      this.isCheckedRent = true;
-
-      this.objectHouse.typelist = 'rent';
-    } else if (returnButton !== null && returnButton === 2) {
-      document.getElementById('choiceBuy').setAttribute('checked', '');
-      this.isCheckedBuy = true;
-      this.objectHouse.typelist = 'buy';
-    }
-
-    const returnCheckbox = JSON.parse(localStorage.getItem('checkbox'));
-    if (returnCheckbox !== null && returnCheckbox == 1) {
-      this.objectHouse.hasPhoto = 1;
-      this.toggleImg = true;
-      this.statusImg = true;
-    } else {
-      this.toggleImg = false;
-
-      this.objectHouse.hasPhoto = 0;
-      this.statusImg = false;
-    }
-
-    const returnFormDate = JSON.parse(localStorage.getItem('formData'));
-    if (returnFormDate !== null) {
-      this.objectHouse.maxPrice = this.maxPrices = returnFormDate.maxPrice;
-      this.objectHouse.minPrice = this.minPrices = returnFormDate.minPrice;
-      this.objectHouse.bedroomMax = this.bedroomsMax = returnFormDate.bedroomMax;
-      this.objectHouse.bedrooMin = this.bedroomsMin = returnFormDate.bedroomMin;
-      this.objectHouse.bathroomMax = this.bathroomsMax = returnFormDate.bathroomMax;
-      this.objectHouse.bathroomMin = this.bathroomsMin = returnFormDate.bathroomMin;
-    }
-
     const returnCity = JSON.parse(localStorage.getItem('city'));
-
     this.notFound = this.containHouses.length === 0 && returnCity != null || this.containHouses.length === undefined
       && returnCity != null;
-
     this.houseService.setFavor(this.containHouses);
-    this.subscriptionGetCountry = this.houseService.getEventCountry().subscribe(
+    this.subscriptionGetCountry = this.houseService.getData('eventWithCountry').subscribe(
       data => this.getDataHouse(data));
-    this.subscriptionGetCity = this.houseService.getCity().subscribe(
+    this.subscriptionGetCity = this.houseService.getData('eventWithCity').subscribe(
       data => this.getDataCity(data));
   }
 
@@ -91,7 +50,7 @@ export class HousesComponent implements OnInit, OnDestroy {
     this.subscriptionGetCity.unsubscribe();
   }
 
-  public getDataCity(data): void {
+  public getDataCity(data: any): void {
     this.currPage = 1;
     const returnPage = JSON.parse(localStorage.getItem('page'));
     if (returnPage !== null) {
@@ -101,26 +60,78 @@ export class HousesComponent implements OnInit, OnDestroy {
     this.requestFunc();
   }
 
-  public getDataHouse(data): void {
+  public getDataHouse(data: any): void {
     this.containHouses = [];
     this.statusImg = false;
-    this.isCheckedBuy = false;
-    this.isCheckedRent = false;
-    this.objectHouse.maxPrice = this.maxPrices = '';
-    this.objectHouse.minPrice = this.minPrices = '';
-    this.objectHouse.bedroomMax = this.bedroomsMax = '';
-    this.objectHouse.bedrooMin = this.bedroomsMin = '';
-    this.objectHouse.bathroomMax = this.bathroomsMax = '';
-    this.objectHouse.bathroomMin = this.bathroomsMin = '';
+    this.checkRadioButton = '';
+    this.objectHouse.maxPrice = '';
+    this.objectHouse.minPrice = '';
+    this.objectHouse.bedroomMax = '';
+    this.objectHouse.bedroomMin = '';
+    this.objectHouse.bathroomMax = '';
+    this.objectHouse.bathroomMin = '';
     this.objectHouse.country = data;
     this.notFound = false;
-    this.chackNextPage = false;
-    this.chackPrevPage = false;
-    this.chackPage = false;
+    this.isNextPage = false;
+    this.isPrevPage = false;
+    this.isNumPage = false;
+    this.myForm.reset();
   }
 
   constructor(private houseService: HousesService,
               private ngProgress: NgProgress) {
+    const returnFormDate = JSON.parse(localStorage.getItem('formData'));
+    if (returnFormDate) {
+      this.objectHouse.maxPrice = returnFormDate.maxPrice;
+      this.objectHouse.minPrice = returnFormDate.minPrice;
+      this.objectHouse.bedroomMax = returnFormDate.bedroomMax;
+      this.objectHouse.bedroomMin = returnFormDate.bedroomMin;
+      this.objectHouse.bathroomMax = returnFormDate.bathroomMax;
+      this.objectHouse.bathroomMin = returnFormDate.bathroomMin;
+    }
+
+    const returnCheckbox = JSON.parse(localStorage.getItem('checkbox'));
+    if (returnCheckbox !== null && returnCheckbox == 1) {
+      this.objectHouse.hasPhoto = 1;
+      this.toggleImg = true;
+      this.statusImg = true;
+    } else {
+      this.toggleImg = false;
+      this.objectHouse.hasPhoto = 0;
+      this.statusImg = false;
+    }
+
+    const returnButton = JSON.parse(localStorage.getItem('radioButton'));
+    if (returnButton !== null && returnButton === 1) {
+      this.checkRadioButton = 'rent';
+      this.objectHouse.typelist = 'rent';
+    } else if (returnButton !== null && returnButton === 2) {
+      this.checkRadioButton = 'buy';
+      this.objectHouse.typelist = 'buy';
+    }
+
+    this.myForm = new FormGroup({
+      'maxPrice': new FormControl(this.objectHouse.maxPrice, [
+        Validators.pattern("[0-9]{0,999999999}")
+      ]),
+      'minPrice': new FormControl(this.objectHouse.minPrice, [
+        Validators.pattern("[0-9]{0,999999999}")
+      ]),
+      'bedroomMax': new FormControl(this.objectHouse.bedroomMax, [
+        Validators.pattern("[0-9]{0,999999999}")
+      ]),
+      'bedroomMin': new FormControl(this.objectHouse.bedroomMin, [
+        Validators.pattern("[0-9]{0,999999999}")
+      ]),
+      'bathroomMax': new FormControl(this.objectHouse.bathroomMax, [
+        Validators.pattern("[0-9]{0,999999999}")
+      ]),
+      'bathroomMin': new FormControl(this.objectHouse.bathroomMin, [
+        Validators.pattern("[0-9]{0,999999999}")
+      ]),
+      'statusImg': new FormControl(this.toggleImg),
+      'isCheckedRent': new FormControl(this.checkRadioButton)
+    });
   }
 
   public prevPage(): void {
@@ -139,16 +150,15 @@ export class HousesComponent implements OnInit, OnDestroy {
     }
   }
 
-  public sendForm(myForm: NgForm): void {
+  public sendForm(myForm: FormGroup): void {
     this.currPage = 1;
     this.houseService.saveDataInStorage(myForm.value, 'formData');
     this.objectHouse.maxPrice = myForm.value.maxPrice;
     this.objectHouse.minPrice = myForm.value.minPrice;
     this.objectHouse.bedroomMax = myForm.value.bedroomMax;
-    this.objectHouse.bedrooMin = myForm.value.bedroomMin;
+    this.objectHouse.bedroomMin = myForm.value.bedroomMin;
     this.objectHouse.bathroomMax = myForm.value.bathroomMax;
     this.objectHouse.bathroomMin = myForm.value.bathroomMin;
-
     if (this.toggleImg === true) {
       this.objectHouse.hasPhoto = 1;
       this.houseService.saveDataInStorage(1, 'checkbox');
@@ -156,7 +166,6 @@ export class HousesComponent implements OnInit, OnDestroy {
       this.objectHouse.hasPhoto = 0;
       this.houseService.saveDataInStorage(0, 'checkbox');
     }
-
     if (this.numRadio === 1) {
       this.houseService.saveDataInStorage(1, 'radioButton');
       this.objectHouse.typelist = 'rent';
@@ -178,24 +187,23 @@ export class HousesComponent implements OnInit, OnDestroy {
 
   public onSelectImages(): void {
     this.toggleImg = !this.toggleImg;
-
   }
 
   public sendData(data: any): void {
-    this.houseService.sendDetailInfo(true);
-    this.houseService.sendDetailInfo(data);
+    this.houseService.sendData(true, 'eventWithModal');
+    this.houseService.sendData(data, 'eventWithModal');
   }
 
   public clickFavorites(house: any, event): void {
     event.target.classList.remove('star');
     if (!event.target.classList.contains('starEmpty')) {
       event.target.classList.add('starEmpty');
-      const saveDtata = JSON.stringify(house);
+      const saveData = JSON.stringify(house);
       JSON.parse(localStorage.getItem('object'));
       if (JSON.parse(localStorage.getItem('object')) !== null) {
         this.storageObject = JSON.parse(localStorage.getItem('object'));
       }
-      this.storageObject[house.lister_url] = saveDtata;
+      this.storageObject[house.lister_url] = saveData;
       localStorage.setItem('object', JSON.stringify(this.storageObject));
     } else if (event.target.classList.contains('starEmpty')) {
       event.target.classList.remove('starEmpty');
@@ -218,29 +226,27 @@ export class HousesComponent implements OnInit, OnDestroy {
         this.checkResponse = response;
         this.countPages = response.response.total_pages;
         if (response.response.total_pages === undefined || response.response.total_pages === 0) {
-          this.chackNextPage = false;
-          this.chackPrevPage = false;
+          this.isNextPage = false;
+          this.isPrevPage = false;
         }
         if (this.currPage === 1) {
-          this.chackNextPage = true;
-          this.chackPrevPage = false;
+          this.isNextPage = true;
+          this.isPrevPage = false;
         } else {
-          this.chackPrevPage = true;
+          this.isPrevPage = true;
         }
-
-        this.chackNextPage = this.currPage <= this.countPages;
-
+        this.isNextPage = this.currPage <= this.countPages;
         if (this.checkResponse.response.listings.length === 0) {
           this.ngProgress.done();
           this.notFound = true;
-          this.chackPage = false;
+          this.houseService.saveDataInStorage({}, 'houses');
+          this.isNumPage = false;
           this.containHouses = [];
         } else {
           this.containHouses = this.checkResponse['response']['listings'];
-          const saveDtata = JSON.stringify(this.containHouses);
-          localStorage.setItem('houses', saveDtata);
+          this.houseService.saveDataInStorage(this.containHouses, 'houses');
           this.notFound = false;
-          this.chackPage = true;
+          this.isNumPage = true;
           this.houseService.setFavor(this.containHouses);
           this.ngProgress.done();
         }

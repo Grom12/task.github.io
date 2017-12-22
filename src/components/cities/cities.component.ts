@@ -25,7 +25,7 @@ export class CitiesComponent implements OnInit {
               private mapsAPILoader: MapsAPILoader,
               private ngZone: NgZone) {
 
-    this.subscriptionGetShortCounter = this.houseServise.getShortCountry().subscribe(
+    this.subscriptionGetShortCounter = this.houseServise.getData('eventShortCountry').subscribe(
       data => this.setCountry(data));
   }
 
@@ -40,7 +40,7 @@ export class CitiesComponent implements OnInit {
       const returnCity = JSON.parse(localStorage.getItem('city'));
       if (returnCity) {
         this.searchElement.nativeElement.value = returnCity;
-        this.houseServise.sendCity(returnCity);
+        this.houseServise.sendData(returnCity, 'eventWithCity');
       }
     });
   }
@@ -62,19 +62,17 @@ export class CitiesComponent implements OnInit {
         event.target.value : this.predictionList[this.selected].structured_formatting.main_text;
       this.houseServise.saveDataInStorage(this.currentCity, 'city');
       this.houseServise.saveDataInStorage(1, 'page');
-      this.houseServise.sendCity(this.currentCity);
+      this.houseServise.sendData(this.currentCity, 'eventWithCity');
       this.selected = 0;
       this.predictionList = [];
       return;
     }
-
     if (event.keyCode === 40) { //  special charCode "down arrow"
       if (this.selected < this.predictionList.length - 1) {
         this.selected++;
         this.currentCity = this.predictionList[this.selected];
       }
     }
-
     if (event.keyCode === 38) { // special charCode "up arrow"
       if (this.selected <= this.predictionList.length - 1 && this.selected > 0) {
         this.selected--;
@@ -83,10 +81,8 @@ export class CitiesComponent implements OnInit {
     if (event.keyCode !== 38 && event.keyCode !== 40) { //  special charCodes "up arrow" and "down arrow"
       this.selected = 0;
     }
-
     this.currentCity = event.target.value || '';
     if (event.target.value) {
-
       this.autocomplete.getPlacePredictions({
         input: this.searchElement.nativeElement.value,
         types: ['(cities)'],
@@ -94,7 +90,6 @@ export class CitiesComponent implements OnInit {
           country: this.country
         }
       }, (res) => {
-
         this.ngZone.run(() => {
           this.predictionList = res;
         });
@@ -108,7 +103,7 @@ export class CitiesComponent implements OnInit {
     this.currentCity = city.structured_formatting.main_text;
     this.houseServise.saveDataInStorage(this.currentCity, 'city');
     this.houseServise.saveDataInStorage(1, 'page');
-    this.houseServise.sendCity(this.currentCity);
+    this.houseServise.sendData(this.currentCity, 'eventWithCity');
     this.predictionList = [];
   }
 

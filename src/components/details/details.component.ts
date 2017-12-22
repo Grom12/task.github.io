@@ -14,18 +14,14 @@ export class DetailsComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.houseService.getEventModal().subscribe(
-      data => this.getDataStateWindow(data));
-    this.houseService.getEventModal().subscribe(
+    this.houseService.getData('eventWithModal').subscribe(
+      data => this.closeWindow(data));
+    this.houseService.getData('eventWithModal').subscribe(
       data => this.getDataHouse(data));
   }
 
-  public getDataHouse(data): void {
+  public getDataHouse(data: any): void {
     this.detailHouse = data;
-  }
-
-  public getDataStateWindow(data): void {
-    this.condition = data;
   }
 
   public closeWindow(data: any): void {
