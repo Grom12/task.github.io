@@ -6,7 +6,7 @@ import 'rxjs/add/operator/map';
 export class HousesService implements OnInit {
   private eventWithModal: EventEmitter<any> = new EventEmitter();
   private eventWithCountry: EventEmitter<any> = new EventEmitter();
-  private eventWithCiry: EventEmitter<any> = new EventEmitter();
+  private eventWithCity: EventEmitter<any> = new EventEmitter();
   private eventShortCountry: EventEmitter<any> = new EventEmitter();
   public standardURL: any = 'https://api.nestoria.co.uk/api';
   public country: any = 'uk';
@@ -21,11 +21,6 @@ export class HousesService implements OnInit {
   }
 
   constructor(private jsonp: Jsonp) {
-    const returnObject = JSON.parse(localStorage.getItem('country'));
-    if (returnObject !== null) {
-      this.standardURL = returnObject.linked;
-      this.country = returnObject.language;
-    }
   }
 
   public getHouse(page, objectHouse) {
@@ -49,7 +44,7 @@ export class HousesService implements OnInit {
     customHouse.set('price_min', objectHouse.minPrice);
     customHouse.set('price_max', objectHouse.maxPrice);
     customHouse.set('bedroom_max', objectHouse.bedroomMax);
-    customHouse.set('bedroom_min', objectHouse.bedrooMin);
+    customHouse.set('bedroom_min', objectHouse.bedroomMin);
     customHouse.set('bathroom_max', objectHouse.bathroomMax);
     customHouse.set('bathroom_min', objectHouse.bathroomMin);
     customHouse.set('has_photo', objectHouse.hasPhoto);
@@ -61,37 +56,15 @@ export class HousesService implements OnInit {
     });
   }
 
-  public sendShortCountry(data) {
-    this.eventShortCountry.emit(data);
+  public sendData(data, nameEventEmit) {
+    this[nameEventEmit].emit(data);
   }
 
-  public getShortCountry() {
-    return this.eventShortCountry;
+  public getData(nameEventEmit) {
+    return this[nameEventEmit];
   }
 
-  public sendDetailInfo(data) {
-    this.eventWithModal.emit(data);
-  }
 
-  public getEventModal() {
-    return this.eventWithModal;
-  }
-
-  public sendEventCountry(data) {
-    this.eventWithCountry.emit(data);
-  }
-
-  public getEventCountry() {
-    return this.eventWithCountry;
-  }
-
-  public sendCity(data) {
-    this.eventWithCiry.emit(data);
-  }
-
-  public getCity() {
-    return this.eventWithCiry;
-  }
 
   public saveDataInStorage(data: any, nameKey: string) {
     const saveData = JSON.stringify(data);
